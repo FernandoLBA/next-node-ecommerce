@@ -27,3 +27,9 @@ export const insertProductSchema = z.object({
   //? El price será validado con un helper, debido a su complejidad y su criticidad.
   price: currency,
 });
+
+// Schema para inicio de sesión de usuarios
+export const signInFormSchema = z.object({
+  email: z.email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters long"),
+})
