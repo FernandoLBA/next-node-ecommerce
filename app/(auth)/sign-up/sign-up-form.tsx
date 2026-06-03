@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
@@ -8,10 +7,11 @@ import { useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { signInWithCredentials } from "@/lib/actions/user.actions";
-import { signInDefaultValues } from "@/lib/constants";
+import { signUpUser } from "@/lib/actions/user.actions";
+import { signUpDefaultValues } from "@/lib/constants";
+import Link from "next/link";
 
-const SignInButton = () => {
+const SignUpButton = () => {
   const { pending } = useFormStatus();
 
   return (
@@ -21,35 +21,45 @@ const SignInButton = () => {
       className="w-full"
       variant="default"
     >
-      {pending ? "Signing in..." : "Sign In"}
+      {pending ? "Signing up..." : "Sign up"}
     </Button>
   );
 };
 
-export default function CredentialsSignInForm() {
-  const [data, action] = useActionState(signInWithCredentials, {
+export default function CredentialsSignUpForm() {
+  const [data, action] = useActionState(signUpUser, {
     success: false,
     message: "",
   });
 
   const searchParams = useSearchParams();
-  //* Extract the redirect URL from search parameters (e.g., /sign-in?callbackUrl=/cart)
+  //? Obtiene la URL de redirección desde los parámetros de búsqueda (p. ej. /sign-in?callbackUrl=/cart)
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   return (
     <form action={action}>
-      {/* //* Pass the callback URL as a hidden field so the Server Action knows where to redirect after success */}
+      {/* //? Envía la URL de redirección como un campo oculto para que el Server Action sepa a dónde redirigir tras el éxito */}
       <input type="hidden" name="callbackUrl" value={callbackUrl} />
       <div className="space-y-6">
+        <div className="space-y-2">
+          <Label htmlFor="name">Name</Label>
+          <Input
+            id="name"
+            type="name"
+            name="name"
+            autoComplete="name"
+            defaultValue={signUpDefaultValues.name}
+          />
+        </div>
+
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
           <Input
             id="email"
-            type="email"
+            type="text"
             name="email"
-            required
             autoComplete="email"
-            defaultValue={signInDefaultValues.email}
+            defaultValue={signUpDefaultValues.email}
           />
         </div>
 
@@ -59,14 +69,24 @@ export default function CredentialsSignInForm() {
             id="password"
             type="password"
             name="password"
-            required
             autoComplete="password"
-            defaultValue={signInDefaultValues.password}
+            defaultValue={signUpDefaultValues.password}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="confirmPassword">Confirm password</Label>
+          <Input
+            id="confirmPassword"
+            type="password"
+            name="confirmPassword"
+            autoComplete="confirmPassword"
+            defaultValue={signUpDefaultValues.confirmPassword}
           />
         </div>
 
         <div>
-          <SignInButton />
+          <SignUpButton />
         </div>
 
         {data && !data.success && (
@@ -74,9 +94,9 @@ export default function CredentialsSignInForm() {
         )}
 
         <div className="text-sm text-center text-muted-foreground">
-          Don&apos;t have an account?{" "}
-          <Link href="/sign-up" target="_self" className="link">
-            Sign Up
+          Already have an account?{" "}
+          <Link href="/sign-in" target="_self" className="link">
+            Sign In
           </Link>
         </div>
       </div>

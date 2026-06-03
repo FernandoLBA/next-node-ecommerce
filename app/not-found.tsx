@@ -21,7 +21,7 @@ const NotFoundPage = () => {
         <h1 className="text-3xl font-bold mb-4">NotFound</h1>
         <p className="text-destructive">Could not find requested page</p>
         <Button
-          variant="outline"
+          variant="default"
           className="mt-4 ml-2"
           onClick={() => router.push("/")}
         >Back Home</Button>

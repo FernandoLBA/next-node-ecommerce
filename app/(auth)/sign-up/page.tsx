@@ -12,13 +12,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { APP_NAME } from "@/lib/constants";
-import CredentialsSignInForm from "./credentials-signin-form";
+import CredentialsSignUpForm from "./sign-up-form";
 
 export const metadata: Metadata = {
-  title: "Sign In",
+  title: "Sign Up",
 };
 
-const SignInPage = async (props: {
+const SignUpPage = async (props: {
   searchParams: Promise<{
     callbackUrl: string;
   }>;
@@ -26,7 +26,7 @@ const SignInPage = async (props: {
   const { callbackUrl } = await props.searchParams;
   const session = await auth();
 
-  //* If the user is already authenticated, redirect them to the callback URL or home to bypass the sign-in form.
+  //? Si el usuario ya está autenticado, lo redirigimos automáticamente a la pagina donde estubo antes o al home, para que no vea el formulario de login.
   if (session) {
     return redirect(callbackUrl || "/");
   }
@@ -43,18 +43,18 @@ const SignInPage = async (props: {
               height={100}
             />
           </Link>
-          <CardTitle className="text-center">Sign In</CardTitle>
+          <CardTitle className="text-center">Create Account</CardTitle>
           <CardDescription className="text-center">
-            Sign in to your account
+            Enter your information below to sign up
           </CardDescription>
         </CardHeader>
 
         <CardContent className="space-y-4">
-          <CredentialsSignInForm />
+          <CredentialsSignUpForm />
         </CardContent>
       </Card>
     </div>
   );
 };
 
-export default SignInPage;
+export default SignUpPage;

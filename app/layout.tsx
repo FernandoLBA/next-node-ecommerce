@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Toaster } from "sonner";
 
 import "@/assets/styles/globals.css";
 import { APP_DESCRIPTION, APP_NAME, APP_SERVER_URL } from "@/lib/constants";
@@ -35,6 +36,8 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          
+          <Toaster position="bottom-right" />
         </ThemeProvider>
       </body>
     </html>
