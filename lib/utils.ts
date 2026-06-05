@@ -65,3 +65,21 @@ export function getCssVariableValue(variableName: string): string {
 
   return cssValue.trim();
 }
+
+//* Currency formatter for USD, it formats the number to have a dollar sign and 2 decimal places, for example 10 becomes $10.00
+export const CURRENCY_FORMATTER = new Intl.NumberFormat("en-US", {
+  currency: "USD",
+  style: "currency",
+  minimumFractionDigits: 2,
+});
+
+//* Format cureency using the above formatter
+export function formatCurrency(amount: number | string | null) {
+  if (typeof amount === "number") {
+    return CURRENCY_FORMATTER.format(amount);
+  } else if (typeof amount === "string") {
+    return CURRENCY_FORMATTER.format(Number(amount));
+  } else {
+    return 'NaN';
+  }
+}

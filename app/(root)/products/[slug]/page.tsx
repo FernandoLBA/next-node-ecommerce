@@ -8,6 +8,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { getProductBySlug } from "@/lib/actions/product.actions";
 import { getMyCart } from "@/lib/actions/cart.actions";
 
+//? discount base cel y laptop RSQX-3993
+
 const ProductDetailsPage = async (props: {
   params: Promise<{ slug: string }>;
 }) => {

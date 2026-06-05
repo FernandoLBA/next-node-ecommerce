@@ -12,7 +12,7 @@ import { getCssVariableValue } from "@/lib/utils";
 import { Cart, CartItem } from "@/types";
 
 function AddToCart({ item, cart }: { item: CartItem; cart?: Cart }) {
-  const foregroundColor = getCssVariableValue("--primary-foreground");
+  const primaryForegroundColor = getCssVariableValue("--primary-foreground");
 
   const router = useRouter();
   const [isAdding, startAdding] = useTransition();
@@ -92,7 +92,7 @@ function AddToCart({ item, cart }: { item: CartItem; cart?: Cart }) {
     >
       {isAdding ? (
         <>
-          <LoaderIcon loaderColor={foregroundColor} className="" /> Adding to
+          <LoaderIcon loaderColor={primaryForegroundColor} /> Adding to
           Cart
         </>
       ) : (

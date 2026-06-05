@@ -7,10 +7,9 @@ const Loading = () => {
       <AppImage
         src={loader}
         alt="Loading"
-        height={50}
-        width={50}
+        height={40}
+        width={40}
         preload
-        className="w-50 h-50"
         containerClassName="h-screen w-screen"
       />
     </div>

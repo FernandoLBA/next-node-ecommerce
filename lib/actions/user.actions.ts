@@ -8,7 +8,7 @@ import db from "@/db/db";
 import { formatError } from "../utils";
 import { signInFormSchema, signUpFormSchema } from "../validators";
 
-//? Sign in the user with credentials
+//* Sign in the user with credentials
 export async function signInWithCredentials(
   _prevState: unknown,
   formData: FormData,
@@ -31,12 +31,12 @@ export async function signInWithCredentials(
   }
 }
 
-//? Sign user out
+//* Sign user out
 export async function signOutUser() {
   await signOut();
 }
 
-//? Sign up user
+//* Sign up user
 export async function signUpUser(_prevState: unknown, formData: FormData) {
   try {
     const user = signUpFormSchema.parse({
@@ -71,4 +71,15 @@ export async function signUpUser(_prevState: unknown, formData: FormData) {
 
     return { success: false, message: formatError(error) };
   }
+}
+
+//* Get user by ID
+export async function getUserById(userId: string) {
+  const user = await db.user.findFirst({
+    where: { id: userId },
+  });
+
+  if (!user) throw new Error("User not found");
+
+  return user;
 }
