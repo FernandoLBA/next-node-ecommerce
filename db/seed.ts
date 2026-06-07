@@ -11,7 +11,7 @@ async function main() {
   await db.product.createMany({ data: sampleData.products });
   await db.user.createMany({ data: sampleData.users });
 
-  console.log("🌱 Database has been seeded.");
+  console.info("🌱 Database has been seeded.");
 }
 
 main();

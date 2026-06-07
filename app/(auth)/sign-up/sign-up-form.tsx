@@ -33,12 +33,12 @@ export default function CredentialsSignUpForm() {
   });
 
   const searchParams = useSearchParams();
-  //? Obtiene la URL de redirección desde los parámetros de búsqueda (p. ej. /sign-in?callbackUrl=/cart)
+  //* Get the redirect URL from search parameters (e.g. /sign-in?callbackUrl=/cart)
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   return (
     <form action={action}>
-      {/* //? Envía la URL de redirección como un campo oculto para que el Server Action sepa a dónde redirigir tras el éxito */}
+      {/* //* Send the redirect URL as a hidden field so the Server Action knows where to redirect after success */}
       <input type="hidden" name="callbackUrl" value={callbackUrl} />
       <div className="space-y-6">
         <div className="space-y-2">

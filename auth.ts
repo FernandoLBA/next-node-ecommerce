@@ -5,6 +5,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 import { authConfig } from "./auth.config";
 import db from "./db/db";
+import { cookies } from "next/headers";
 
 export const config = {
   ...authConfig,
@@ -20,24 +21,24 @@ export const config = {
         },
       },
       async authorize(credentials) {
-        //? If there are not credentials return null
+        //* If there are not credentials return null
         if (credentials == null) return null;
 
-        //? Get the user from the DB
+        //* Get the user from the DB
         const user = await db.user.findFirst({
           where: {
             email: credentials.email as string,
           },
         });
 
-        //? Check if user exists and if the password matches
+        //* Check if user exists and if the password matches
         if (user && user.password) {
           const isMatch = compareSync(
             credentials.password as string,
             user.password,
           );
 
-          //? If password is correct, return user
+          //* If password is correct, return user
           if (isMatch) {
             return {
               id: user.id,
@@ -48,7 +49,7 @@ export const config = {
           }
         }
 
-        //? If users does not exist or password does not match return null
+        //* If users does not exist or password does not match return null
         return null;
       },
     }),
@@ -69,14 +70,17 @@ export const config = {
 
       return session;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       //* Assign user fields to token
       if (user) {
+        token.id = user.id;
         token.role = (user as { role?: string }).role;
 
+        //* If user has no name use the email
         if (user.name === "NO_NAME") {
-          token.name = user.email?.split("@")[0] || "User";
+          token.name = user.email?.split("@")[0];
 
+          //* Update database to reflect the token name
           if (user.id) {
             await db.user.update({
               where: { id: user.id },
@@ -84,6 +88,40 @@ export const config = {
             });
           }
         }
+
+        //* Transfer anonymous session cart to user's account on login or registration
+        if (trigger === "signIn" || trigger === "signUp") {
+          //* Get session cart id from cookies
+          const cookiesObject = await cookies();
+          const sessionCartId = cookiesObject.get("sessionCartId")?.value;
+
+          //* If a sessionCartId exists in cookie
+          if (sessionCartId) {
+            //* Gets the cart from database by sessionCartId
+            const sessionCart = await db.cart.findFirst({
+              where: { sessionCartId },
+            });
+
+            //* If a cart exists in database
+            if (sessionCart) {
+              //* Delete current user cart
+              // await db.cart.deleteMany({
+              //   where: { userId: user.id },
+              // });
+
+              //* Assign new cart to the user
+              await db.cart.update({
+                where: { id: sessionCart.id },
+                data: { userId: user.id },
+              });
+            }
+          }
+        }
+      }
+
+      //* Handle session updates
+      if (session?.user.name && trigger === "update") {
+        token.name = session.user.name;
       }
 
       return token;

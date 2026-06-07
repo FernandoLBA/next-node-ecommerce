@@ -19,7 +19,25 @@ export const authConfig = {
     error: "/error",
   },
   callbacks: {
-    authorized({ request }) {
+    authorized({ request, auth }) {
+      //* Array of regex patterns of paths we want to protect
+      const protectedPaths = [
+        /\/shipping-address/,
+        /\/payment-method/,
+        /\/place-order/,
+        /\/profile/,
+        /\/user\/(.*)/,
+        /\/orders\/(.*)/,
+        /\/admin/,
+      ];
+
+      //* Get pathname from the req URL object
+      const { pathname } = request.nextUrl;
+
+      // //* Check if user is not authenticated and accessing a protected path
+      if (!auth && protectedPaths.some((path) => path.test(pathname)))
+        return false;
+
       //* Session cart ID logic (Safe for Edge runtime)
       if (!request.cookies.get("sessionCartId")) {
         //* Generate new session cart id cookie
@@ -40,7 +58,7 @@ export const authConfig = {
 
         return response;
       }
-      
+
       return true;
     },
   },

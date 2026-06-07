@@ -57,6 +57,9 @@ export function round2(value: number | string) {
 
 //* Get the value of a CSS Global Variable
 export function getCssVariableValue(variableName: string): string {
+  //* Guard to prevent execution on the server (SSR), where browser-only APIs like 'getComputedStyle' are unavailable
+  if (typeof window === "undefined") return "";
+
   const cssValue = getComputedStyle(document.documentElement).getPropertyValue(
     variableName.trim(),
   );

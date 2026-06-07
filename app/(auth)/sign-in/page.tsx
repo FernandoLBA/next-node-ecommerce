@@ -26,7 +26,7 @@ const SignInPage = async (props: {
   const { callbackUrl } = await props.searchParams;
   const session = await auth();
 
-  //* If the user is already authenticated, redirect them to the callback URL or home to bypass the sign-in form.
+  //* If the user is already authenticated, redirect them to the callback URL to bypass the sign-in form.
   if (session) {
     return redirect(callbackUrl || "/");
   }

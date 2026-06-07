@@ -3,10 +3,15 @@
 import { hashSync } from "bcrypt-ts-edge";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
-import { signIn, signOut } from "@/auth";
+import { auth, signIn, signOut } from "@/auth";
 import db from "@/db/db";
 import { formatError } from "../utils";
-import { signInFormSchema, signUpFormSchema } from "../validators";
+import {
+  shippingAddressSchema,
+  signInFormSchema,
+  signUpFormSchema,
+} from "../validators";
+import { ShippingAddress } from "@/types";
 
 //* Sign in the user with credentials
 export async function signInWithCredentials(
@@ -82,4 +87,33 @@ export async function getUserById(userId: string) {
   if (!user) throw new Error("User not found");
 
   return user;
+}
+
+//* Update the user's address
+export async function updateUserAddress(shippingAddress: ShippingAddress) {
+  try {
+    const session = await auth();
+    const currentUser = await getUserById(session?.user?.id as string);
+
+    if (!currentUser) throw new Error("User not found");
+
+    const address = shippingAddressSchema.parse(shippingAddress);
+
+    await db.user.update({
+      where: { id: currentUser.id },
+      data: {
+        address,
+      },
+    });
+
+    return {
+      success: true,
+      message: "Address updated successfully",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: await formatError(error),
+    };
+  }
 }

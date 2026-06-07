@@ -26,13 +26,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      suppressHydrationWarning // ? silencia las advertencias de desajuste (mismatch) durante la hidratación.
+      suppressHydrationWarning //* silences hydration mismatch warnings.
       className={cn("h-full antialiased", inter.className)}
     >
       <body className="min-h-full flex flex-col">
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark" // ? Este provider guarda un valor "theme" en el localStorage.
+          defaultTheme="dark" //* This provider saves a "theme" value in localStorage.
           disableTransitionOnChange
         >
           {children}

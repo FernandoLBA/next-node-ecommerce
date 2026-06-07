@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/table";
 import { addItemToCart, removeItemFromcart } from "@/lib/actions/cart.actions";
 import { formatCurrency, getCssVariableValue } from "@/lib/utils";
-import { Cart } from "@/types";
+import type { Cart } from "@/types";
 
 const CartTable = ({ cart }: { cart?: Cart }) => {
   const primaryForegroundColor = getCssVariableValue("--primary-foreground");
@@ -113,7 +113,9 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                     </TableCell>
 
                     <TableCell className="text-right">
-                      <span>${Number(item.price) * item.qty}</span>
+                      <span>
+                        ${formatCurrency(Number(item.price) * item.qty)}
+                      </span>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -123,11 +125,23 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
 
           <Card>
             <CardContent className="p-4 gap-4">
-              <div className="pb-3 text-xl">
+              <div className="flex-between pb-3 text-md">
                 Subtotal ({cart.items.reduce((acc, item) => acc + item.qty, 0)}
                 ):{" "}
                 <span className="font-bold">
                   {formatCurrency(cart.itemsPrice)}
+                </span>
+              </div>
+              <div className="flex-between pb-3 text-md">
+                Taxes:{" "}
+                <span className="font-bold">
+                  {formatCurrency(cart.taxPrice)}
+                </span>
+              </div>
+              <div className="flex-between pb-3 text-md">
+                Shipping:{" "}
+                <span className="font-bold">
+                  {formatCurrency(cart.shippingPrice)}
                 </span>
               </div>
 

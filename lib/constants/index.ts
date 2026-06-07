@@ -20,10 +20,9 @@ export const signUpDefaultValues = {
 };
 
 export const shippingAddressDefaultValues = {
-  fullName: "John Doe",
-  streetAddress: "123 Main St",
-  city: "New York",
-  state: "NY",
-  zipCode: "10001",
-  country: "USA",
+  fullName: "",
+  streetAddress: "",
+  city: "",
+  postalCode: "",
+  country: "",
 };

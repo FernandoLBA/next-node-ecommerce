@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 import { shippingAddressDefaultValues } from "@/lib/constants";
 import { shippingAddressSchema } from "@/lib/validators";
@@ -20,6 +20,7 @@ import LoaderIcon from "@/components/ui/loader-icon";
 import { toast } from "sonner";
 import { ArrowRight } from "lucide-react";
 import { getCssVariableValue } from "@/lib/utils";
+import { updateUserAddress } from "@/lib/actions/user.actions";
 
 const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
   const primaryForegroundColor = getCssVariableValue("--primary-foreground");
@@ -31,14 +32,17 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
     defaultValues: address || shippingAddressDefaultValues,
   });
 
-  const onSubmit = async (formData: ShippingAddress) => {
+  const onSubmit: SubmitHandler<ShippingAddress> = async (
+    formData: ShippingAddress,
+  ) => {
     startTransition(async () => {
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(toast("Señol que ute ta siendo?"));
-          console.log(formData);
-        }, 3000);
-      });
+      const res = await updateUserAddress(formData);
+
+      if (!res.success) {
+        toast.error(res.message);
+      }
+
+      router.push("/payment-method");
     });
   };
 
