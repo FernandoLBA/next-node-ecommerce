@@ -2,16 +2,18 @@
 
 import { hashSync } from "bcrypt-ts-edge";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
+import z from "zod";
 
 import { auth, signIn, signOut } from "@/auth";
 import db from "@/db/db";
+import { ShippingAddress } from "@/types";
 import { formatError } from "../utils";
 import {
+  paymentMethodSchema,
   shippingAddressSchema,
   signInFormSchema,
   signUpFormSchema,
 } from "../validators";
-import { ShippingAddress } from "@/types";
 
 //* Sign in the user with credentials
 export async function signInWithCredentials(
@@ -109,6 +111,37 @@ export async function updateUserAddress(shippingAddress: ShippingAddress) {
     return {
       success: true,
       message: "Address updated successfully",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: await formatError(error),
+    };
+  }
+}
+
+//* Update user's payment method
+export async function updateUserPaymentMethod(
+  data: z.infer<typeof paymentMethodSchema>,
+) {
+  try {
+    const session = await auth();
+    const currentUser = await db.user.findFirst({
+      where: { id: session?.user?.id as string },
+    });
+
+    if (!currentUser) throw new Error("User not found");
+
+    const paymentMethod = paymentMethodSchema.parse(data);
+
+    await db.user.update({
+      where: { id: currentUser.id },
+      data: { paymentMethod: paymentMethod.type },
+    });
+
+    return {
+      success: true,
+      message: "User's payment method updated successfully",
     };
   } catch (error) {
     return {

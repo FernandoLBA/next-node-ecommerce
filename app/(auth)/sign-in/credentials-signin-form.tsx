@@ -35,7 +35,6 @@ export default function CredentialsSignInForm() {
   const searchParams = useSearchParams();
   //* Extract the redirect URL from search parameters (e.g., /sign-in?callbackUrl=/cart)
   const callbackUrl = searchParams.get("callbackUrl") || "/";
-  console.log("🚀 ~ CredentialsSignInForm ~ callbackUrl:", callbackUrl)
 
   return (
     <form action={action}>

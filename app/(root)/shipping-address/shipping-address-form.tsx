@@ -5,25 +5,23 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
+import { Button } from "@/components/ui/button";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import LoaderIcon from "@/components/ui/loader-icon";
+import { updateUserAddress } from "@/lib/actions/user.actions";
 import { shippingAddressDefaultValues } from "@/lib/constants";
 import { shippingAddressSchema } from "@/lib/validators";
 import { ShippingAddress } from "@/types";
-import {
-  Field,
-  FieldGroup,
-  FieldLabel,
-  FieldError,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import LoaderIcon from "@/components/ui/loader-icon";
-import { toast } from "sonner";
 import { ArrowRight } from "lucide-react";
-import { getCssVariableValue } from "@/lib/utils";
-import { updateUserAddress } from "@/lib/actions/user.actions";
+import { toast } from "sonner";
 
 const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
-  const primaryForegroundColor = getCssVariableValue("--primary-foreground");
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -139,7 +137,7 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
                       {...field}
                       id="country"
                       aria-invalid={fieldState.invalid}
-                      placeholder="123321"
+                      placeholder="Peru"
                     />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
@@ -153,10 +151,7 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
           <div className="flex gap-2">
             <Button type="submit" disabled={isPending}>
               {isPending ? (
-                <LoaderIcon
-                  loaderColor={primaryForegroundColor}
-                  className="w-4 h-4"
-                />
+                <LoaderIcon className="w-4 h-4" />
               ) : (
                 <ArrowRight className="w-4 h-4" />
               )}

@@ -1,8 +1,8 @@
 "use server";
 
-import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
+import { cookies } from "next/headers";
 
 import { auth } from "@/auth";
 import db from "@/db/db";
@@ -75,7 +75,7 @@ export async function addItemToCart(data: CartItem) {
         //* Check if there is enough stock for the new quantity
         if (
           product.stock <
-          (cart.items as CartItem[])[existingItemIndex].qty + item.qty
+          (cart.items as CartItem[])[existingItemIndex].qty + 1
         ) {
           return {
             success: false,
@@ -83,7 +83,7 @@ export async function addItemToCart(data: CartItem) {
           };
         }
 
-        (cart.items as CartItem[])[existingItemIndex].qty += item.qty;
+        (cart.items as CartItem[])[existingItemIndex].qty += 1;
         updatingCart = true;
       } else {
         cart.items.push(item);

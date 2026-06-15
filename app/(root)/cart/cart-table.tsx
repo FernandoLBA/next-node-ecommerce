@@ -19,12 +19,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { addItemToCart, removeItemFromcart } from "@/lib/actions/cart.actions";
-import { formatCurrency, getCssVariableValue } from "@/lib/utils";
+import { formatCurrency } from "@/lib/utils";
 import type { Cart } from "@/types";
 
 const CartTable = ({ cart }: { cart?: Cart }) => {
-  const primaryForegroundColor = getCssVariableValue("--primary-foreground");
-
   const router = useRouter();
   const [isRemoving, startRemovingTransition] = useTransition();
   const [isAdding, startAddingTransition] = useTransition();
@@ -35,7 +33,10 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
       <h1 className="py-4 h2-bold">Shopping Cart</h1>
       {!cart || cart.items.length === 0 ? (
         <div>
-          Cart is empty. <Link href="/">Go Shopping</Link>
+          Cart is empty.{" "}
+          <Link href="/" className="underline">
+            Go Shopping
+          </Link>
         </div>
       ) : (
         <div className="grid md:grid-cols-4 md:gap-5">
@@ -90,7 +91,7 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                           {isRemoving ? <LoaderIcon /> : <Minus />}
                         </Button>
 
-                        <span>{item.qty}</span>
+                        <span className="px-2">{item.qty}</span>
 
                         <Button
                           disabled={isAdding || isRemoving}
@@ -155,7 +156,7 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                 }
               >
                 {isGoingToCkeckout ? (
-                  <LoaderIcon loaderColor={primaryForegroundColor} />
+                  <LoaderIcon />
                 ) : (
                   <ArrowRight className="w-4 h-4" />
                 )}{" "}

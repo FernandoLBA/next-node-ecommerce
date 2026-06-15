@@ -1,8 +1,20 @@
-import { cn } from "@/lib/utils";
 import { Loader } from "lucide-react";
 
-export default function LoaderIcon({ loaderColor, className }: { loaderColor?: string; className?: string }) {
+import { cn, getCssVariableValue } from "@/lib/utils";
+
+export default function LoaderIcon({
+  loaderColor,
+  className,
+}: {
+  loaderColor?: string;
+  className?: string;
+}) {
+  const defaultLoaderColor = getCssVariableValue("--background");
+
   return (
-    <Loader color={loaderColor} className={cn("w-6 h-6 animate-spin text-primary", className)} />
+    <Loader
+      color={loaderColor || defaultLoaderColor}
+      className={cn("w-6 h-6 animate-spin text-primary", className)}
+    />
   );
 }

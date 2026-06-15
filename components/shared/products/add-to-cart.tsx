@@ -8,12 +8,9 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import LoaderIcon from "@/components/ui/loader-icon";
 import { addItemToCart, removeItemFromcart } from "@/lib/actions/cart.actions";
-import { getCssVariableValue } from "@/lib/utils";
 import { Cart, CartItem } from "@/types";
 
 function AddToCart({ item, cart }: { item: CartItem; cart?: Cart }) {
-  const primaryForegroundColor = getCssVariableValue("--primary-foreground");
-
   const router = useRouter();
   const [isAdding, startAdding] = useTransition();
   const [isRemoving, startRemoving] = useTransition();
@@ -92,8 +89,7 @@ function AddToCart({ item, cart }: { item: CartItem; cart?: Cart }) {
     >
       {isAdding ? (
         <>
-          <LoaderIcon loaderColor={primaryForegroundColor} /> Adding to
-          Cart
+          <LoaderIcon /> Adding to Cart
         </>
       ) : (
         <>
