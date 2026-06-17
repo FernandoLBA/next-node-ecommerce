@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { UserIcon } from "lucide-react";
 
 import { auth } from "@/auth";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,8 +10,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { UserIcon } from "lucide-react";
+import { Link } from "@/i18n/routing";
 import { signOutUser } from "@/lib/actions/user.actions";
+import { appRoutes } from "@/lib/constants";
 
 async function UserButton() {
   const session = await auth();
@@ -19,7 +20,7 @@ async function UserButton() {
   if (!session) {
     return (
       <Button>
-        <Link className="flex-between gap-1" href="/sign-in">
+        <Link className="flex-between gap-1" href={appRoutes.SIGN_IN}>
           <UserIcon /> Sign In
         </Link>
       </Button>

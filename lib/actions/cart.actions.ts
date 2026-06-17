@@ -7,6 +7,7 @@ import { cookies } from "next/headers";
 import { auth } from "@/auth";
 import db from "@/db/db";
 import { CartItem } from "@/types";
+import { appRoutes } from "../constants";
 import { convertToPlainObject, formatError, round2 } from "../utils";
 import { cartItemSchema, insertCartSchema } from "../validators";
 
@@ -100,7 +101,7 @@ export async function addItemToCart(data: CartItem) {
     }
 
     //* revalidate product page
-    revalidatePath(`/products/${product.slug}`);
+    revalidatePath(`${appRoutes.PRODUCTS}/${product.slug}`);
 
     return {
       success: true,
@@ -201,7 +202,7 @@ export async function removeItemFromcart(productId: string) {
       },
     });
 
-    revalidatePath(`/products/${product.slug}`);
+    revalidatePath(`${appRoutes.PRODUCTS}/${product.slug}`);
 
     return {
       success: true,

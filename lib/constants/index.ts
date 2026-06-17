@@ -11,6 +11,28 @@ export const PAYMENT_METHODS = process.env.PAYMENT_METHODS
   : ["PayPal", "Stripe", "CashOnDelivery"];
 export const DEFAULT_PAYMENT_METHOD =
   process.env.DEFAULT_PAYMENT_METHOD || "PayPal";
+export const LANGUAGES = process.env.LANGUAGES
+  ? process.env.LANGUAGES.split(", ")
+  : ["en", "es"];
+export const DEFAULT_LANGUAGE = process.env.DEFAULT_LANGUAGE || "es";
+
+export const appRoutes = {
+  HOME: "/",
+  PRODUCTS: "/products",
+  CART: "/cart",
+  CHECKOUT: "/checkout",
+  ORDERS: "/orders",
+  SHIPPING_ADDRESS: "/shipping-address",
+  PAYMENT_METHOD: "/payment-method",
+  PLACE_ORDER: "/place-order",
+  PROFILE: "/profile",
+  SIGN_IN: "/sign-in",
+  SIGN_UP: "/sign-up",
+  FORGOT_PASSWORD: "/forgot-password",
+  ERROR: '/error',
+  USER: '/user',
+  ADMIN: '/admin',
+};
 
 export const signInDefaultValues = {
   email: "",

@@ -1,23 +1,29 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
-import { getMyCart } from "@/lib/actions/cart.actions";
-import type { ShippingAddress } from "@/types";
-import { getUserById } from "@/lib/actions/user.actions";
-import ShippingAddressForm from "./shipping-address-form";
 import CheckoutSteps from "@/components/shared/checkout-steps";
+import { redirect } from "@/i18n/routing";
+import { getMyCart } from "@/lib/actions/cart.actions";
+import { getUserById } from "@/lib/actions/user.actions";
+import { appRoutes } from "@/lib/constants";
+import type { ShippingAddress } from "@/types";
+import ShippingAddressForm from "./shipping-address-form";
 
 export const metadata: Metadata = {
   title: "Shipping Address",
 };
 
-const ShippingAddressPage = async () => {
+const ShippingAddressPage = async (props: {
+  params: Promise<{ locale: string }>;
+}) => {
+  const { locale } = await props.params;
   const cart = await getMyCart();
-  if (!cart || cart.items.length === 0) redirect("/cart");
+
+  if (!cart || cart.items.length === 0)
+    redirect({ href: appRoutes.CART, locale });
 
   const session = await auth();
-  if (!session) redirect("/login");
+  if (!session) redirect({ href: appRoutes.SIGN_IN, locale });
 
   const userId = session?.user.id;
   if (!userId) throw new Error("No user ID");

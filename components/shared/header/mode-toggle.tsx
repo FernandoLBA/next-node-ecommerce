@@ -4,6 +4,7 @@ import { MoonIcon, SunIcon, SunMoon } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
+import { useTranslations } from "next-intl";
 import { Button } from "../../ui/button";
 import {
   DropdownMenu,
@@ -30,6 +31,7 @@ const THEME_ICONS: Record<Theme, React.ElementType> = {
 };
 
 const ModeToggle = () => {
+  const t = useTranslations("Menu");
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
@@ -54,7 +56,7 @@ const ModeToggle = () => {
 
       <DropdownMenuContent>
         <DropdownMenuGroup>
-          <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+          <DropdownMenuLabel>{t("themes.title")}</DropdownMenuLabel>
           <DropdownMenuSeparator />
 
           {THEMES.map(({ value, label }) => (
@@ -63,7 +65,7 @@ const ModeToggle = () => {
               checked={currentTheme === value}
               onCheckedChange={() => setTheme(value)}
             >
-              {label}
+              {t(`themes.${value}`)}
             </DropdownMenuCheckboxItem>
           ))}
         </DropdownMenuGroup>

@@ -1,5 +1,4 @@
 import { EllipsisVertical, ShoppingCart } from "lucide-react";
-import Link from "next/link";
 
 import {
   Sheet,
@@ -8,19 +7,26 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { Link } from "@/i18n/routing";
+import { appRoutes } from "@/lib/constants";
+import { getTranslations } from "next-intl/server";
 import { Button } from "../../ui/button";
+import LanguageToggle from "./language-toggle";
 import ModeToggle from "./mode-toggle";
 import UserButton from "./user-button";
 
-const Menu = () => {
+const Menu = async () => {
+  const t = await getTranslations("Menu");
+
   return (
     <div className="space-x-2">
       <nav className="hidden md:flex w-fit gap-1">
         <ModeToggle />
+        <LanguageToggle />
 
         <Button variant="ghost">
-          <Link href="/cart" className="flex-between gap-1">
-            <ShoppingCart /> Cart
+          <Link href={appRoutes.CART} className="flex-between gap-1">
+            <ShoppingCart /> {t("cartTitle")}
           </Link>
         </Button>
 
@@ -35,14 +41,15 @@ const Menu = () => {
 
           <SheetContent className="flex flex-col items-center">
             <SheetHeader className="self-start">
-              <SheetTitle>Menu</SheetTitle>
+              <SheetTitle>{t("title")}</SheetTitle>
             </SheetHeader>
 
             <div className="flex flex-col gap-6">
               <ModeToggle />
+              <LanguageToggle />
 
               <Button variant="ghost">
-                <Link href="/cart">
+                <Link href={appRoutes.CART}>
                   <ShoppingCart />
                 </Link>
               </Button>

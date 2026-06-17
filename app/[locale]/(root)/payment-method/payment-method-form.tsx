@@ -1,18 +1,22 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import LoaderIcon from "@/components/ui/loader-icon";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useRouter } from "@/i18n/routing";
 import { updateUserPaymentMethod } from "@/lib/actions/user.actions";
-import { DEFAULT_PAYMENT_METHOD, PAYMENT_METHODS } from "@/lib/constants";
+import {
+  appRoutes,
+  DEFAULT_PAYMENT_METHOD,
+  PAYMENT_METHODS,
+} from "@/lib/constants";
 import { PaymentMethod } from "@/types";
-import { toast } from "sonner";
 
 const PaymentMethodForm = ({
   preferredPaymentMethod,
@@ -38,7 +42,7 @@ const PaymentMethodForm = ({
         return;
       }
 
-      router.push("/place-order");
+      router.push(appRoutes.PLACE_ORDER);
     });
   };
 

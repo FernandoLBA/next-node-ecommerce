@@ -1,11 +1,11 @@
 "use client";
 
 import { Check } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useFormStatus } from "react-dom";
 
 import { Button } from "@/components/ui/button";
 import LoaderIcon from "@/components/ui/loader-icon";
+import { useRouter } from "@/i18n/routing";
 import { createOrder } from "@/lib/actions/order.actions";
 
 const PlaceOrderButton = () => {

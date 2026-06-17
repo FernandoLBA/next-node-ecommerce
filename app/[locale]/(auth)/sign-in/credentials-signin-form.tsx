@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
@@ -8,8 +7,9 @@ import { useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Link } from "@/i18n/routing";
 import { signInWithCredentials } from "@/lib/actions/user.actions";
-import { signInDefaultValues } from "@/lib/constants";
+import { appRoutes, signInDefaultValues } from "@/lib/constants";
 
 const SignInButton = () => {
   const { pending } = useFormStatus();
@@ -34,7 +34,7 @@ export default function CredentialsSignInForm() {
 
   const searchParams = useSearchParams();
   //* Extract the redirect URL from search parameters (e.g., /sign-in?callbackUrl=/cart)
-  const callbackUrl = searchParams.get("callbackUrl") || "/";
+  const callbackUrl = searchParams.get("callbackUrl") || appRoutes.HOME;
 
   return (
     <form action={action}>
@@ -75,7 +75,7 @@ export default function CredentialsSignInForm() {
 
         <div className="text-sm text-center text-muted-foreground">
           Don&apos;t have an account?{" "}
-          <Link href="/sign-up" target="_self" className="link">
+          <Link href={appRoutes.SIGN_UP} target="_self" className="link">
             Sign Up
           </Link>
         </div>

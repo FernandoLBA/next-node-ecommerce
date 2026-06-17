@@ -1,13 +1,14 @@
 "use client";
 
 import { Minus, Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import LoaderIcon from "@/components/ui/loader-icon";
+import { useRouter } from "@/i18n/routing";
 import { addItemToCart, removeItemFromcart } from "@/lib/actions/cart.actions";
+import { appRoutes } from "@/lib/constants";
 import { Cart, CartItem } from "@/types";
 
 function AddToCart({ item, cart }: { item: CartItem; cart?: Cart }) {
@@ -28,7 +29,9 @@ function AddToCart({ item, cart }: { item: CartItem; cart?: Cart }) {
         description: `${item.name} added to cart`,
         action: (
           <div className="w-full flex justify-end">
-            <Button onClick={() => router.push("/cart")}>Go To Cart</Button>
+            <Button onClick={() => router.push(appRoutes.CART)}>
+              Go To Cart
+            </Button>
           </div>
         ),
       });

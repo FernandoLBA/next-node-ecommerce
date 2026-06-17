@@ -1,6 +1,4 @@
 import { Metadata } from "next";
-import Link from "next/link";
-import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 import CheckoutSteps from "@/components/shared/checkout-steps";
@@ -15,8 +13,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Link, redirect } from "@/i18n/routing";
 import { getMyCart } from "@/lib/actions/cart.actions";
 import { getUserById } from "@/lib/actions/user.actions";
+import { appRoutes } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
 import { ShippingAddress } from "@/types";
 import PlaceOrderForm from "./place-order-form";
@@ -25,18 +25,22 @@ export const metada: Metadata = {
   title: "Place Order",
 };
 
-const PlaceOrderPage = async () => {
+const PlaceOrderPage = async (props: {
+  params: Promise<{ locale: string }>;
+}) => {
+  const { locale } = await props.params;
   const cart = await getMyCart();
   const session = await auth();
   const userId = session?.user.id;
 
-  if (!userId) throw new Error("User not found");
+  if (!userId) redirect({ href: appRoutes.SIGN_IN, locale });
+  if (!cart) return null;
 
-  const user = await getUserById(userId);
+  const user = await getUserById(userId!);
 
-  if (!cart || cart.items.length === 0) redirect("/cart");
-  if (!user.address) redirect("/shipping-address");
-  if (!user.paymentMethod) redirect("/payment-method");
+  if (cart.items.length === 0) redirect({ href: appRoutes.CART, locale });
+  if (!user.address) redirect({ href: appRoutes.SHIPPING_ADDRESS, locale });
+  if (!user.paymentMethod) redirect({ href: appRoutes.PAYMENT_METHOD, locale });
 
   const userAddress = user.address as ShippingAddress;
 
@@ -55,7 +59,7 @@ const PlaceOrderPage = async () => {
                 {userAddress.postalCode}, {userAddress.country}{" "}
               </p>
               <div className="mt-3">
-                <Link href="/shipping-address">
+                <Link href={appRoutes.SHIPPING_ADDRESS}>
                   <Button variant="outline">Edit</Button>
                 </Link>
               </div>
@@ -68,7 +72,7 @@ const PlaceOrderPage = async () => {
               <p>{user.paymentMethod}</p>
 
               <div className="mt-3">
-                <Link href="/payment-method">
+                <Link href={appRoutes.PAYMENT_METHOD}>
                   <Button variant="outline">Edit</Button>
                 </Link>
               </div>
@@ -88,11 +92,11 @@ const PlaceOrderPage = async () => {
                 </TableHeader>
 
                 <TableBody>
-                  {cart.items.map((item) => (
+                  {cart?.items.map((item) => (
                     <TableRow key={item.slug}>
                       <TableCell>
                         <Link
-                          href={`/products/${item.slug}`}
+                          href={`${appRoutes.PRODUCTS}/${item.slug}`}
                           className="flex items-center"
                         >
                           <AppImage

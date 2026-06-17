@@ -1,15 +1,15 @@
-import Link from "next/link";
-
 import AppImage from "@/components/ui/app-image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Link } from "@/i18n/routing";
 import { Product } from "@/types";
 import ProductPrice from "./product-price";
+import { appRoutes } from "@/lib/constants";
 
 const ProductCard = ({ product }: { product: Product }) => {
   return (
     <Card className="w-full max-w-full sm:max-w-sm p-0">
       <CardHeader className="p-0 gap-0 items-center">
-        <Link href={`/products/${product.slug}`}>
+        <Link href={`${appRoutes.PRODUCTS}/${product.slug}`}>
           <AppImage
             containerClassName="p-0 gap-0"
             className="m-0 p-0"
@@ -22,7 +22,7 @@ const ProductCard = ({ product }: { product: Product }) => {
       </CardHeader>
       <CardContent className="p-4 grid gap-4">
         <div className="text-xs">{product.brand}</div>
-        <Link href={`/products/${product.slug}`}>
+        <Link href={`${appRoutes.PRODUCTS}/${product.slug}`}>
           <CardTitle>{product.name}</CardTitle>
         </Link>
 

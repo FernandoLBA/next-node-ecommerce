@@ -1,7 +1,6 @@
-import Link from "next/link";
-
 import AppImage from "@/components/ui/app-image";
-import { APP_NAME } from "@/lib/constants";
+import { Link } from "@/i18n/routing";
+import { APP_NAME, appRoutes } from "@/lib/constants";
 import Menu from "./menu";
 
 const Header = () => {
@@ -9,7 +8,7 @@ const Header = () => {
     <header className="w-full border-b">
       <div className="wrapper flex-between">
         <div className="flex-start">
-          <Link href="/" className="flex-start">
+          <Link href={appRoutes.HOME} className="flex-start">
             <AppImage
               src="/images/logo.svg"
               alt={`${APP_NAME} logo`}

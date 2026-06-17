@@ -1,5 +1,6 @@
 import type { NextAuthConfig } from "next-auth";
-import { NextResponse } from "next/server";
+
+import { appRoutes } from "./lib/constants";
 
 /**
  * This file contains the base NextAuth configuration that is compatible with the Edge runtime.
@@ -15,49 +16,31 @@ export const authConfig = {
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   pages: {
-    signIn: "/sign-in",
-    error: "/error",
+    signIn: appRoutes.SIGN_IN,
+    error: appRoutes.ERROR,
   },
   callbacks: {
     authorized({ request, auth }) {
-      //* Array of regex patterns of paths we want to protect
+      //* Protected routes (now using ^ anchors to avoid false positives)
       const protectedPaths = [
-        /\/shipping-address/,
-        /\/payment-method/,
-        /\/place-order/,
-        /\/profile/,
-        /\/user\/(.*)/,
-        /\/orders\/(.*)/,
-        /\/admin/,
+        /^\/shipping-address/,
+        /^\/payment-method/,
+        /^\/place-order/,
+        /^\/profile/,
+        /^\/user/,
+        /^\/orders/,
+        /^\/admin/,
       ];
 
-      //* Get pathname from the req URL object
-      const { pathname } = request.nextUrl;
+      //* Get the actual pathname
+      const pathname = request.nextUrl.pathname;
 
-      // //* Check if user is not authenticated and accessing a protected path
-      if (!auth && protectedPaths.some((path) => path.test(pathname)))
+      //* Remove the language prefix for comparison (e.g., /es/admin -> /admin)
+      const pathnameWithoutLocale = pathname.replace(/^\/[a-z]{2}(\/|$)/, '/');
+
+      //* Check if the route (without locale) is protected
+      if (!auth && protectedPaths.some((path) => path.test(pathnameWithoutLocale)))
         return false;
-
-      //* Session cart ID logic (Safe for Edge runtime)
-      if (!request.cookies.get("sessionCartId")) {
-        //* Generate new session cart id cookie
-        const sessionCartId = crypto.randomUUID();
-
-        //* Clone the req headers
-        const newRequestHeaders = new Headers(request.headers);
-
-        //* Create the response
-        const response = NextResponse.next({
-          request: {
-            headers: newRequestHeaders,
-          },
-        });
-
-        //* Set newly generated sessionCartId in the response cookies
-        response.cookies.set("sessionCartId", sessionCartId);
-
-        return response;
-      }
 
       return true;
     },

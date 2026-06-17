@@ -1,9 +1,10 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { ArrowRight } from "lucide-react";
 import { useTransition } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,12 +15,11 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import LoaderIcon from "@/components/ui/loader-icon";
+import { useRouter } from "@/i18n/routing";
 import { updateUserAddress } from "@/lib/actions/user.actions";
-import { shippingAddressDefaultValues } from "@/lib/constants";
+import { appRoutes, shippingAddressDefaultValues } from "@/lib/constants";
 import { shippingAddressSchema } from "@/lib/validators";
 import { ShippingAddress } from "@/types";
-import { ArrowRight } from "lucide-react";
-import { toast } from "sonner";
 
 const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
   const router = useRouter();
@@ -40,7 +40,7 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
         toast.error(res.message);
       }
 
-      router.push("/payment-method");
+      router.push(appRoutes.PAYMENT_METHOD);
     });
   };
 

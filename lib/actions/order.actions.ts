@@ -5,6 +5,7 @@ import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { auth } from "@/auth";
 import db from "@/db/db";
 import { CartItem } from "@/types";
+import { appRoutes } from "../constants";
 import { TransactionClient } from "../generated/prisma/internal/prismaNamespace";
 import { convertToPlainObject, formatError } from "../utils";
 import { insertOrderSchema } from "../validators";
@@ -32,7 +33,7 @@ export async function createOrder() {
       return {
         success: false,
         message: "Cart is empty",
-        redirectTo: "/cart",
+        redirectTo: appRoutes.CART,
       };
     }
 
@@ -40,7 +41,7 @@ export async function createOrder() {
       return {
         success: false,
         message: "No shipping address found",
-        redirectTo: "/shipping-address",
+        redirectTo: appRoutes.SHIPPING_ADDRESS,
       };
     }
 
@@ -48,7 +49,7 @@ export async function createOrder() {
       return {
         success: false,
         message: "No payment method",
-        redirectTo: "/payment-method",
+        redirectTo: appRoutes.PAYMENT_METHOD,
       };
     }
 
@@ -101,7 +102,7 @@ export async function createOrder() {
     return {
       success: true,
       message: "Order created successfully",
-      redirectTo: `/order/${insertedOrderId}`,
+      redirectTo: `${appRoutes.ORDERS}/${insertedOrderId}`,
     };
   } catch (error) {
     if (isRedirectError(error)) throw error;

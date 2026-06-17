@@ -61,13 +61,13 @@ export const config = {
         session.user.id = token.sub;
         session.user.role = token.role as string;
         session.user.name = token.name;
-
+        
         //* If there is an update, set the user name
         if (trigger === "update" && user) {
           session.user.name = user.name;
         }
       }
-
+      
       return session;
     },
     async jwt({ token, user, trigger, session }) {

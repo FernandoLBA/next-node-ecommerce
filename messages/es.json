@@ -1,0 +1,52 @@
+{
+  "HomePage": {
+    "title": "Lo Último"
+  },
+  "Menu": {
+    "title": "Menú",
+    "cartTitle": "Carrito",
+    "languages": {
+      "title": "Idiomas",
+      "en": "Inglés",
+      "es": "Español"
+    },
+    "themes": {
+      "title": "Temas",
+      "system": "Sistema",
+      "light": "Claro",
+      "dark": "Oscuro"
+    }
+  },
+  "Footer": {
+    "rights": "Todos los derechos reservados."
+  },
+  "CartPage": {
+    "title": "Carrito de Compras",
+    "status": {
+      "empty": "El carrito está vacío.",
+      "goShoppingLink": "Ir a comprar!"
+    },
+    "table": {
+      "item": "Item",
+      "price": "Precio",
+      "quantity": "Cantidad"
+    },
+    "cartActions": {
+      "subTotal": "Subtotal",
+      "taxes": "Impuestos",
+      "shipping": "Envío",
+      "goCheckout": "Ir al Checkout"
+    }
+  },
+  "Loading": {
+    "message": "Cargando..."
+  },
+  "auth": {
+    "signUp": "Crear Cuenta",
+    "signIn": "Iniciar Sesión",
+    "description": "Introduce tu información para registrarte",
+    "errors": {
+      "userExists": "El usuario ya existe"
+    }
+  }
+}

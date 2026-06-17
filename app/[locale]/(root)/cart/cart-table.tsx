@@ -1,8 +1,6 @@
 "use client";
 
 import { ArrowRight, Minus, Plus } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
 
@@ -18,24 +16,28 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Link, useRouter } from "@/i18n/routing";
 import { addItemToCart, removeItemFromcart } from "@/lib/actions/cart.actions";
+import { appRoutes } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
 import type { Cart } from "@/types";
+import { useTranslations } from "next-intl";
 
 const CartTable = ({ cart }: { cart?: Cart }) => {
   const router = useRouter();
+  const t = useTranslations("CartPage");
   const [isRemoving, startRemovingTransition] = useTransition();
   const [isAdding, startAddingTransition] = useTransition();
   const [isGoingToCkeckout, startGoingToCkeckoutTransition] = useTransition();
 
   return (
     <>
-      <h1 className="py-4 h2-bold">Shopping Cart</h1>
+      <h1 className="py-4 h2-bold">{t("title")}</h1>
       {!cart || cart.items.length === 0 ? (
         <div>
-          Cart is empty.{" "}
-          <Link href="/" className="underline">
-            Go Shopping
+          {t("status.empty")}{" "}
+          <Link href={appRoutes.HOME} className="underline">
+            {t("status.goShoppingLink")}
           </Link>
         </div>
       ) : (
@@ -44,9 +46,13 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Item</TableHead>
-                  <TableHead className="text-center">Quantity</TableHead>
-                  <TableHead className="text-right">Price</TableHead>
+                  <TableHead>{t("table.item")}</TableHead>
+                  <TableHead className="text-center">
+                    {t("table.quantity")}
+                  </TableHead>
+                  <TableHead className="text-right">
+                    {t("table.price")}
+                  </TableHead>
                 </TableRow>
               </TableHeader>
 
@@ -55,7 +61,7 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                   <TableRow key={item.slug}>
                     <TableCell>
                       <Link
-                        href={`/products/${item.slug}`}
+                        href={`${appRoutes.PRODUCTS}/${item.slug}`}
                         className="flex items-center"
                       >
                         <AppImage
@@ -115,7 +121,7 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
 
                     <TableCell className="text-right">
                       <span>
-                        ${formatCurrency(Number(item.price) * item.qty)}
+                        {formatCurrency(Number(item.price) * item.qty)}
                       </span>
                     </TableCell>
                   </TableRow>
@@ -127,20 +133,21 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
           <Card>
             <CardContent className="p-4 gap-4">
               <div className="flex-between pb-3 text-md">
-                Subtotal ({cart.items.reduce((acc, item) => acc + item.qty, 0)}
+                {t("cartActions.subTotal")} (
+                {cart.items.reduce((acc, item) => acc + item.qty, 0)}
                 ):{" "}
                 <span className="font-bold">
                   {formatCurrency(cart.itemsPrice)}
                 </span>
               </div>
               <div className="flex-between pb-3 text-md">
-                Taxes:{" "}
+                {t("cartActions.taxes")}:{" "}
                 <span className="font-bold">
                   {formatCurrency(cart.taxPrice)}
                 </span>
               </div>
               <div className="flex-between pb-3 text-md">
-                Shipping:{" "}
+                {t("cartActions.shipping")}:{" "}
                 <span className="font-bold">
                   {formatCurrency(cart.shippingPrice)}
                 </span>
@@ -151,7 +158,7 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                 disabled={isGoingToCkeckout}
                 onClick={() =>
                   startGoingToCkeckoutTransition(() =>
-                    router.push("/shipping-address"),
+                    router.push(appRoutes.SHIPPING_ADDRESS),
                   )
                 }
               >
@@ -160,7 +167,7 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                 ) : (
                   <ArrowRight className="w-4 h-4" />
                 )}{" "}
-                Proceed to Checkout
+                {t("cartActions.goCheckout")}
               </Button>
             </CardContent>
           </Card>

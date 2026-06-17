@@ -36,6 +36,69 @@ const prismaClientSingleton = () => {
           },
         },
       },
+      cart: {
+        itemsPrice: {
+          //* Declare 'itemsPrice' as a dependency to ensure the database value is available for computation.
+          needs: { itemsPrice: true },
+          //* Apply the same logic to the rating field for consistency.
+          compute(cart) {
+            return cart.itemsPrice.toString();
+          },
+        },
+        shippingPrice: {
+          needs: { shippingPrice: true },
+          compute(cart) {
+            return cart.shippingPrice.toString();
+          },
+        },
+        taxPrice: {
+          needs: { taxPrice: true },
+          compute(cart) {
+            return cart.taxPrice.toString();
+          },
+        },
+        totalPrice: {
+          needs: { totalPrice: true },
+          compute(cart) {
+            return cart.totalPrice.toString();
+          },
+        },
+      },
+      order: {
+        itemsPrice: {
+          //* Declare 'itemsPrice' as a dependency to ensure the database value is available for computation.
+          needs: { itemsPrice: true },
+          //* Apply the same logic to the rating field for consistency.
+          compute(cart) {
+            return cart.itemsPrice.toString();
+          },
+        },
+        shippingPrice: {
+          needs: { shippingPrice: true },
+          compute(cart) {
+            return cart.shippingPrice.toString();
+          },
+        },
+        taxPrice: {
+          needs: { taxPrice: true },
+          compute(cart) {
+            return cart.taxPrice.toString();
+          },
+        },
+        totalPrice: {
+          needs: { totalPrice: true },
+          compute(cart) {
+            return cart.totalPrice.toString();
+          },
+        },
+      },
+      orderItem: {
+        price: {
+          compute(cart) {
+            return cart.price.toString();
+          },
+        },
+      },
     },
   });
 };

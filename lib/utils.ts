@@ -83,6 +83,65 @@ export function formatCurrency(amount: number | string | null) {
   } else if (typeof amount === "string") {
     return CURRENCY_FORMATTER.format(Number(amount));
   } else {
-    return 'NaN';
+    return "NaN";
   }
 }
+
+//* Shorten UUID
+export function formatId(uuid: string) {
+  return `..${uuid.substring(uuid.length - 6)}`;
+}
+
+//* Formats a Date object into various string representations (full date-time, date-only, and time-only)
+export const formatDateTime = (dateString: Date) => {
+
+  //* Options for combined date and time formatting (e.g., 'Oct 31, 2023, 12:30 PM')
+  const dateTimeOptions: Intl.DateTimeFormatOptions = {
+    month: "short", //? Abbreviated month name (e.g., 'Oct')
+    year: "numeric", //? Numeric year (e.g., '2023')
+    day: "numeric", //? Numeric day of the month (e.g., '31')
+    hour: "numeric", //? Numeric hour (e.g., '12')
+    minute: "numeric", //? Numeric minute (e.g., '30')
+    hour12: true, //? Use 12-hour clock (true) or 24-hour clock (false)
+  };
+
+  //* Options for date-only formatting (e.g., 'Sun, Oct 31, 2023')
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    weekday: "short", //? Abbreviated weekday name (e.g., 'Sun')
+    month: "short", //? Abbreviated month name (e.g., 'Oct'),
+    year: "numeric", //? Numeric year (e.g., '2023')
+    day: "numeric", //? Numeric day of the month (e.g., '31')
+  };
+
+  //* Options for time-only formatting (e.g., '12:30 PM')
+  const timeOptions: Intl.DateTimeFormatOptions = {
+    hour: "numeric", //? Numeric hour (e.g., '12'),
+    minute: "numeric", //? Numeric minute (e.g., '30'),
+    hour12: true, //? Use 12-hour clock (true) or 24-hour clock (false)
+  };
+
+  //* Format the full date-time string using 'en-US' locale
+  const formattedDateTime: string = new Date(dateString).toLocaleDateString(
+    "en-US",
+    dateTimeOptions,
+  );
+
+  //* Format the date-only string using 'en-US' locale
+  const formattedDate: string = new Date(dateString).toLocaleDateString(
+    "en-US",
+    dateOptions,
+  );
+
+  //* Format the time-only string using 'en-US' locale
+  const formattedTime: string = new Date(dateString).toLocaleTimeString(
+    "en-US",
+    timeOptions,
+  );
+
+  //* Return an object containing the formatted versions
+  return {
+    dateTime: formattedDateTime,
+    dateOnly: formattedDate,
+    timeOnly: formattedTime,
+  };
+};

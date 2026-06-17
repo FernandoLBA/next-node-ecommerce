@@ -1,0 +1,52 @@
+{
+  "HomePage": {
+    "title": "Newest Arrivals"
+  },
+  "Menu": {
+    "title": "Menu",
+    "cartTitle": "Cart",
+    "languages": {
+      "title": "Languages",
+      "en": "English",
+      "es": "Spanish"
+    },
+    "themes": {
+      "title": "Themes",
+      "system": "System",
+      "light": "Light",
+      "dark": "Dark"
+    }
+  },
+  "Footer": {
+    "rights": "All Rights Reserved."
+  },
+  "CartPage": {
+    "title": "Shopping Cart",
+    "status": {
+      "empty": "Cart is empty.",
+      "goShoppingLink": "Go Shopping!"
+    },
+    "table": {
+      "item": "Item",
+      "price": "Price",
+      "quantity": "Quantity"
+    },
+    "cartActions": {
+      "subTotal": "Subtotal",
+      "taxes": "Taxes",
+      "shipping": "Shipping",
+      "goCheckout": "Proceed to Checkout"
+    }
+  },
+  "Loading": {
+    "message": "Loading..."
+  },
+  "auth": {
+    "signUp": "Create Account",
+    "signIn": "Sign In",
+    "description": "Enter your information below to sign up",
+    "errors": {
+      "userExists": "User already exists"
+    }
+  }
+}
