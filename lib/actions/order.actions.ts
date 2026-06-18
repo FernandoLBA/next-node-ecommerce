@@ -102,7 +102,7 @@ export async function createOrder() {
     return {
       success: true,
       message: "Order created successfully",
-      redirectTo: `${appRoutes.ORDERS}/${insertedOrderId}`,
+      redirectTo: `${appRoutes.ORDER}/${insertedOrderId}`,
     };
   } catch (error) {
     if (isRedirectError(error)) throw error;

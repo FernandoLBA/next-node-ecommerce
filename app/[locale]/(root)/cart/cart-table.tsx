@@ -130,9 +130,9 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
             </Table>
           </div>
 
-          <Card>
-            <CardContent className="p-4 gap-4">
-              <div className="flex-between pb-3 text-md">
+          <Card className="flex justify-center mt-2 md:mt-0">
+            <CardContent className="px-4">
+              <div className="flex-between text-md">
                 {t("cartActions.subTotal")} (
                 {cart.items.reduce((acc, item) => acc + item.qty, 0)}
                 ):{" "}
@@ -140,12 +140,14 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                   {formatCurrency(cart.itemsPrice)}
                 </span>
               </div>
-              <div className="flex-between pb-3 text-md">
+
+              <div className="flex-between py-3 text-md">
                 {t("cartActions.taxes")}:{" "}
                 <span className="font-bold">
                   {formatCurrency(cart.taxPrice)}
                 </span>
               </div>
+
               <div className="flex-between pb-3 text-md">
                 {t("cartActions.shipping")}:{" "}
                 <span className="font-bold">

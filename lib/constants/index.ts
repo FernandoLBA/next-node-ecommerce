@@ -21,7 +21,7 @@ export const appRoutes = {
   PRODUCTS: "/products",
   CART: "/cart",
   CHECKOUT: "/checkout",
-  ORDERS: "/orders",
+  ORDER: "/order",
   SHIPPING_ADDRESS: "/shipping-address",
   PAYMENT_METHOD: "/payment-method",
   PLACE_ORDER: "/place-order",

@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { getOrderById } from "@/lib/actions/order.actions";
+import type { Order, ShippingAddress } from "@/types";
+import OrderDetailsTable from "./order-details-table";
 
 export const metada: Metadata = {
   title: "Order Details",
@@ -14,11 +16,31 @@ const OrderDetailsPage = async (props: { params: Promise<{ id: string }> }) => {
 
   if (!order) notFound();
 
-  return (
-    <>
-      Order details page
-    </>
-  );
+  //* Handle API error shape: { success: boolean; message: string }
+  if ("success" in order) notFound();
+
+  //* Parse every item price to string
+  const orderItems = order.orderItems.map((item) => ({
+    ...item,
+    price: item.price.toString(),
+  }));
+
+  //* Formats the entire Order object
+  const formattedOrder: Order = {
+    ...order,
+    orderItems,
+    itemsPrice: order.itemsPrice.toString(),
+    shippingPrice: order.shippingPrice.toString(),
+    taxPrice: order.taxPrice.toString(),
+    totalPrice: order.totalPrice.toString(),
+    shippingAddress: order.shippingAddress as ShippingAddress,
+    user: {
+      name: order.user.name as string,
+      email: order.user.email,
+    },
+  };
+
+  return <OrderDetailsTable order={formattedOrder} />;
 };
 
 export default OrderDetailsPage;
