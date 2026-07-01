@@ -48,5 +48,10 @@
     "errors": {
       "userExists": "User already exists"
     }
+  },
+  "notFoundPage": {
+    "title": "Not Found",
+    "description": "The page you are looking for does not exist.",
+    "goHomeLink": "Back Home"
   }
 }

@@ -106,15 +106,15 @@ const prismaClientSingleton = () => {
 //* Extend the TypeScript global object to include the Prisma instance.
 //* This prevents TypeScript from throwing errors when accessing globalThis.prisma.
 declare global {
-  var prisma: PrismaClient | ReturnType<typeof prismaClientSingleton>;
+  var prismaClient: PrismaClient | ReturnType<typeof prismaClientSingleton>;
 }
 
 //* Retrieve the Prisma instance from the global object.
 //* If it doesn't exist (first run), create a new one using the Singleton pattern.
-const db = globalThis.prisma ?? prismaClientSingleton();
+const prisma = globalThis.prismaClient ?? prismaClientSingleton();
 
 //* In development, store the instance globally to prevent exhausting database connections.
 //* Next.js hot reloading would otherwise create a new Prisma instance on every change.
-if (process.env.NODE_ENV !== "production") globalThis.prisma = db;
+if (process.env.NODE_ENV !== "production") globalThis.prismaClient = prisma;
 
-export default db;
+export default prisma;

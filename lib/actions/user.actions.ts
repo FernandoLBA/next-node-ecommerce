@@ -5,7 +5,7 @@ import { isRedirectError } from "next/dist/client/components/redirect-error";
 import z from "zod";
 
 import { auth, signIn, signOut } from "@/auth";
-import db from "@/db/db";
+import prisma from "@/db/db";
 import { ShippingAddress } from "@/types";
 import { formatError } from "../utils";
 import {
@@ -57,7 +57,7 @@ export async function signUpUser(_prevState: unknown, formData: FormData) {
 
     user.password = hashSync(user.password, 10);
 
-    await db.user.create({
+    await prisma.user.create({
       data: {
         name: user.name,
         email: user.email,
@@ -82,7 +82,7 @@ export async function signUpUser(_prevState: unknown, formData: FormData) {
 
 //* Get user by ID
 export async function getUserById(userId: string) {
-  const user = await db.user.findFirst({
+  const user = await prisma.user.findFirst({
     where: { id: userId },
   });
 
@@ -101,7 +101,7 @@ export async function updateUserAddress(shippingAddress: ShippingAddress) {
 
     const address = shippingAddressSchema.parse(shippingAddress);
 
-    await db.user.update({
+    await prisma.user.update({
       where: { id: currentUser.id },
       data: {
         address,
@@ -126,7 +126,7 @@ export async function updateUserPaymentMethod(
 ) {
   try {
     const session = await auth();
-    const currentUser = await db.user.findFirst({
+    const currentUser = await prisma.user.findFirst({
       where: { id: session?.user?.id as string },
     });
 
@@ -134,7 +134,7 @@ export async function updateUserPaymentMethod(
 
     const paymentMethod = paymentMethodSchema.parse(data);
 
-    await db.user.update({
+    await prisma.user.update({
       where: { id: currentUser.id },
       data: { paymentMethod: paymentMethod.type },
     });

@@ -15,6 +15,7 @@ export const LANGUAGES = process.env.LANGUAGES
   ? process.env.LANGUAGES.split(", ")
   : ["en", "es"];
 export const DEFAULT_LANGUAGE = process.env.DEFAULT_LANGUAGE || "es";
+export const PAGE_SIZE = Number(process.env.PAGE_SIZE || 2);
 
 export const appRoutes = {
   HOME: "/",
@@ -32,6 +33,8 @@ export const appRoutes = {
   ERROR: '/error',
   USER: '/user',
   ADMIN: '/admin',
+  USER_PROFILE: '/user/profile',
+  USER_ORDERS: '/user/orders',
 };
 
 export const signInDefaultValues = {

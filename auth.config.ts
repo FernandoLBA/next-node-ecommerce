@@ -21,14 +21,15 @@ export const authConfig = {
   },
   callbacks: {
     authorized({ request, auth }) {
+      console.log("authorized 1");
       //* Protected routes (now using ^ anchors to avoid false positives)
       const protectedPaths = [
         /^\/shipping-address/,
         /^\/payment-method/,
         /^\/place-order/,
         /^\/profile/,
-        /^\/user/,
-        /^\/orders/,
+        /^\/user\/(.*)/,
+        /^\/order\/(.*)/,
         /^\/admin/,
       ];
 
@@ -36,12 +37,16 @@ export const authConfig = {
       const pathname = request.nextUrl.pathname;
 
       //* Remove the language prefix for comparison (e.g., /es/admin -> /admin)
-      const pathnameWithoutLocale = pathname.replace(/^\/[a-z]{2}(\/|$)/, '/');
+      const pathnameWithoutLocale = pathname.replace(/^\/[a-z]{2}(\/|$)/, "/");
 
       //* Check if the route (without locale) is protected
-      if (!auth && protectedPaths.some((path) => path.test(pathnameWithoutLocale)))
-        return false;
-
+      if (
+        !auth &&
+        protectedPaths.some((path) => path.test(pathnameWithoutLocale))
+      ) {
+        Response.redirect(new URL(appRoutes.SIGN_IN, request.url));
+      }
+      
       return true;
     },
   },

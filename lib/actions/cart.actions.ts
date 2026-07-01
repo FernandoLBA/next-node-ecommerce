@@ -5,7 +5,7 @@ import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { cookies } from "next/headers";
 
 import { auth } from "@/auth";
-import db from "@/db/db";
+import prisma from "@/db/db";
 import { CartItem } from "@/types";
 import { appRoutes } from "../constants";
 import { convertToPlainObject, formatError, round2 } from "../utils";
@@ -47,7 +47,7 @@ export async function addItemToCart(data: CartItem) {
     const item = cartItemSchema.parse(data);
 
     //* Find product in database
-    const product = await db.product.findFirst({
+    const product = await prisma.product.findFirst({
       where: { id: item.productId },
     });
 
@@ -64,7 +64,7 @@ export async function addItemToCart(data: CartItem) {
       });
 
       //* Add to database
-      await db.cart.create({ data: newCart });
+      await prisma.cart.create({ data: newCart });
     } else {
       //* Check if the product is already in the cart
       const existingItemIndex = (cart.items as CartItem[]).findIndex(
@@ -91,7 +91,7 @@ export async function addItemToCart(data: CartItem) {
       }
 
       //* Update the cart in the database
-      await db.cart.update({
+      await prisma.cart.update({
         where: { id: cart.id },
         data: {
           items: [...cart.items],
@@ -131,7 +131,7 @@ export async function getMyCart() {
     const userId = session?.user?.id ? (session.user.id as string) : undefined;
 
     //* Get user cart from database
-    const cart = await db.cart.findFirst({
+    const cart = await prisma.cart.findFirst({
       where: userId ? { userId } : { sessionCartId },
     });
 
@@ -162,7 +162,7 @@ export async function removeItemFromcart(productId: string) {
     if (!sessionCartId) throw new Error("No session cart ID found");
 
     //* Find product in database
-    const product = await db.product.findFirst({
+    const product = await prisma.product.findFirst({
       where: { id: productId },
     });
 
@@ -194,7 +194,7 @@ export async function removeItemFromcart(productId: string) {
       });
     }
 
-    await db.cart.update({
+    await prisma.cart.update({
       where: { id: cart.id },
       data: {
         items: cart.items,

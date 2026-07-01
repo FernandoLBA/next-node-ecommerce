@@ -40,7 +40,12 @@ const OrderDetailsPage = async (props: { params: Promise<{ id: string }> }) => {
     },
   };
 
-  return <OrderDetailsTable order={formattedOrder} />;
+  return (
+    <OrderDetailsTable
+      order={formattedOrder}
+      payPalClientId={process.env.PAYPAL_CLIENT_ID || "sb"}
+    />
+  );
 };
 
 export default OrderDetailsPage;

@@ -4,12 +4,12 @@ import NextAuth, { type NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import { authConfig } from "./auth.config";
-import db from "./db/db";
+import prisma from "./db/db";
 import { cookies } from "next/headers";
 
 export const config = {
   ...authConfig,
-  adapter: PrismaAdapter(db),
+  adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
       credentials: {
@@ -21,11 +21,13 @@ export const config = {
         },
       },
       async authorize(credentials) {
+      console.log("authorize");
+
         //* If there are not credentials return null
         if (credentials == null) return null;
 
         //* Get the user from the DB
-        const user = await db.user.findFirst({
+        const user = await prisma.user.findFirst({
           where: {
             email: credentials.email as string,
           },
@@ -56,6 +58,8 @@ export const config = {
   ],
   callbacks: {
     async session({ session, token, trigger, user }) {
+      console.log("session 3");
+
       //* Set the userId from the token (JWT sub)
       if (session.user && token.sub) {
         session.user.id = token.sub;
@@ -71,6 +75,8 @@ export const config = {
       return session;
     },
     async jwt({ token, user, trigger, session }) {
+      console.log("jwt 2");
+
       //* Assign user fields to token
       if (user) {
         token.id = user.id;
@@ -82,7 +88,7 @@ export const config = {
 
           //* Update database to reflect the token name
           if (user.id) {
-            await db.user.update({
+            await prisma.user.update({
               where: { id: user.id },
               data: { name: token.name },
             });
@@ -98,19 +104,19 @@ export const config = {
           //* If a sessionCartId exists in cookie
           if (sessionCartId) {
             //* Gets the cart from database by sessionCartId
-            const sessionCart = await db.cart.findFirst({
+            const sessionCart = await prisma.cart.findFirst({
               where: { sessionCartId },
             });
 
             //* If a cart exists in database
             if (sessionCart) {
               //* Delete current user cart
-              // await db.cart.deleteMany({
+              // await prisma.cart.deleteMany({
               //   where: { userId: user.id },
               // });
 
               //* Assign new cart to the user
-              await db.cart.update({
+              await prisma.cart.update({
                 where: { id: sessionCart.id },
                 data: { userId: user.id },
               });
