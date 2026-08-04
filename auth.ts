@@ -2,10 +2,10 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { compareSync } from "bcrypt-ts-edge";
 import NextAuth, { type NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { cookies } from "next/headers";
 
 import { authConfig } from "./auth.config";
 import prisma from "./db/db";
-import { cookies } from "next/headers";
 
 export const config = {
   ...authConfig,
@@ -21,8 +21,6 @@ export const config = {
         },
       },
       async authorize(credentials) {
-      console.log("authorize");
-
         //* If there are not credentials return null
         if (credentials == null) return null;
 
@@ -58,25 +56,21 @@ export const config = {
   ],
   callbacks: {
     async session({ session, token, trigger, user }) {
-      console.log("session 3");
-
       //* Set the userId from the token (JWT sub)
       if (session.user && token.sub) {
         session.user.id = token.sub;
         session.user.role = token.role as string;
         session.user.name = token.name;
-        
+
         //* If there is an update, set the user name
         if (trigger === "update" && user) {
           session.user.name = user.name;
         }
       }
-      
+
       return session;
     },
     async jwt({ token, user, trigger, session }) {
-      console.log("jwt 2");
-
       //* Assign user fields to token
       if (user) {
         token.id = user.id;
@@ -93,6 +87,11 @@ export const config = {
               data: { name: token.name },
             });
           }
+        }
+
+        //* Handle session updates
+        if (session?.user.name && trigger === "update") {
+          token.name = session.user.name;
         }
 
         //* Transfer anonymous session cart to user's account on login or registration

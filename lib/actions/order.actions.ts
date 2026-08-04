@@ -2,7 +2,6 @@
 
 import { revalidatePath } from "next/cache";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
-import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 import prisma from "@/db/db";
@@ -212,7 +211,7 @@ export async function approvePayPalOrder(
       },
     });
 
-    revalidatePath(`/order/${orderId}`);
+    revalidatePath(`${appRoutes.ORDER}/${orderId}`);
 
     return {
       success: true,

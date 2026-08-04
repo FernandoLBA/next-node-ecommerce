@@ -25,23 +25,3 @@ export default async function RootLayout({
     </NextIntlClientProvider>
   );
 }
-
-// <html
-//   lang={locale}
-//   suppressHydrationWarning //* silences hydration mismatch warnings.
-//   className={cn("h-full antialiased", inter.className)}
-// >
-//   <body className="min-h-full flex flex-col">
-//     <NextIntlClientProvider messages={messages}>
-//       <ThemeProvider
-//         attribute="class"
-//         defaultTheme="dark" //* This provider saves a "theme" value in localStorage.
-//         disableTransitionOnChange
-//       >
-//         {children}
-
-//         <Toaster position="bottom-right" />
-//       </ThemeProvider>
-//     </NextIntlClientProvider>
-//   </body>
-// </html>

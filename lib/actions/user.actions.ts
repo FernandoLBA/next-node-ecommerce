@@ -13,6 +13,7 @@ import {
   shippingAddressSchema,
   signInFormSchema,
   signUpFormSchema,
+  updateUserProfileSchema,
 } from "../validators";
 
 //* Sign in the user with credentials
@@ -142,6 +143,38 @@ export async function updateUserPaymentMethod(
     return {
       success: true,
       message: "User's payment method updated successfully",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: await formatError(error),
+    };
+  }
+}
+
+//* Update the user's profile
+export async function updateProfile(
+  user: z.infer<typeof updateUserProfileSchema>,
+) {
+  try {
+    const session = await auth();
+    const currentUser = await prisma.user.findFirst({
+      where: { id: session?.user?.id as string },
+    });
+
+    if (!currentUser) throw new Error("User not found");
+
+    await prisma.user.update({
+      where: { id: currentUser.id },
+      data: {
+        name: user.name,
+        email: user.email,
+      },
+    });
+
+    return {
+      success: true,
+      message: "User's profile updated successfully",
     };
   } catch (error) {
     return {

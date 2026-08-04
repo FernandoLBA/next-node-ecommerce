@@ -15,7 +15,7 @@ export const LANGUAGES = process.env.LANGUAGES
   ? process.env.LANGUAGES.split(", ")
   : ["en", "es"];
 export const DEFAULT_LANGUAGE = process.env.DEFAULT_LANGUAGE || "es";
-export const PAGE_SIZE = Number(process.env.PAGE_SIZE || 2);
+export const PAGE_SIZE = Number(process.env.PAGE_SIZE || 12);
 
 export const appRoutes = {
   HOME: "/",
