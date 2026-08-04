@@ -40,7 +40,7 @@ async function UserButton() {
             {firstInitial}
           </Button>
         }
-      ></DropdownMenuTrigger>
+      />
 
       <DropdownMenuContent className="w-56" align="end">
         <DropdownMenuGroup>
@@ -55,6 +55,18 @@ async function UserButton() {
               </div>
             </div>
           </DropdownMenuLabel>
+
+          <DropdownMenuItem>
+            <Link href={appRoutes.USER_PROFILE} className="w-full">
+              User Profile
+            </Link>
+          </DropdownMenuItem>
+
+          <DropdownMenuItem>
+            <Link href={appRoutes.USER_ORDERS} className="w-full">
+              Order History
+            </Link>
+          </DropdownMenuItem>
 
           <DropdownMenuItem className="p-0 mb-1">
             <form action={signOutUser} className="w-full">

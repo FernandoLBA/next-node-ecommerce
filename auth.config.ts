@@ -1,4 +1,5 @@
 import type { NextAuthConfig } from "next-auth";
+import { NextResponse } from "next/server";
 
 import { appRoutes } from "./lib/constants";
 
@@ -44,9 +45,14 @@ export const authConfig = {
         !auth &&
         protectedPaths.some((path) => path.test(pathnameWithoutLocale))
       ) {
-        Response.redirect(new URL(appRoutes.SIGN_IN, request.url));
+        const redirectUrl = new URL(
+          appRoutes.SIGN_IN,
+          request.url,
+        ).toString();
+
+        return NextResponse.redirect(redirectUrl);
       }
-      
+
       return true;
     },
   },

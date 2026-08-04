@@ -2,6 +2,7 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { ZodError } from "zod";
 import { $ZodIssue } from "zod/v4/core";
+import qs from "query-string";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -94,7 +95,6 @@ export function formatId(uuid: string) {
 
 //* Formats a Date object into various string representations (full date-time, date-only, and time-only)
 export const formatDateTime = (dateString: Date) => {
-
   //* Options for combined date and time formatting (e.g., 'Oct 31, 2023, 12:30 PM')
   const dateTimeOptions: Intl.DateTimeFormatOptions = {
     month: "short", //? Abbreviated month name (e.g., 'Oct')
@@ -145,3 +145,33 @@ export const formatDateTime = (dateString: Date) => {
     timeOnly: formattedTime,
   };
 };
+
+//* Form the pagination links
+export function formUrlQuery({
+  params,
+  key,
+  value,
+}: {
+  params: string;
+  key: string;
+  value: string | null;
+}) {
+  //? qs.parse() is used to parse the query string into an object, allowing for easy manipulation of query parameters. The parsed object can then be modified to add, update, or remove specific query parameters before converting it back into a query string for use in URLs.
+  const query = qs.parse(params);
+
+  query[key] = value;
+
+  //? Removes the locale prefix (e.g., '/en' or '/es') from the current pathname to ensure that the generated URL is locale-agnostic. This is important for maintaining consistent routing behavior across different locales, especially when generating pagination links or other dynamic URLs.
+  const basePathname = window.location.pathname.replace(/^\/(en|es)/, "");
+
+  //? qs.stringifyUrl() is used to convert the modified query object back into a query string format, which can be appended to a URL. The skipNull option ensures that any query parameters with null values are omitted from the final query string, preventing unnecessary or empty parameters in the URL.
+  return qs.stringifyUrl(
+    {
+      url: basePathname, //? Use the current pathname without locale prefix as the base URL for the query string
+      query, //? The modified query object containing the updated query parameters
+    },
+    {
+      skipNull: true, //? Skip null values in the query string to avoid unnecessary parameters
+    },
+  );
+}

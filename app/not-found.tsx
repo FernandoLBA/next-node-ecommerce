@@ -41,7 +41,7 @@ const NotFound = () => {
           className="mt-4 ml-2"
           onClick={() => router.push(`/${detectedLocale}${appRoutes.HOME}`)}
         >
-          {locale.notFoundPage.goHomeLink} x
+          {locale.notFoundPage.goHomeLink}
         </Button>
       </div>
     </div>
