@@ -11,10 +11,8 @@ export const PAYMENT_METHODS = process.env.PAYMENT_METHODS
   : ["PayPal", "Stripe", "CashOnDelivery"];
 export const DEFAULT_PAYMENT_METHOD =
   process.env.DEFAULT_PAYMENT_METHOD || "PayPal";
-export const LANGUAGES = process.env.LANGUAGES
-  ? process.env.LANGUAGES.split(", ")
-  : ["en", "es"];
-export const DEFAULT_LANGUAGE = process.env.DEFAULT_LANGUAGE || "es";
+export const LANGUAGES = ["en", "es"];
+export const DEFAULT_LANGUAGE = "es";
 export const PAGE_SIZE = Number(process.env.PAGE_SIZE || 12);
 
 export const appRoutes = {
