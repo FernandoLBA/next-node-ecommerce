@@ -15,6 +15,7 @@ import { getOrderSummary } from "@/lib/actions/order.actions";
 import { appRoutes } from "@/lib/constants";
 import { formatCurrency, formatDateTime, formatNumber } from "@/lib/utils";
 import Charts from "./charts";
+import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "Admin Dashboard",
@@ -120,9 +121,11 @@ const OverviewPage = async () => {
                       {formatCurrency(order.totalPrice as string)}
                     </TableCell>
                     <TableCell>
-                      <Link href={`${appRoutes.ORDER}/${order.id}`}>
-                        <span className="px-2">Details</span>
-                      </Link>
+                      <Button>
+                        <Link href={`${appRoutes.ORDER}/${order.id}`}>
+                          Details
+                        </Link>
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}

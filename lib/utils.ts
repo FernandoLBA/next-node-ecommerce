@@ -22,7 +22,7 @@ export function formatNumberWithDecimal(number: number): string {
 
 //* Formats Zod and Prisma errors into a user friendly message
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function formatError(error: any): Promise<string> {
+export function formatError(error: any): string {
   if (error instanceof ZodError) {
     //* Handle zod error
     const parsedErrorMessage: $ZodIssue[] = error.issues;

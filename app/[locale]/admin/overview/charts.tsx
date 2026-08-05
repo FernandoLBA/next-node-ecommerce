@@ -2,11 +2,11 @@
 
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
-import { SalesDataType } from "@/types";
+import { SalesData } from "@/types";
 
 type ChartsProps = {
   data: {
-    salesData: SalesDataType;
+    salesData: SalesData;
   };
 };
 

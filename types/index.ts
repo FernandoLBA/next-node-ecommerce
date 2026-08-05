@@ -37,7 +37,12 @@ export type Order = z.infer<typeof insertOrderSchema> & {
 export type OrderItem = z.infer<typeof insertOrderItemSchema>;
 export type PaymentResult = z.infer<typeof paymentResultSchema>;
 
-export type SalesDataType = {
+export type SalesData = {
   month: string;
   totalSales: number;
 }[];
+
+export type ResponseMessage = {
+  success: boolean;
+  message: string;
+};

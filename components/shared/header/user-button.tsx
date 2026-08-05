@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Link } from "@/i18n/routing";
 import { signOutUser } from "@/lib/actions/user.actions";
-import { appRoutes } from "@/lib/constants";
+import { appRoutes, userRoles } from "@/lib/constants";
 
 async function UserButton() {
   const session = await auth();
@@ -68,7 +68,7 @@ async function UserButton() {
             </Link>
           </DropdownMenuItem>
 
-          {session.user.role === "admin" && (
+          {session.user.role === userRoles.ADMIN && (
             <DropdownMenuItem>
               <Link href={appRoutes.ADMIN_OVERVIEW} className="w-full">
                 Admin

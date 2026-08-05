@@ -5,7 +5,7 @@ import Menu from "@/components/shared/header/menu";
 import AppImage from "@/components/ui/app-image";
 import { Input } from "@/components/ui/input";
 import { redirect } from "@/i18n/routing";
-import { APP_NAME, appRoutes } from "@/lib/constants";
+import { APP_NAME, appRoutes, userRoles } from "@/lib/constants";
 import MainNav from "./main-nav";
 
 export default async function AdminLayout({
@@ -18,12 +18,12 @@ export default async function AdminLayout({
   const session = await auth();
   const { locale } = await params;
 
-  if (session?.user.role !== "admin") {
-    console.log(`🚀 ~ AdminLayout ~ { href: appRoutes.SIGN_IN, locale }:`, {
-      href: appRoutes.SIGN_IN,
-      locale,
-    });
+  if (!session) {
     redirect({ href: appRoutes.SIGN_IN, locale });
+  }
+
+  if (session?.user.role !== userRoles.ADMIN) {
+    redirect({ href: appRoutes.HOME, locale });
   }
 
   return (

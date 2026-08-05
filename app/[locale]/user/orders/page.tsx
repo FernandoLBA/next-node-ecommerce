@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 
+import Pagination from "@/components/shared/pagination";
 import {
   Table,
   TableBody,
@@ -12,7 +13,7 @@ import {
 import { getMyOrders } from "@/lib/actions/order.actions";
 import { appRoutes } from "@/lib/constants";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
-import Pagination from "@/components/shared/pagination";
+import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "My Orders",
@@ -22,8 +23,8 @@ export const metadata: Metadata = {
 const OrdersPage = async (props: {
   searchParams: Promise<{ page: string }>;
 }) => {
-  const { page } = await props.searchParams;
-  const orders = await getMyOrders({ page: Number(page) || 1 });
+  const { page = 1 } = await props.searchParams;
+  const orders = await getMyOrders({ page: Number(page) });
 
   return (
     <div className="space-y-2">
@@ -63,12 +64,9 @@ const OrdersPage = async (props: {
                     : "Not delivered"}
                 </TableCell>
                 <TableCell>
-                  <Link
-                    href={`${appRoutes.ORDER}/${order.id}`}
-                    className="text-blue-500 hover:underline"
-                  >
-                    <span className="px-2">View</span>
-                  </Link>
+                  <Button>
+                    <Link href={`${appRoutes.ORDER}/${order.id}`}>Details</Link>
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
