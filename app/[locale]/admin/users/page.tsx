@@ -1,5 +1,5 @@
-const UsersPage = () => {
+const AdminUsersPage = () => {
   return <>Users</>;
 };
 
-export default UsersPage;
+export default AdminUsersPage;

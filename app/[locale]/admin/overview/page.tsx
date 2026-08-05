@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   title: "Admin Dashboard",
 };
 
-const OverviewPage = async () => {
+const AdminOverviewPage = async () => {
   const summary = await getOrderSummary();
 
   return (
@@ -138,4 +138,4 @@ const OverviewPage = async () => {
   );
 };
 
-export default OverviewPage;
+export default AdminOverviewPage;

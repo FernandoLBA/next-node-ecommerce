@@ -16,6 +16,7 @@ export const appRoutes = {
   ADMIN: "/admin",
   ADMIN_OVERVIEW: "/admin/overview",
   ADMIN_PRODUCTS: "/admin/products",
+  ADMIN_PRODUCTS_CREATE: "/admin/products/create",
   ADMIN_ORDERS: "/admin/orders",
   ADMIN_USERS: "/admin/users",
 
