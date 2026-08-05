@@ -22,7 +22,6 @@ export const authConfig = {
   },
   callbacks: {
     authorized({ request, auth }) {
-      console.log("authorized 1");
       //* Protected routes (now using ^ anchors to avoid false positives)
       const protectedPaths = [
         /^\/shipping-address/,

@@ -1,8 +1,8 @@
 import { clsx, type ClassValue } from "clsx";
+import qs from "query-string";
 import { twMerge } from "tailwind-merge";
 import { ZodError } from "zod";
 import { $ZodIssue } from "zod/v4/core";
-import qs from "query-string";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -86,6 +86,13 @@ export function formatCurrency(amount: number | string | null) {
   } else {
     return "NaN";
   }
+}
+
+//* Format Number
+const NUMBER_FORMATTER = new Intl.NumberFormat("en-US");
+
+export function formatNumber(number: number) {
+  return NUMBER_FORMATTER.format(number);
 }
 
 //* Shorten UUID

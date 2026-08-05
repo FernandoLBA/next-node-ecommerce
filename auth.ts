@@ -89,11 +89,6 @@ export const config = {
           }
         }
 
-        //* Handle session updates
-        if (session?.user.name && trigger === "update") {
-          token.name = session.user.name;
-        }
-
         //* Transfer anonymous session cart to user's account on login or registration
         if (trigger === "signIn" || trigger === "signUp") {
           //* Get session cart id from cookies

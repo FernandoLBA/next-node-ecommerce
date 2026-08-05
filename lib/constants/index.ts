@@ -19,22 +19,34 @@ export const PAGE_SIZE = Number(process.env.PAGE_SIZE || 12);
 
 export const appRoutes = {
   HOME: "/",
+
+  ADMIN: "/admin",
+  ADMIN_OVERVIEW: "/admin/overview",
+  ADMIN_PRODUCTS: "/admin/products",
+  ADMIN_ORDERS: "/admin/orders",
+  ADMIN_USERS: "/admin/users",
+
+  USER: "/user",
+  USER_PROFILE: "/user/profile",
+  USER_ORDERS: "/user/orders",
+
+  PROFILE: "/profile",
+
   PRODUCTS: "/products",
   CART: "/cart",
   CHECKOUT: "/checkout",
   ORDER: "/order",
+
   SHIPPING_ADDRESS: "/shipping-address",
   PAYMENT_METHOD: "/payment-method",
   PLACE_ORDER: "/place-order",
-  PROFILE: "/profile",
+
   SIGN_IN: "/sign-in",
   SIGN_UP: "/sign-up",
+
   FORGOT_PASSWORD: "/forgot-password",
-  ERROR: '/error',
-  USER: '/user',
-  ADMIN: '/admin',
-  USER_PROFILE: '/user/profile',
-  USER_ORDERS: '/user/orders',
+
+  ERROR: "/error",
 };
 
 export const signInDefaultValues = {

@@ -2,7 +2,7 @@ import { DefaultSession } from "next-auth";
 
 declare module "next-auth" {
   /**
-   * Extiende el objeto 'user' devuelto en la sesión
+   * Extends the default Session interface to include the user id and role
    */
   interface Session {
     user: {
@@ -12,7 +12,7 @@ declare module "next-auth" {
   }
 
   /**
-   * Extiende la interfaz de User para incluir el rol
+   * Extends the default User interface to include the role
    */
   interface User {
     role?: string;

@@ -5,8 +5,9 @@ import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 import { auth } from "@/auth";
 import prisma from "@/db/db";
-import { CartItem, PaymentResult } from "@/types";
+import { CartItem, PaymentResult, SalesDataType } from "@/types";
 import { appRoutes, PAGE_SIZE } from "../constants";
+import { Prisma } from "../generated/prisma/client";
 import { TransactionClient } from "../generated/prisma/internal/prismaNamespace";
 import { paypal } from "../paypal";
 import { convertToPlainObject, formatError } from "../utils";
@@ -15,7 +16,6 @@ import { getMyCart } from "./cart.actions";
 import { getUserById } from "./user.actions";
 
 //* Create order and create the order items
-
 export async function createOrder() {
   try {
     const session = await auth();
@@ -305,5 +305,49 @@ export async function getMyOrders({
   return {
     data,
     totalPages: Math.ceil(dataCount / limit),
+  };
+}
+
+//* get sales data and order summary for admin dashboard
+export async function getOrderSummary() {
+  //* Get counts for each resource
+  const ordersCount = await prisma.order.count();
+  const productsCount = await prisma.product.count();
+  const usersCount = await prisma.user.count();
+
+  //* Calculate the total sales and total orders
+  const totalSales = await prisma.order.aggregate({
+    _sum: {
+      totalPrice: true,
+    },
+  });
+
+  //* Get monthly sales
+  const salesDataRaw = await prisma.$queryRaw<
+    Array<{ month: string; totalSales: Prisma.Decimal }>
+  >`SELECT to_char("createdAt", 'MM/YY') as "month", SUM("totalPrice") as "totalSales" FROM
+  "Order" GROUP BY to_char("createdAt", 'MM/YY')`;
+
+  const salesData: SalesDataType = salesDataRaw.map((entry) => ({
+    month: entry.month,
+    totalSales: Number(entry.totalSales),
+  }));
+
+  //* Get latest sales
+  const latestSales = await prisma.order.findMany({
+    orderBy: { createdAt: "desc" },
+    include: {
+      user: { select: { name: true } },
+    },
+    take: 6,
+  });
+
+  return {
+    ordersCount,
+    productsCount,
+    usersCount,
+    totalSales,
+    latestSales,
+    salesData,
   };
 }
