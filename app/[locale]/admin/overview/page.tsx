@@ -1,6 +1,7 @@
 import { BadgeDollarSign, Barcode, CreditCard, Users } from "lucide-react";
 import { Metadata } from "next";
 
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -15,7 +16,6 @@ import { getOrderSummary } from "@/lib/actions/order.actions";
 import { appRoutes } from "@/lib/constants";
 import { formatCurrency, formatDateTime, formatNumber } from "@/lib/utils";
 import Charts from "./charts";
-import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "Admin Dashboard",
@@ -85,6 +85,7 @@ const AdminOverviewPage = async () => {
           <CardHeader>
             <CardTitle className="h3-bold">Overview</CardTitle>
           </CardHeader>
+
           <CardContent>
             <Charts
               data={{
@@ -98,6 +99,7 @@ const AdminOverviewPage = async () => {
           <CardHeader>
             <CardTitle className="h3-bold">Recent Sales</CardTitle>
           </CardHeader>
+
           <CardContent>
             <Table>
               <TableHeader>
@@ -108,6 +110,7 @@ const AdminOverviewPage = async () => {
                   <TableHead>ACTIONS</TableHead>
                 </TableRow>
               </TableHeader>
+
               <TableBody>
                 {summary.latestSales.map((order) => (
                   <TableRow key={order.id}>
