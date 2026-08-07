@@ -1,7 +1,8 @@
 import z from "zod";
 
-import { formatNumberWithDecimal } from "./utils";
+import { PaymentsMethods } from "@/types";
 import { PAYMENT_METHODS } from "./constants";
+import { formatNumberWithDecimal } from "./utils";
 
 //* Helper for currency validation
 const currency = z
@@ -23,12 +24,17 @@ export const insertProductSchema = z.object({
   description: z
     .string()
     .min(3, "Description must be at least 3 characters long"),
-  stock: z.coerce.number().min(0, "Stock must be a positive number"),
-  images: z.array(z.string()).min(1, "At least one image is required"),
-  isFeatured: z.boolean(),
-  banner: z.string().nullable(),
-  //* The price is validated with a helper
+  stock: z.coerce.number(),
+  // images: z.array(z.string()).min(1, "At least one image is required"),
+  // isFeatured: z.boolean(),
+  // banner: z.string().nullable(),
+  //? The price is validated with a helper
   price: currency,
+});
+
+//* Schema for updating products extends the insert product schema and adds an id field
+export const updateProductSchema = insertProductSchema.extend({
+  id: z.string().min(1, "Product ID is required"),
 });
 
 //* Schema for user login
@@ -92,7 +98,7 @@ export const paymentMethodSchema = z
   .object({
     type: z.string().min(1, "Payment method type is required"),
   })
-  .refine((data) => PAYMENT_METHODS.includes(data.type), {
+  .refine((data) => PAYMENT_METHODS.includes(data.type as PaymentsMethods), {
     message: "Invalid payment method",
     path: ["type"],
   });
@@ -104,10 +110,12 @@ export const insertOrderSchema = z.object({
   shippingPrice: currency,
   taxPrice: currency,
   totalPrice: currency,
-  paymentMethod: z.string().refine((data) => PAYMENT_METHODS.includes(data), {
-    message: "Invalid payment method",
-    // path: ["paymentMethod"],
-  }),
+  paymentMethod: z
+    .string()
+    .refine((data) => PAYMENT_METHODS.includes(data as PaymentsMethods), {
+      message: "Invalid payment method",
+      // path: ["paymentMethod"],
+    }),
   shippingAddress: shippingAddressSchema,
 });
 

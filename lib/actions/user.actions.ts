@@ -116,7 +116,7 @@ export async function updateUserAddress(shippingAddress: ShippingAddress) {
   } catch (error) {
     return {
       success: false,
-      message: await formatError(error),
+      message: formatError(error),
     };
   }
 }
@@ -147,7 +147,7 @@ export async function updateUserPaymentMethod(
   } catch (error) {
     return {
       success: false,
-      message: await formatError(error),
+      message: formatError(error),
     };
   }
 }
@@ -179,7 +179,7 @@ export async function updateProfile(
   } catch (error) {
     return {
       success: false,
-      message: await formatError(error),
+      message: formatError(error),
     };
   }
 }

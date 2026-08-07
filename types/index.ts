@@ -1,5 +1,6 @@
 import z from "zod";
 
+import { PAYMENT_METHODS } from "@/lib/constants";
 import {
   cartItemSchema,
   insertCartSchema,
@@ -9,6 +10,7 @@ import {
   paymentMethodSchema,
   paymentResultSchema,
   shippingAddressSchema,
+  updateProductSchema,
 } from "@/lib/validators";
 
 export type Product = z.infer<typeof insertProductSchema> & {
@@ -36,6 +38,8 @@ export type Order = z.infer<typeof insertOrderSchema> & {
 };
 export type OrderItem = z.infer<typeof insertOrderItemSchema>;
 export type PaymentResult = z.infer<typeof paymentResultSchema>;
+export type InsertProduct = z.infer<typeof insertProductSchema>;
+export type UpdateProduct = z.infer<typeof updateProductSchema>;
 
 export type SalesData = {
   month: string;
@@ -46,3 +50,5 @@ export type ResponseMessage = {
   success: boolean;
   message: string;
 };
+
+export type PaymentsMethods = (typeof PAYMENT_METHODS)[number];

@@ -1,3 +1,5 @@
+import Pagination from "@/components/shared/pagination";
+import DeleteDialog from "@/components/shared/products/delete-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -8,8 +10,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Link } from "@/i18n/routing";
-import { getAllProducts } from "@/lib/actions/product.actions";
-import { appRoutes } from "@/lib/constants";
+import { deleteproduct, getAllProducts } from "@/lib/actions/product.actions";
+import { appRoutes, PAGE_SIZE } from "@/lib/constants";
 import { formatCurrency, formatId } from "@/lib/utils";
 
 const AdminProductsPage = async (props: {
@@ -26,7 +28,9 @@ const AdminProductsPage = async (props: {
 
   const products = await getAllProducts({
     query: searchText,
+    limit: PAGE_SIZE,
     page,
+    category,
   });
 
   return (
@@ -62,17 +66,23 @@ const AdminProductsPage = async (props: {
               <TableCell>{product.category}</TableCell>
               <TableCell>{product.stock}</TableCell>
               <TableCell>{product.rating as string}</TableCell>
-              <TableCell className="felx gap-1">
+              <TableCell className="flex gap-2">
                 <Button size="sm">
                   <Link href={`${appRoutes.ADMIN_PRODUCTS}/${product.id}`}>
                     Edit
                   </Link>
                 </Button>
+
+                <DeleteDialog id={product.id} action={deleteproduct} />
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+
+      {products?.totalPages && products.totalPages > 1 && (
+        <Pagination page={page} totalPages={products.totalPages} />
+      )}
     </div>
   );
 };
