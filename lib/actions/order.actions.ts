@@ -402,3 +402,65 @@ export async function deleteOrderById(id: string) {
     };
   }
 }
+
+//* update COD order as delivered
+export async function updateOrderToDeliveredCOD(orderId: string) {
+  try {
+    const order = await prisma.order.findFirst({
+      where: { id: orderId },
+    });
+
+    if (!order) throw new Error("Order not found");
+
+    if (order.isDelivered) throw new Error("Order is already delivered");
+
+    if (!order.isPaid) throw new Error("Order is not paid yet");
+
+    await prisma.order.update({
+      where: { id: orderId },
+      data: {
+        isDelivered: true,
+        deliveredAt: new Date(),
+      },
+    });
+
+    revalidatePath(`${appRoutes.ORDER}/${orderId}`);
+
+    return {
+      success: true,
+      message: "Order marked as delivered",
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+}
+
+//* Update COD order as paid
+export async function updateOrderToPaidCOD(orderId: string) {
+  try {
+    const order = await prisma.order.findFirst({
+      where: { id: orderId },
+    });
+
+    if (!order) throw new Error("Order not found");
+
+    if (order.isPaid) throw new Error("Order is already paid");
+
+    await prisma.order.update({
+      where: { id: orderId },
+      data: {
+        isPaid: true,
+        paidAt: new Date(),
+      },
+    });
+
+    revalidatePath(`${appRoutes.ORDER}/${orderId}`);
+
+    return {
+      success: true,
+      message: "Order marked as paid",
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+}

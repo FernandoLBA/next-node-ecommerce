@@ -1,18 +1,28 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm, useWatch } from "react-hook-form";
 import slugify from "slugify";
 
 import { useRouter } from "@/i18n/routing";
 import { createProduct, updateProduct } from "@/lib/actions/product.actions";
 import { appRoutes, productDefaultValues } from "@/lib/constants";
+import { UploadButton } from "@/lib/uploadthing";
 import { insertProductSchema, updateProductSchema } from "@/lib/validators";
 import { Product } from "@/types";
 import { toast } from "sonner";
 import z from "zod";
+import AppImage from "../ui/app-image";
 import { Button } from "../ui/button";
-import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
+import { Card, CardContent } from "../ui/card";
+import { Checkbox } from "../ui/checkbox";
+import {
+  Field,
+  FieldContent,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "../ui/field";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 
@@ -72,6 +82,23 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
       router.push(appRoutes.ADMIN_PRODUCTS);
     }
   };
+
+  const images = useWatch({
+    control: form.control,
+    name: "images",
+  });
+  const isFeatured = useWatch({
+    control: form.control,
+    name: "isFeatured",
+  });
+  const banner = useWatch({
+    control: form.control,
+    name: "banner",
+  });
+
+  // const images = form.watch("images");
+  // const isFeatured = form.watch("isFeatured");
+  // const banner = form.watch("banner");
 
   return (
     <form
@@ -136,6 +163,7 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
             )}
           />
         </div>
+
         <div className="flex flex-col md:flex-row gap-5">
           <Controller
             name="category"
@@ -175,6 +203,7 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
             )}
           />
         </div>
+
         <div className="flex flex-col md:flex-row gap-5">
           <Controller
             name="price"
@@ -217,10 +246,101 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
         </div>
 
         <div className="upload-field flex flex-col md:flex-row gap-5">
-          {/* images */}
+          <Controller
+            name="images"
+            control={form.control}
+            render={({ fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="images">Images</FieldLabel>
+                <Card className="relative">
+                  <CardContent className="gap-2 min-h-48">
+                    <div className="flex flex-wrap gap-2">
+                      {images.map((image) => (
+                        <AppImage
+                          key={image}
+                          className="w-20 h-20 object-cover object-center rounded-sm"
+                          width={100}
+                          height={100}
+                          src={image}
+                          alt="Product Image"
+                        />
+                      ))}
+
+                      <UploadButton
+                        className="absolute bottom-2 right-2"
+                        endpoint="imageUploader"
+                        onClientUploadComplete={(res: { url: string }[]) => {
+                          form.setValue("images", [...images, res[0].url]);
+                        }}
+                        onUploadError={(error: Error) => {
+                          toast.error(error.message);
+                        }}
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
         </div>
 
-        <div className="upload-field">{/* isFeatured */}</div>
+        <div className="upload-field">
+          <FieldLabel className="mb-3">Featured Product</FieldLabel>
+          <Card className="relative">
+            <CardContent className="space-y-2">
+              <Controller
+                name="isFeatured"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field
+                    orientation="horizontal"
+                    data-invalid={fieldState.invalid}
+                  >
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      id="isFeatured"
+                      aria-invalid={fieldState.invalid}
+                      className="resize-none"
+                    />
+                    <FieldContent>
+                      <FieldLabel htmlFor="isFeatured">Is Featured?</FieldLabel>
+                    </FieldContent>
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+
+              {isFeatured && banner && (
+                <AppImage
+                  src={banner}
+                  alt="banner image"
+                  className="w-full object-cover object-center rounded-sm"
+                  width={1920}
+                  height={680}
+                />
+              )}
+
+              {isFeatured && !banner && (
+                <UploadButton
+                  className="absolute bottom-2 right-2"
+                  endpoint="imageUploader"
+                  onClientUploadComplete={(res: { url: string }[]) => {
+                    form.setValue("banner", res[0].url);
+                  }}
+                  onUploadError={(error: Error) => {
+                    toast.error(error.message);
+                  }}
+                />
+              )}
+            </CardContent>
+          </Card>
+        </div>
 
         <div>
           <Controller

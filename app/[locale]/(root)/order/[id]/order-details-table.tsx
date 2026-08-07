@@ -5,6 +5,7 @@ import {
   PayPalScriptProvider,
   usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
+import { toast } from "sonner";
 
 import AppImage from "@/components/ui/app-image";
 import { Badge } from "@/components/ui/badge";
@@ -18,14 +19,18 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Link } from "@/i18n/routing";
-import { appRoutes } from "@/lib/constants";
+import {
+  approvePayPalOrder,
+  createPayPalOrder,
+  updateOrderToDeliveredCOD,
+  updateOrderToPaidCOD,
+} from "@/lib/actions/order.actions";
+import { appRoutes, PAYMENT_METHODS } from "@/lib/constants";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
 import { Order } from "@/types";
-import {
-  createPayPalOrder,
-  approvePayPalOrder,
-} from "@/lib/actions/order.actions";
-import { toast } from "sonner";
+import { useTransition } from "react";
+import MarkAsDeliveredButton from "./mark-delivered-button";
+import MarkAsPaidButton from "./mark-paid-button";
 
 const PrintLoadingState = () => {
   const [{ isPending, isRejected }] = usePayPalScriptReducer();
@@ -43,9 +48,11 @@ const PrintLoadingState = () => {
 const OrderDetailsTable = ({
   order,
   payPalClientId,
+  isAdmin,
 }: {
   order: Order;
   payPalClientId: string;
+  isAdmin: boolean;
 }) => {
   const {
     id,
@@ -61,6 +68,8 @@ const OrderDetailsTable = ({
     paidAt,
     deliveredAt,
   } = order;
+  const [isPending, startTransition] = useTransition();
+
   const handleCreatePayPalOrder = async () => {
     const res = await createPayPalOrder(order.id);
 
@@ -79,6 +88,34 @@ const OrderDetailsTable = ({
     } else {
       toast.error(res.message || "Error approving PayPal order");
     }
+  };
+
+  const handlePaid = async () => {
+    startTransition(async () => {
+      const res = await updateOrderToPaidCOD(id);
+
+      if (!res.success) {
+        toast.error(res.message);
+
+        return;
+      }
+
+      toast.success(res.message);
+    });
+  };
+
+  const handleDelivered = async () => {
+    startTransition(async () => {
+      const res = await updateOrderToDeliveredCOD(id);
+
+      if (!res.success) {
+        toast.error(res.message);
+
+        return;
+      }
+
+      toast.success(res.message);
+    });
   };
 
   return (
@@ -183,6 +220,7 @@ const OrderDetailsTable = ({
                 <div>Total</div>
                 <div>{formatCurrency(totalPrice)}</div>
               </div>
+              
               {/* // * PayPal Payment */}
               {!isPaid && paymentMethod === "PayPal" && (
                 <div>
@@ -194,6 +232,18 @@ const OrderDetailsTable = ({
                     />
                   </PayPalScriptProvider>
                 </div>
+              )}
+
+              {/* //* Cash On Delivery */}
+              {isAdmin && !isPaid && paymentMethod === PAYMENT_METHODS[2] && (
+                <MarkAsPaidButton isPending={isPending} action={handlePaid} />
+              )}
+
+              {isAdmin && isPaid && !isDelivered && (
+                <MarkAsDeliveredButton
+                  isPending={isPending}
+                  action={handleDelivered}
+                />
               )}
             </CardContent>
           </Card>

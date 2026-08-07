@@ -39,6 +39,7 @@ const Pagination = ({ page, totalPages, urlParamName }: PaginationProps) => {
       >
         Previous
       </Button>
+
       <Button
         size="lg"
         variant="outline"

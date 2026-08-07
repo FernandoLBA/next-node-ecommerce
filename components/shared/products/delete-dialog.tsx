@@ -41,11 +41,7 @@ const DeleteDialog = ({
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
-      <AlertDialogTrigger>
-        <Button size="sm" variant="destructive">
-          Delete
-        </Button>
-      </AlertDialogTrigger>
+      <AlertDialogTrigger className="btn-danger">Delete</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>

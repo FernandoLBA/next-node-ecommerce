@@ -63,8 +63,8 @@ const AdminOrdersPage = async (props: {
                     ? formatDateTime(order.deliveredAt).dateTime
                     : "Not delivered"}
                 </TableCell>
-                <TableCell className="flex gap-4 items-center">
-                  <Button>
+                <TableCell className="flex-start gap-2">
+                  <Button size="sm">
                     <Link href={`${appRoutes.ORDER}/${order.id}`}>Details</Link>
                   </Button>
 

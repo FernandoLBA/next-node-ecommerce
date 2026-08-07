@@ -2,7 +2,7 @@
 
 /* @variant dark (&:where(.dark, .dark *));  */
 
-@theme inline{
+@theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
@@ -46,7 +46,7 @@
     --popover-foreground: #0a0e1a;
     --primary: #151925;
     --primary-foreground: #f8fafc;
-    --secondary: #FECA29;
+    --secondary: #feca29;
     --secondary-foreground: #232b3b;
     --muted: #f1f5f9;
     --muted-foreground: #6c7684;
@@ -73,7 +73,7 @@
     --popover-foreground: #f8fafc;
     --primary: #f8fafc;
     --primary-foreground: #151925;
-    --secondary: #FECA29;
+    --secondary: #feca29;
     --secondary-foreground: #232b3b;
     --muted: #232b3b;
     --muted-foreground: #8ca0b3;
@@ -134,4 +134,18 @@
   .h3-bold {
     @apply font-bold text-xl lg:text-2xl;
   }
+
+  .btn-danger {
+    @apply bg-red-100 hover:bg-red-200 cursor-pointer rounded-full h-8 px-3 text-red-800;
+  }
+}
+
+/* Uploadthing Button text override */
+html.dark .upload-field .text-white{
+  @apply px-3 rounded-full bg-gray-500 font-bold text-white! hover:bg-gray-600 border-0;
+}
+
+.upload-field .text-white {
+  @apply px-3 rounded-full bg-gray-100 font-bold;
+  color: #232b3b !important;
 }

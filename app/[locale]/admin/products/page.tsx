@@ -66,7 +66,7 @@ const AdminProductsPage = async (props: {
               <TableCell>{product.category}</TableCell>
               <TableCell>{product.stock}</TableCell>
               <TableCell>{product.rating as string}</TableCell>
-              <TableCell className="flex gap-2">
+              <TableCell className="flex-start gap-2">
                 <Button size="sm">
                   <Link href={`${appRoutes.ADMIN_PRODUCTS}/${product.id}`}>
                     Edit
@@ -80,7 +80,7 @@ const AdminProductsPage = async (props: {
         </TableBody>
       </Table>
 
-      {products?.totalPages && products.totalPages > 1 && (
+      {products?.totalPages > 1 && (
         <Pagination page={page} totalPages={products.totalPages} />
       )}
     </div>

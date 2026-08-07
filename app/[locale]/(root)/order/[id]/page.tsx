@@ -1,7 +1,9 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { auth } from "@/auth";
 import { getOrderById } from "@/lib/actions/order.actions";
+import { userRoles } from "@/lib/constants";
 import type { Order, ShippingAddress } from "@/types";
 import OrderDetailsTable from "./order-details-table";
 
@@ -11,6 +13,7 @@ export const metada: Metadata = {
 
 const OrderDetailsPage = async (props: { params: Promise<{ id: string }> }) => {
   const { id } = await props.params;
+  const session = await auth();
 
   const order = await getOrderById(id);
 
@@ -44,6 +47,7 @@ const OrderDetailsPage = async (props: { params: Promise<{ id: string }> }) => {
     <OrderDetailsTable
       order={formattedOrder}
       payPalClientId={process.env.PAYPAL_CLIENT_ID || "sb"}
+      isAdmin={session?.user.role === userRoles.ADMIN || false}
     />
   );
 };

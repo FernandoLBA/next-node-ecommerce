@@ -10,6 +10,13 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   images: {
     qualities: [85, 60, 30, 10],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "utfs.io",
+        port: "",
+      },
+    ],
   },
 };
 
