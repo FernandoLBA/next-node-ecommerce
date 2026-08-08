@@ -11,24 +11,26 @@ import {
 } from "@/components/ui/table";
 import { Link } from "@/i18n/routing";
 import { deleteproduct, getAllProducts } from "@/lib/actions/product.actions";
-import { appRoutes, PAGE_SIZE } from "@/lib/constants";
+import { appRoutes } from "@/lib/constants";
 import { formatCurrency, formatId } from "@/lib/utils";
 
-const AdminProductsPage = async (props: {
+type AdminProductsPageProps = {
   searchParams: Promise<{
     page: string;
     query: string;
     category: string;
   }>;
-}) => {
+};
+
+const AdminProductsPage = async (props: AdminProductsPageProps) => {
   const searchParams = await props.searchParams;
   const page = Number(searchParams.page) || 1;
-  const searchText = searchParams.query || "";
+  const query = searchParams.query || "";
   const category = searchParams.category || "";
 
   const products = await getAllProducts({
-    query: searchText,
-    limit: PAGE_SIZE,
+    query: query,
+    limit: 10,
     page,
     category,
   });
@@ -36,20 +38,20 @@ const AdminProductsPage = async (props: {
   return (
     <div className="space-y-2">
       <div className="flex-between">
-        <div className="flex items-center gap-3">
+        <div className="flex items-baseline gap-3">
           <h1 className="h2-bold">Products</h1>
-          {searchText && (
+          {query && (
             <div>
-              Filtered by <i>&quot;{searchText}&quot;</i>{" "}
-              <Link href={appRoutes.ADMIN_PRODUCTS} />
-              <Button variant="outline" size="sm">
-                Remove Filters
-              </Button>
+              Filtered by <i>&quot;{query}&quot;</i>{" "}
+              <Link href={appRoutes.ADMIN_PRODUCTS}>
+                <Button variant="outline" size="sm">
+                  Remove Filters
+                </Button>
+              </Link>
             </div>
           )}
         </div>
 
-        <h1 className="h2-bold">Products</h1>
         <Button>
           <Link href={appRoutes.ADMIN_PRODUCTS_CREATE}>Create Product</Link>
         </Button>

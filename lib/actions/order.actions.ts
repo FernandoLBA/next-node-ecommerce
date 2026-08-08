@@ -363,24 +363,46 @@ export async function getOrderSummary() {
 export async function getAllOrders({
   limit = PAGE_SIZE,
   page,
+  query,
 }: {
   limit?: number;
   page: number;
+  query: string;
 }) {
-  const data = await prisma.order.findMany({
-    orderBy: { createdAt: "desc" },
-    take: limit,
-    skip: (page - 1) * limit,
-    include: {
-      user: { select: { name: true } },
-    },
-  });
+  const queryFilter: Prisma.OrderWhereInput =
+    query && query !== "all"
+      ? {
+          user: {
+            name: {
+              contains: query,
+              mode: "insensitive",
+            } as Prisma.StringFilter,
+          },
+        }
+      : {};
 
-  const dataCount = await prisma.order.count();
+  const [data, count] = await prisma.$transaction([
+    prisma.order.findMany({
+      orderBy: { createdAt: "desc" },
+      take: limit,
+      skip: (page - 1) * limit,
+      include: {
+        user: { select: { name: true } },
+      },
+      where: {
+        ...queryFilter,
+      },
+    }),
+    prisma.order.count({
+      where: {
+        ...queryFilter,
+      },
+    }),
+  ]);
 
   return {
     data,
-    totalPages: Math.ceil(dataCount / limit),
+    totalPages: Math.ceil(count / limit),
   };
 }
 

@@ -8,13 +8,15 @@ import { redirect } from "@/i18n/routing";
 import { APP_NAME, appRoutes, userRoles } from "@/lib/constants";
 import MainNav from "./main-nav";
 
+type AdminLayoutProps = Readonly<{
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}>;
+
 export default async function AdminLayout({
   children,
   params,
-}: Readonly<{
-  children: React.ReactNode;
-  params: Promise<{ locale: string }>;
-}>) {
+}: AdminLayoutProps) {
   const session = await auth();
   const { locale } = await params;
 

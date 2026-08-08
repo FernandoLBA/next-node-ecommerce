@@ -4,32 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-import { appRoutes } from "@/lib/constants";
+import { navLinks } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
-const links = [
-  {
-    title: "Overview",
-    href: appRoutes.ADMIN_OVERVIEW,
-  },
-  {
-    title: "Products",
-    href: appRoutes.ADMIN_PRODUCTS,
-  },
-  {
-    title: "Orders",
-    href: appRoutes.ADMIN_ORDERS,
-  },
-  {
-    title: "Users",
-    href: appRoutes.ADMIN_USERS,
-  },
-];
+type AdminMainNavProps = React.HTMLAttributes<HTMLElement>;
 
-const AdminMainNav = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLElement>) => {
+const AdminMainNav = ({ className, ...props }: AdminMainNavProps) => {
   const pathname = usePathname();
 
   return (
@@ -37,7 +17,7 @@ const AdminMainNav = ({
       className={cn("flex items-center space-x-4 lg:space-x-6", className)}
       {...props}
     >
-      {links.map((link) => (
+      {navLinks.map((link) => (
         <Link
           key={link.href}
           href={link.href}

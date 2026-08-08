@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import prisma from "@/db/db";
 import { InsertProduct, UpdateProduct } from "@/types";
 import { appRoutes, LATEST_PRODUCTS_LIMIT, PAGE_SIZE } from "../constants";
+import { Prisma } from "../generated/prisma/client";
 import { convertToPlainObject, formatError } from "../utils";
 import { insertProductSchema, updateProductSchema } from "../validators";
 
@@ -50,38 +51,33 @@ export async function getAllProducts({
   page: number;
   category?: string;
 }) {
-  const data = await prisma.product.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
-    where: {
-      name: {
-        contains: query,
-        mode: "insensitive",
-      },
-      category: category
-        ? { contains: category, mode: "insensitive" }
-        : undefined,
-    },
-    skip: (page - 1) * limit,
-    take: limit,
-  });
+  const matchCondition: Prisma.ProductWhereInput =
+    query && query !== "all"
+      ? {
+          name: {
+            contains: query,
+            mode: "insensitive",
+          } as Prisma.StringFilter,
+        }
+      : {};
 
-  const dataCount = await prisma.product.count({
-    where: {
-      name: {
-        contains: query,
-        mode: "insensitive",
+  const [data, count] = await prisma.$transaction([
+    prisma.product.findMany({
+      orderBy: {
+        createdAt: "desc",
       },
-      category: category
-        ? { contains: category, mode: "insensitive" }
-        : undefined,
-    },
-  });
+      skip: (page - 1) * limit,
+      take: limit,
+      where: { ...matchCondition },
+    }),
+    prisma.product.count({
+      where: { ...matchCondition },
+    }),
+  ]);
 
   return {
     data,
-    totalPages: Math.ceil(dataCount / limit),
+    totalPages: Math.ceil(count / limit),
   };
 }
 

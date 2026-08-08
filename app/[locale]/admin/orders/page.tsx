@@ -21,22 +21,40 @@ export const metadata: Metadata = {
   title: "Orders",
 };
 
-const AdminOrdersPage = async (props: {
-  searchParams: Promise<{ page: string }>;
-}) => {
-  const { page = "1" } = await props.searchParams;
-  const orders = await getAllOrders({ page: Number(page), limit: 10 });
+type AdminOrdersPageProps = {
+  searchParams: Promise<{ page: string; query: string }>;
+};
+
+const AdminOrdersPage = async (props: AdminOrdersPageProps) => {
+  const { page = "1", query } = await props.searchParams;
+  const orders = await getAllOrders({
+    page: Number(page),
+    limit: 10,
+    query,
+  });
 
   return (
     <div className="space-y-2">
-      <h1 className="h2-bold">Orders</h1>
+      <div className="flex items-baseline gap-3">
+        <h1 className="h2-bold">Orders</h1>
+        {query && (
+          <div>
+            Filtered by <i>&quot;{query}&quot;</i>{" "}
+            <Link href={appRoutes.ADMIN_PRODUCTS}>
+              <Button variant="outline" size="sm">
+                Remove Filters
+              </Button>
+            </Link>
+          </div>
+        )}
+      </div>
 
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
               <TableHead>ID</TableHead>
-              <TableHead>CUSTOMER</TableHead>
+              <TableHead>BUYER</TableHead>
               <TableHead>DATE</TableHead>
               <TableHead>TOTAL</TableHead>
               <TableHead>PAID</TableHead>

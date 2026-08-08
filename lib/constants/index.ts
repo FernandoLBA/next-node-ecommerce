@@ -82,3 +82,22 @@ export const productDefaultValues = {
   isFeatured: false,
   banner: null,
 };
+
+export const navLinks = [
+  {
+    title: "Overview",
+    href: appRoutes.ADMIN_OVERVIEW,
+  },
+  {
+    title: "Products",
+    href: appRoutes.ADMIN_PRODUCTS,
+  },
+  {
+    title: "Orders",
+    href: appRoutes.ADMIN_ORDERS,
+  },
+  {
+    title: "Users",
+    href: appRoutes.ADMIN_USERS,
+  },
+] as const;
