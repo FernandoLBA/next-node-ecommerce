@@ -3,14 +3,13 @@ import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { routing } from "@/i18n/routing";
-import { LANGUAGES } from "@/lib/constants";
 
 export default async function RootLayout({
   children,
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ locale: (typeof LANGUAGES)[number] }>;
+  params: Promise<{ locale: string }>;
 }>) {
   const { locale } = await params;
 

@@ -15,14 +15,17 @@ export default getRequestConfig(
     requestLocale: GetRequestConfigParams["requestLocale"];
   }) => {
     //* Await the locale requested by the middleware or navigation params
-    let locale = await requestLocale;
+    let locale: (typeof routing.locales)[number] = routing.defaultLocale;
+    const requestedLocale = await requestLocale;
 
     //* If the locale is not defined or not supported, fallback to the default locale
     if (
-      !locale ||
-      !routing.locales.includes(locale as (typeof routing.locales)[number])
+      requestedLocale &&
+      routing.locales.includes(
+        requestedLocale as (typeof routing.locales)[number],
+      )
     ) {
-      locale = routing.defaultLocale;
+      locale = requestedLocale as (typeof routing.locales)[number];
     }
 
     return {
