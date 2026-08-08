@@ -96,10 +96,6 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
     name: "banner",
   });
 
-  // const images = form.watch("images");
-  // const isFeatured = form.watch("isFeatured");
-  // const banner = form.watch("banner");
-
   return (
     <form
       method="POST"
@@ -289,7 +285,7 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
 
         <div className="upload-field">
           <FieldLabel className="mb-3">Featured Product</FieldLabel>
-          <Card className="relative">
+          <Card className={`relative ${isFeatured && !banner && "h-30"}`}>
             <CardContent className="space-y-2">
               <Controller
                 name="isFeatured"

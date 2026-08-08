@@ -28,6 +28,7 @@ const ProductDetailsPage = async (props: {
           <div className="col-span-2">
             <ProductImages images={product.images} />
           </div>
+          
           {/* //* details column */}
           <div className="col-span-2 p-5">
             <div className="flex flex-col gap-6">

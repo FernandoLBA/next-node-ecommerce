@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { toast } from "sonner";
 
 import {
   AlertDialog,
@@ -14,7 +15,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { ResponseMessage } from "@/types";
-import { toast } from "sonner";
 
 const DeleteDialog = ({
   id,

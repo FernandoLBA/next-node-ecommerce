@@ -10,11 +10,11 @@ const ProductImages = ({ images }: { images: string[] }) => {
   return (
     <div className="space-y-4">
       <AppImage
-        className="min-h-75 object-cover object-center"
+        className="max-h-125 object-cover object-center rounded-xl"
         src={images[current]}
         alt="product image"
-        height={1000}
-        width={1000}
+        height={500}
+        width={500}
       />
 
       <div className="flex">
@@ -23,11 +23,17 @@ const ProductImages = ({ images }: { images: string[] }) => {
             key={image}
             onClick={() => setCurrent(index)}
             className={cn(
-              "border border-gray-200 mr-2 hover:border-orange-600 cursor-pointer",
-              current === index && "border-orange-500",
+              "border-3 border-gray-200 mr-2 hover:border-yellow-400 cursor-pointer rounded-xl overflow-hidden",
+              current === index && "border-secondary",
             )}
           >
-            <AppImage src={image} alt="image" height={100} width={100} />
+            <AppImage
+              className="max-h-28 object-cover object-center"
+              src={image}
+              alt="image"
+              height={100}
+              width={100}
+            />
           </div>
         ))}
       </div>

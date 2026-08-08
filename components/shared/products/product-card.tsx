@@ -12,7 +12,7 @@ const ProductCard = ({ product }: { product: Product }) => {
         <Link href={`${appRoutes.PRODUCTS}/${product.slug}`}>
           <AppImage
             containerClassName="p-0 gap-0"
-            className="m-0 p-0"
+            className="m-0 p-0 w-full md:w-75 max-h-75"
             src={product.images[0]}
             alt={product.name}
             height={300}

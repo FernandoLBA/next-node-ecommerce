@@ -20,13 +20,22 @@ export async function getLatestProducts() {
   return convertToPlainObject(data);
 }
 
-//* Get single product by slug
+//* Get single product by it's slug
 export async function getProductBySlug(slug: string) {
   return await prisma.product.findFirst({
     where: {
       slug,
     },
   });
+}
+
+//* Get single product by it's ID
+export async function getProductById(productId: string) {
+  const data = await prisma.product.findFirst({
+    where: { id: productId },
+  });
+
+  return convertToPlainObject(data);
 }
 
 //* Get all products for admin
@@ -122,7 +131,7 @@ export async function updateProduct(data: UpdateProduct) {
 
     await prisma.product.update({
       where: { id: product.id },
-      data: product,
+      data: { ...product, banner: product.isFeatured ? product.banner : null },
     });
 
     revalidatePath(appRoutes.ADMIN_PRODUCTS);
