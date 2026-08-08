@@ -67,7 +67,17 @@ export async function getAllProducts({
     take: limit,
   });
 
-  const dataCount = await prisma.product.count();
+  const dataCount = await prisma.product.count({
+    where: {
+      name: {
+        contains: query,
+        mode: "insensitive",
+      },
+      category: category
+        ? { contains: category, mode: "insensitive" }
+        : undefined,
+    },
+  });
 
   return {
     data,

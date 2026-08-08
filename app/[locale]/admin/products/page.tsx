@@ -38,7 +38,17 @@ const AdminProductsPage = async (props: {
       <div className="flex-between">
         <div className="flex items-center gap-3">
           <h1 className="h2-bold">Products</h1>
+          {searchText && (
+            <div>
+              Filtered by <i>&quot;{searchText}&quot;</i>{" "}
+              <Link href={appRoutes.ADMIN_PRODUCTS} />
+              <Button variant="outline" size="sm">
+                Remove Filters
+              </Button>
+            </div>
+          )}
         </div>
+
         <h1 className="h2-bold">Products</h1>
         <Button>
           <Link href={appRoutes.ADMIN_PRODUCTS_CREATE}>Create Product</Link>

@@ -55,9 +55,13 @@ const OrdersPage = async (props: {
                   {formatCurrency(Number(order.totalPrice))}
                 </TableCell>
                 <TableCell>
-                  {order.isPaid && order.paidAt
-                    ? formatDateTime(order.paidAt).dateTime
-                    : "Not paid"}
+                  {order.isPaid && order.paidAt ? (
+                    <Badge variant="secondary">
+                      {formatDateTime(order.paidAt).dateTime}
+                    </Badge>
+                  ) : (
+                    <Badge variant="destructive">Not paid</Badge>
+                  )}
                 </TableCell>
                 <TableCell>
                   {order.isDelivered && order.deliveredAt ? (
