@@ -18,7 +18,10 @@ export default getRequestConfig(
     let locale = await requestLocale;
 
     //* If the locale is not defined or not supported, fallback to the default locale
-    if (!locale || !routing.locales.includes(locale)) {
+    if (
+      !locale ||
+      !routing.locales.includes(locale as (typeof routing.locales)[number])
+    ) {
       locale = routing.defaultLocale;
     }
 

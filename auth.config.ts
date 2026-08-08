@@ -30,6 +30,7 @@ export const authConfig = {
         /^\/profile/,
         /^\/user\/(.*)/,
         /^\/order\/(.*)/,
+        /^\/admin\/(.*)/,
         /^\/admin/,
       ];
 
