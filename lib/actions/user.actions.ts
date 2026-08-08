@@ -6,7 +6,9 @@ import z from "zod";
 
 import { auth, signIn, signOut } from "@/auth";
 import prisma from "@/db/db";
-import { ShippingAddress } from "@/types";
+import { ShippingAddress, UpdateUser } from "@/types";
+import { revalidatePath } from "next/dist/server/web/spec-extension/revalidate";
+import { appRoutes, PAGE_SIZE } from "../constants";
 import { formatError } from "../utils";
 import {
   paymentMethodSchema,
@@ -175,6 +177,81 @@ export async function updateProfile(
     return {
       success: true,
       message: "User's profile updated successfully",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: formatError(error),
+    };
+  }
+}
+
+//* Get all the users
+export async function getAllUsers({
+  limit = PAGE_SIZE,
+  page,
+}: {
+  limit?: number;
+  page: number;
+}) {
+  const data = await prisma.user.findMany({
+    orderBy: { createdAt: "desc" },
+    take: limit,
+    skip: (page - 1) * limit,
+  });
+
+  const dataCount = await prisma.user.count();
+
+  return {
+    data,
+    totalPages: Math.ceil(dataCount / limit),
+  };
+}
+
+//* Delete a user by ID
+export async function deleteUserById(userId: string) {
+  try {
+    const userExists = await prisma.user.findFirst({ where: { id: userId } });
+
+    if (!userExists) throw new Error("User not found");
+
+    await prisma.user.delete({ where: { id: userId } });
+
+    revalidatePath(appRoutes.ADMIN_USERS);
+
+    return {
+      success: true,
+      message: "User deleted successfully",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: formatError(error),
+    };
+  }
+}
+
+//* Update a user
+export async function updateUser(user: UpdateUser) {
+  try {
+    const userExists = await getUserById(user.id);
+
+    if (!userExists) throw new Error("User not found");
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        name: user.name,
+        role: user.role,
+        updatedAt: new Date(),
+      },
+    });
+
+    revalidatePath(appRoutes.ADMIN_USERS);
+
+    return {
+      success: true,
+      message: "User updated successfully",
     };
   } catch (error) {
     return {

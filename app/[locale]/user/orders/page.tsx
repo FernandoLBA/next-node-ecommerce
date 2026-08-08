@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 import Pagination from "@/components/shared/pagination";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -13,7 +15,6 @@ import {
 import { getMyOrders } from "@/lib/actions/order.actions";
 import { appRoutes } from "@/lib/constants";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "My Orders",
@@ -28,7 +29,7 @@ const OrdersPage = async (props: {
 
   return (
     <div className="space-y-2">
-      <h2 className="h2-bold">Orders</h2>
+      <h1 className="h2-bold">Orders</h1>
 
       <div className="overflow-x-auto">
         <Table>
@@ -59,9 +60,13 @@ const OrdersPage = async (props: {
                     : "Not paid"}
                 </TableCell>
                 <TableCell>
-                  {order.isDelivered && order.deliveredAt
-                    ? formatDateTime(order.deliveredAt).dateTime
-                    : "Not delivered"}
+                  {order.isDelivered && order.deliveredAt ? (
+                    <Badge variant="secondary">
+                      {formatDateTime(order.deliveredAt).dateTime}
+                    </Badge>
+                  ) : (
+                    <Badge variant="destructive">Not delivered</Badge>
+                  )}
                 </TableCell>
                 <TableCell>
                   <Button>

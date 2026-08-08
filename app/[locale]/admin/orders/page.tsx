@@ -2,6 +2,7 @@ import { Metadata } from "next";
 
 import Pagination from "@/components/shared/pagination";
 import DeleteDialog from "@/components/shared/products/delete-dialog";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -28,7 +29,7 @@ const AdminOrdersPage = async (props: {
 
   return (
     <div className="space-y-2">
-      <h2 className="h2-bold">Orders</h2>
+      <h1 className="h2-bold">Orders</h1>
 
       <div className="overflow-x-auto">
         <Table>
@@ -54,14 +55,22 @@ const AdminOrdersPage = async (props: {
                   {formatCurrency(Number(order.totalPrice))}
                 </TableCell>
                 <TableCell>
-                  {order.isPaid && order.paidAt
-                    ? formatDateTime(order.paidAt).dateTime
-                    : "Not paid"}
+                  {order.isPaid && order.paidAt ? (
+                    <Badge variant="secondary">
+                      {formatDateTime(order.paidAt).dateTime}
+                    </Badge>
+                  ) : (
+                    <Badge variant="destructive">Not paid</Badge>
+                  )}
                 </TableCell>
                 <TableCell>
-                  {order.isDelivered && order.deliveredAt
-                    ? formatDateTime(order.deliveredAt).dateTime
-                    : "Not delivered"}
+                  {order.isDelivered && order.deliveredAt ? (
+                    <Badge variant="secondary">
+                      {formatDateTime(order.deliveredAt).dateTime}
+                    </Badge>
+                  ) : (
+                    <Badge variant="destructive">Not delivered</Badge>
+                  )}
                 </TableCell>
                 <TableCell className="flex-start gap-2">
                   <Button size="sm">

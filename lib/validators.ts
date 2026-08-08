@@ -1,7 +1,7 @@
 import z from "zod";
 
 import { PaymentsMethods } from "@/types";
-import { PAYMENT_METHODS } from "./constants";
+import { PAYMENT_METHODS, userRoles } from "./constants";
 import { formatNumberWithDecimal } from "./utils";
 
 //* Helper for currency validation
@@ -141,4 +141,21 @@ export const paymentResultSchema = z.object({
 export const updateUserProfileSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters long"),
   email: z.string().min(3, "Email must be at least 3 characters long"),
+});
+
+//* Schema for update users
+export const updateUserSchema = updateUserProfileSchema.extend({
+  id: z.string().min(1, "User ID is required"),
+  role: z
+    .string()
+    .min(1, "User role is required")
+    .refine(
+      (data) =>
+        Object.values(userRoles).includes(
+          data as typeof userRoles.USER | typeof userRoles.ADMIN,
+        ),
+      {
+        message: "Invalid user role",
+      },
+    ),
 });

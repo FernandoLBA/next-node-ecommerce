@@ -36,6 +36,9 @@ const AdminProductsPage = async (props: {
   return (
     <div className="space-y-2">
       <div className="flex-between">
+        <div className="flex items-center gap-3">
+          <h1 className="h2-bold">Products</h1>
+        </div>
         <h1 className="h2-bold">Products</h1>
         <Button>
           <Link href={appRoutes.ADMIN_PRODUCTS_CREATE}>Create Product</Link>

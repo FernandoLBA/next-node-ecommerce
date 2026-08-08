@@ -54,6 +54,15 @@ export async function getAllProducts({
     orderBy: {
       createdAt: "desc",
     },
+    where: {
+      name: {
+        contains: query,
+        mode: "insensitive",
+      },
+      category: category
+        ? { contains: category, mode: "insensitive" }
+        : undefined,
+    },
     skip: (page - 1) * limit,
     take: limit,
   });

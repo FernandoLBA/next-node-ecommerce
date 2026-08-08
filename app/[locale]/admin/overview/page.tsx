@@ -26,7 +26,7 @@ const AdminOverviewPage = async () => {
 
   return (
     <div className="space-y-2">
-      <h2 className="h2-bold">Dashboard</h2>
+      <h1 className="h2-bold">Dashboard</h1>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 pb-2">
         <Card>

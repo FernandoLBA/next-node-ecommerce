@@ -1,9 +1,9 @@
 import Link from "next/link";
 
 import { auth } from "@/auth";
+import AdminSearch from "@/components/admin/admin-search";
 import Menu from "@/components/shared/header/menu";
 import AppImage from "@/components/ui/app-image";
-import { Input } from "@/components/ui/input";
 import { redirect } from "@/i18n/routing";
 import { APP_NAME, appRoutes, userRoles } from "@/lib/constants";
 import MainNav from "./main-nav";
@@ -43,13 +43,8 @@ export default async function AdminLayout({
             <MainNav className="mx-6" />
 
             <div className="ml-auto flex items-center space-x-4">
-              <div>
-                <Input
-                  type="search"
-                  placeholder="Search..."
-                  className="md:w-25 lg:w-75"
-                />
-              </div>
+              <AdminSearch />
+
               <Menu />
             </div>
           </div>

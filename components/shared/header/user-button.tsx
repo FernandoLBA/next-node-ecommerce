@@ -35,7 +35,7 @@ async function UserButton() {
         render={
           <Button
             variant="ghost"
-            className="relative w-8 h-8 rounded-full ml-2 flex-center bg-gray-200"
+            className="relative w-8 h-8 rounded-full ml-2 flex-center bg-accent"
           >
             {firstInitial}
           </Button>

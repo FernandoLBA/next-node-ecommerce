@@ -44,7 +44,9 @@ const SignUpPage = async (props: {
               height={100}
             />
           </Link>
+
           <CardTitle className="text-center">Create Account</CardTitle>
+          
           <CardDescription className="text-center">
             Enter your information below to sign up
           </CardDescription>

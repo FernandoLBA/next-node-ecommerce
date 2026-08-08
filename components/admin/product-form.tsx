@@ -8,6 +8,7 @@ import { useRouter } from "@/i18n/routing";
 import { createProduct, updateProduct } from "@/lib/actions/product.actions";
 import { appRoutes, productDefaultValues } from "@/lib/constants";
 import { UploadButton } from "@/lib/uploadthing";
+import { cn } from "@/lib/utils";
 import { insertProductSchema, updateProductSchema } from "@/lib/validators";
 import { Product } from "@/types";
 import { toast } from "sonner";
@@ -24,6 +25,7 @@ import {
   FieldLabel,
 } from "../ui/field";
 import { Input } from "../ui/input";
+import LoaderIcon from "../ui/loader-icon";
 import { Textarea } from "../ui/textarea";
 
 type ProductFormProps = {
@@ -115,6 +117,7 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
                   id="name"
                   aria-invalid={fieldState.invalid}
                   placeholder="Enter product name"
+                  disabled={form.formState.isSubmitting}
                 />
                 {fieldState.invalid && (
                   <FieldError errors={[fieldState.error]} />
@@ -133,13 +136,17 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
                   <Input
                     {...field}
                     id="slug"
-                    disabled={form.getValues("name").length > 0}
+                    disabled={
+                      form.getValues("name").length > 0 ||
+                      form.formState.isSubmitting
+                    }
                     aria-invalid={fieldState.invalid}
                     placeholder="Enter slug"
                   />
                   <Button
                     type="button"
-                    className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-1"
+                    className="px-4 py-1"
+                    disabled={form.formState.isSubmitting}
                     onClick={() =>
                       form.setValue(
                         "slug",
@@ -172,6 +179,7 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
                   id="category"
                   aria-invalid={fieldState.invalid}
                   placeholder="Enter category"
+                  disabled={form.formState.isSubmitting}
                 />
                 {fieldState.invalid && (
                   <FieldError errors={[fieldState.error]} />
@@ -191,6 +199,7 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
                   id="brand"
                   aria-invalid={fieldState.invalid}
                   placeholder="Enter brand"
+                  disabled={form.formState.isSubmitting}
                 />
                 {fieldState.invalid && (
                   <FieldError errors={[fieldState.error]} />
@@ -212,6 +221,7 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
                   id="price"
                   aria-invalid={fieldState.invalid}
                   placeholder="Enter price"
+                  disabled={form.formState.isSubmitting}
                 />
                 {fieldState.invalid && (
                   <FieldError errors={[fieldState.error]} />
@@ -232,6 +242,7 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
                   id="stock"
                   aria-invalid={fieldState.invalid}
                   placeholder="Enter stock"
+                  disabled={form.formState.isSubmitting}
                 />
                 {fieldState.invalid && (
                   <FieldError errors={[fieldState.error]} />
@@ -271,6 +282,7 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
                         onUploadError={(error: Error) => {
                           toast.error(error.message);
                         }}
+                        disabled={form.formState.isSubmitting}
                       />
                     </div>
                   </CardContent>
@@ -285,7 +297,9 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
 
         <div className="upload-field">
           <FieldLabel className="mb-3">Featured Product</FieldLabel>
-          <Card className={`relative ${isFeatured && !banner && "h-30"}`}>
+          <Card
+            className={cn("relative", `${isFeatured && !banner && "h-30"}`)}
+          >
             <CardContent className="space-y-2">
               <Controller
                 name="isFeatured"
@@ -301,6 +315,7 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
                       id="isFeatured"
                       aria-invalid={fieldState.invalid}
                       className="resize-none"
+                      disabled={form.formState.isSubmitting}
                     />
                     <FieldContent>
                       <FieldLabel htmlFor="isFeatured">Is Featured?</FieldLabel>
@@ -332,6 +347,7 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
                   onUploadError={(error: Error) => {
                     toast.error(error.message);
                   }}
+                  disabled={form.formState.isSubmitting}
                 />
               )}
             </CardContent>
@@ -351,6 +367,7 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
                   aria-invalid={fieldState.invalid}
                   className="resize-none"
                   placeholder="Enter product description"
+                  disabled={form.formState.isSubmitting}
                 />
                 {fieldState.invalid && (
                   <FieldError errors={[fieldState.error]} />
@@ -367,7 +384,14 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
           disabled={form.formState.isSubmitting}
           className="button col-span-2 w-full"
         >
-          {form.formState.isSubmitting ? "Submitting..." : `${type} product`}
+          {form.formState.isSubmitting ? (
+            <>
+              <LoaderIcon />
+              Submitting...
+            </>
+          ) : (
+            `${type} product`
+          )}
         </Button>
       </div>
     </form>

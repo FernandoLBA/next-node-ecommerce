@@ -14,12 +14,12 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import LoaderIcon from "@/components/ui/loader-icon";
 import { updateProfile } from "@/lib/actions/user.actions";
 import { updateUserProfileSchema } from "@/lib/validators";
 
 const ProfileForm = () => {
   const { data: session, update } = useSession();
-  console.log("🚀 ~ ProfileForm ~ session:", session);
 
   const form = useForm<z.infer<typeof updateUserProfileSchema>>({
     resolver: zodResolver(updateUserProfileSchema),
@@ -30,24 +30,27 @@ const ProfileForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof updateUserProfileSchema>) => {
-    const res = await updateProfile(values);
-    console.log("🚀 ~ onSubmit ~ res:", res)
+    try {
+      const res = await updateProfile(values);
 
-    if (!res.success) {
-      return toast.error(res.message);
+      if (!res.success) {
+        return toast.error(res.message);
+      }
+
+      const newSession = {
+        ...session,
+        user: {
+          ...session?.user,
+          name: values.name,
+        },
+      };
+
+      await update(newSession);
+
+      toast.success(res.message);
+    } catch (error) {
+      toast.error((error as Error).message);
     }
-
-    const newSession = {
-      ...session,
-      user: {
-        ...session?.user,
-        name: values.name,
-      },
-    };
-
-    await update(newSession);
-
-    toast.success(res.message);
   };
 
   return (
@@ -91,6 +94,7 @@ const ProfileForm = () => {
                   id="name"
                   aria-invalid={fieldState.invalid}
                   placeholder="John Doe"
+                  disabled={form.formState.isSubmitting}
                 />
                 {fieldState.invalid && (
                   <FieldError errors={[fieldState.error]} />
@@ -107,7 +111,14 @@ const ProfileForm = () => {
         className="button col-span-2 w-full"
         disabled={form.formState.isSubmitting}
       >
-        {form.formState.isSubmitting ? "Submitting..." : "Update profile"}
+        {form.formState.isSubmitting ? (
+          <>
+            <LoaderIcon />
+            Submitting...
+          </>
+        ) : (
+          "Update profile"
+        )}
       </Button>
     </form>
   );

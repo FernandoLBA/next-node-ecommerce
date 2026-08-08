@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 const CreateProductPage = () => {
   return (
     <>
-      <h2 className="h2-bold">Create Product</h2>
+      <h1 className="h2-bold">Create Product</h1>
       <div className="my-8">
         <ProductForm type="Create" productId="1" product={{} as Product} />
       </div>
