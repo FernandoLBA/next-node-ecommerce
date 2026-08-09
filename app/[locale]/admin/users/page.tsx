@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/table";
 import { Link } from "@/i18n/routing";
 import { deleteUserById, getAllUsers } from "@/lib/actions/user.actions";
-import { appRoutes, userRoles } from "@/lib/constants";
+import { ADMIN_PAGE_SIZE, appRoutes, userRoles } from "@/lib/constants";
 import { formatId } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -28,7 +28,11 @@ const AdminUsersPage = async (props: {
   }>;
 }) => {
   const { page = "1", query } = await props.searchParams;
-  const users = await getAllUsers({ page: Number(page), query });
+  const users = await getAllUsers({
+    page: Number(page),
+    query,
+    limit: ADMIN_PAGE_SIZE,
+  });
 
   return (
     <div className="space-y-2">

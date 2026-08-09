@@ -9,6 +9,8 @@ export const DEFAULT_PAYMENT_METHOD = "PayPal";
 export const LANGUAGES = ["en", "es"] as const;
 export const DEFAULT_LANGUAGE = "es";
 export const PAGE_SIZE = 5;
+export const ADMIN_PAGE_SIZE = 10;
+export const CAROUSEL_DELAY = 5000;
 
 export const appRoutes = {
   HOME: "/",
@@ -41,6 +43,7 @@ export const appRoutes = {
   FORGOT_PASSWORD: "/forgot-password",
 
   ERROR: "/error",
+  SEARCH: "/search",
 } as const;
 
 export const userRoles = {

@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/table";
 import { Link } from "@/i18n/routing";
 import { deleteOrderById, getAllOrders } from "@/lib/actions/order.actions";
-import { appRoutes } from "@/lib/constants";
+import { ADMIN_PAGE_SIZE, appRoutes } from "@/lib/constants";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -29,7 +29,7 @@ const AdminOrdersPage = async (props: AdminOrdersPageProps) => {
   const { page = "1", query } = await props.searchParams;
   const orders = await getAllOrders({
     page: Number(page),
-    limit: 10,
+    limit: ADMIN_PAGE_SIZE,
     query,
   });
 

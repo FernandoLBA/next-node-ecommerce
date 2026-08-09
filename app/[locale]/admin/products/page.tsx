@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/table";
 import { Link } from "@/i18n/routing";
 import { deleteproduct, getAllProducts } from "@/lib/actions/product.actions";
-import { appRoutes } from "@/lib/constants";
+import { ADMIN_PAGE_SIZE, appRoutes } from "@/lib/constants";
 import { formatCurrency, formatId } from "@/lib/utils";
 
 type AdminProductsPageProps = {
@@ -30,7 +30,7 @@ const AdminProductsPage = async (props: AdminProductsPageProps) => {
 
   const products = await getAllProducts({
     query,
-    limit: 10,
+    limit: ADMIN_PAGE_SIZE,
     page,
     category,
   });
@@ -63,6 +63,7 @@ const AdminProductsPage = async (props: AdminProductsPageProps) => {
             <TableHead>ID</TableHead>
             <TableHead>NAME</TableHead>
             <TableHead className="text-right">PRICE</TableHead>
+            <TableHead>BRAND</TableHead>
             <TableHead>CATEGORY</TableHead>
             <TableHead>STOCK</TableHead>
             <TableHead>RATING</TableHead>
@@ -78,6 +79,7 @@ const AdminProductsPage = async (props: AdminProductsPageProps) => {
               <TableCell className="text-right">
                 {formatCurrency(product.price as string)}
               </TableCell>
+              <TableCell>{product.brand}</TableCell>
               <TableCell>{product.category}</TableCell>
               <TableCell>{product.stock}</TableCell>
               <TableCell>{product.rating as string}</TableCell>
