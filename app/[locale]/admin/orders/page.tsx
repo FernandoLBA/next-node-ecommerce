@@ -40,7 +40,7 @@ const AdminOrdersPage = async (props: AdminOrdersPageProps) => {
         {query && (
           <div>
             Filtered by <i>&quot;{query}&quot;</i>{" "}
-            <Link href={appRoutes.ADMIN_PRODUCTS}>
+            <Link href={appRoutes.ADMIN_ORDERS}>
               <Button variant="outline" size="sm">
                 Remove Filters
               </Button>

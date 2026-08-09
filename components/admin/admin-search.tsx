@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { usePathname } from "@/i18n/routing";
 import { appRoutes } from "@/lib/constants";

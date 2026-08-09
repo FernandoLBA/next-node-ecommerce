@@ -9,6 +9,7 @@ import prisma from "@/db/db";
 import { ShippingAddress, UpdateUser } from "@/types";
 import { revalidatePath } from "next/dist/server/web/spec-extension/revalidate";
 import { appRoutes, PAGE_SIZE } from "../constants";
+import { Prisma } from "../generated/prisma/browser";
 import { formatError } from "../utils";
 import {
   paymentMethodSchema,
@@ -190,21 +191,37 @@ export async function updateProfile(
 export async function getAllUsers({
   limit = PAGE_SIZE,
   page,
+  query,
 }: {
   limit?: number;
   page: number;
+  query: string;
 }) {
-  const data = await prisma.user.findMany({
-    orderBy: { createdAt: "desc" },
-    take: limit,
-    skip: (page - 1) * limit,
-  });
+  const matchCondition: Prisma.UserWhereInput =
+    query && query !== "all"
+      ? {
+          name: {
+            contains: query,
+            mode: "insensitive",
+          } as Prisma.StringFilter,
+        }
+      : {};
 
-  const dataCount = await prisma.user.count();
+  const [data, count] = await prisma.$transaction([
+    prisma.user.findMany({
+      orderBy: { createdAt: "desc" },
+      take: limit,
+      skip: (page - 1) * limit,
+      where: { ...matchCondition },
+    }),
+    prisma.user.count({
+      where: { ...matchCondition },
+    }),
+  ]);
 
   return {
     data,
-    totalPages: Math.ceil(dataCount / limit),
+    totalPages: Math.ceil(count / limit),
   };
 }
 

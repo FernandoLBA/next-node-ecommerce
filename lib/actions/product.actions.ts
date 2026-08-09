@@ -162,3 +162,15 @@ export async function updateProduct(data: UpdateProduct) {
     };
   }
 }
+
+//* Get all categories
+export async function getAllCategories() {
+  const productDelegate = prisma.product as Prisma.ProductDelegate;
+
+  const data = await productDelegate.groupBy({
+    by: ["category"],
+    _count: true,
+  });
+
+  return data;
+}

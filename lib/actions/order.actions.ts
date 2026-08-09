@@ -369,7 +369,7 @@ export async function getAllOrders({
   page: number;
   query: string;
 }) {
-  const queryFilter: Prisma.OrderWhereInput =
+  const matchCondition: Prisma.OrderWhereInput =
     query && query !== "all"
       ? {
           user: {
@@ -390,12 +390,12 @@ export async function getAllOrders({
         user: { select: { name: true } },
       },
       where: {
-        ...queryFilter,
+        ...matchCondition,
       },
     }),
     prisma.order.count({
       where: {
-        ...queryFilter,
+        ...matchCondition,
       },
     }),
   ]);
