@@ -2,12 +2,14 @@ import type { ImageProps } from "next/image";
 import Image from "next/image";
 
 import { cn } from "@/lib/utils";
+import { CSSProperties } from "react";
 
 type BaseProps = Omit<ImageProps, "fill" | "style"> & {
   containerClassName?: string;
   quality?: number;
   sizes?: string;
   preload?: boolean;
+  style?: CSSProperties;
 };
 
 type FillProps = BaseProps & {
@@ -44,6 +46,7 @@ export default function AppImage({
           src={props.src}
           alt={props.alt}
           className={cn("object-cover", props.className)}
+          style={props.style ?? { height: "auto" }}
           fill
           loading="eager"
           quality={quality}

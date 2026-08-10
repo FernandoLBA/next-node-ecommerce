@@ -10,7 +10,7 @@ const ProductImages = ({ images }: { images: string[] }) => {
   return (
     <div className="space-y-4">
       <AppImage
-        className="max-h-125 object-cover object-center rounded-xl"
+        className="max-h-125 w-auto object-cover object-center rounded-xl"
         src={images[current]}
         alt="product image"
         height={500}
@@ -28,11 +28,11 @@ const ProductImages = ({ images }: { images: string[] }) => {
             )}
           >
             <AppImage
-              className="max-h-28 object-cover object-center"
+              className="max-h-16 w-12.5 object-cover object-center"
               src={image}
-              alt="image"
-              height={100}
-              width={100}
+              alt="product thumbnails"
+              height={50}
+              width={50}
             />
           </div>
         ))}

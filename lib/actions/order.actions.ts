@@ -15,7 +15,11 @@ import { insertOrderSchema } from "../validators";
 import { getMyCart } from "./cart.actions";
 import { getUserById } from "./user.actions";
 
-//* Create order and create the order items
+/**
+ * Create order and create the order items
+ * 
+ * @returns 
+ */
 export async function createOrder() {
   try {
     const session = await auth();
@@ -116,7 +120,12 @@ export async function createOrder() {
   }
 }
 
-//* get order by id
+/**
+ * get order by id
+ * 
+ * @param orderId 
+ * @returns 
+ */
 export async function getOrderById(orderId: string) {
   try {
     const data = await prisma.order.findFirst({
@@ -138,7 +147,12 @@ export async function getOrderById(orderId: string) {
   }
 }
 
-//* Create new paypal order
+/**
+ * Create new paypal order
+ * 
+ * @param orderId 
+ * @returns 
+ */
 export async function createPayPalOrder(orderId: string) {
   try {
     //* Get order from database
@@ -176,7 +190,13 @@ export async function createPayPalOrder(orderId: string) {
   }
 }
 
-//* Approve paypal order and update order to paid
+/**
+ * Approve paypal order and update order to paid
+ * 
+ * @param orderId 
+ * @param data 
+ * @returns 
+ */
 export async function approvePayPalOrder(
   orderId: string,
   data: { orderID: string },
@@ -222,7 +242,11 @@ export async function approvePayPalOrder(
   }
 }
 
-//* Update order to paid
+/**
+ * Update order to paid
+ * 
+ * @param param0 
+ */
 export async function updateOrderToPaid({
   orderId,
   paymentResult,
@@ -279,7 +303,12 @@ export async function updateOrderToPaid({
   if (!updatedOrder) throw new Error("Order not found");
 }
 
-// * Get user's orders
+/**
+ * Get user's orders
+ * 
+ * @param param0 
+ * @returns 
+ */
 export async function getMyOrders({
   limit = PAGE_SIZE,
   page,
@@ -308,7 +337,11 @@ export async function getMyOrders({
   };
 }
 
-//* get sales data and order summary for admin dashboard
+/**
+ * get sales data and order summary for admin dashboard
+ * 
+ * @returns 
+ */
 export async function getOrderSummary() {
   //* Get counts for each resource
   const ordersCount = await prisma.order.count();
@@ -359,7 +392,12 @@ export async function getOrderSummary() {
   };
 }
 
-//* Get all orders for admin
+/**
+ * Get all orders for admin
+ * 
+ * @param param0 
+ * @returns 
+ */
 export async function getAllOrders({
   limit = PAGE_SIZE,
   page,
@@ -406,7 +444,12 @@ export async function getAllOrders({
   };
 }
 
-//* Delete an order by id
+/**
+ * Delete an order by id
+ * 
+ * @param id 
+ * @returns 
+ */
 export async function deleteOrderById(id: string) {
   try {
     await prisma.order.delete({ where: { id } });
@@ -425,7 +468,12 @@ export async function deleteOrderById(id: string) {
   }
 }
 
-//* update COD order as delivered
+/**
+ * update COD order as delivered
+ * 
+ * @param orderId 
+ * @returns 
+ */
 export async function updateOrderToDeliveredCOD(orderId: string) {
   try {
     const order = await prisma.order.findFirst({
@@ -457,7 +505,12 @@ export async function updateOrderToDeliveredCOD(orderId: string) {
   }
 }
 
-//* Update COD order as paid
+/**
+ * Update COD order as paid
+ * 
+ * @param orderId 
+ * @returns 
+ */
 export async function updateOrderToPaidCOD(orderId: string) {
   try {
     const order = await prisma.order.findFirst({

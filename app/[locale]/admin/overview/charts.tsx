@@ -3,7 +3,6 @@
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
 import { SalesData } from "@/types";
-import { HeartCrack, HeartCrackIcon, LucideHeartCrack } from "lucide-react";
 
 type ChartsProps = {
   data: {

@@ -2,12 +2,12 @@
 
 import { hashSync } from "bcrypt-ts-edge";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
+import { revalidatePath } from "next/dist/server/web/spec-extension/revalidate";
 import z from "zod";
 
 import { auth, signIn, signOut } from "@/auth";
 import prisma from "@/db/db";
 import { ShippingAddress, UpdateUser } from "@/types";
-import { revalidatePath } from "next/dist/server/web/spec-extension/revalidate";
 import { appRoutes, PAGE_SIZE } from "../constants";
 import { Prisma } from "../generated/prisma/browser";
 import { formatError } from "../utils";
@@ -19,7 +19,13 @@ import {
   updateUserProfileSchema,
 } from "../validators";
 
-//* Sign in the user with credentials
+/**
+ * Sign in the user with credentials
+ * 
+ * @param _prevState 
+ * @param formData 
+ * @returns 
+ */
 export async function signInWithCredentials(
   _prevState: unknown,
   formData: FormData,
@@ -42,12 +48,21 @@ export async function signInWithCredentials(
   }
 }
 
-//* Sign user out
+/**
+ * Sign user out
+ * 
+ */
 export async function signOutUser() {
   await signOut();
 }
 
-//* Sign up user
+/**
+ * Sign up user
+ * 
+ * @param _prevState 
+ * @param formData 
+ * @returns 
+ */
 export async function signUpUser(_prevState: unknown, formData: FormData) {
   try {
     const user = signUpFormSchema.parse({
@@ -84,7 +99,12 @@ export async function signUpUser(_prevState: unknown, formData: FormData) {
   }
 }
 
-//* Get user by ID
+/**
+ * Get user by ID
+ * 
+ * @param userId 
+ * @returns 
+ */
 export async function getUserById(userId: string) {
   const user = await prisma.user.findFirst({
     where: { id: userId },
@@ -95,7 +115,12 @@ export async function getUserById(userId: string) {
   return user;
 }
 
-//* Update the user's address
+/**
+ * Update the user's address
+ * 
+ * @param shippingAddress 
+ * @returns 
+ */
 export async function updateUserAddress(shippingAddress: ShippingAddress) {
   try {
     const session = await auth();
@@ -124,7 +149,12 @@ export async function updateUserAddress(shippingAddress: ShippingAddress) {
   }
 }
 
-//* Update user's payment method
+/**
+ * Update user's payment method
+ * 
+ * @param data 
+ * @returns 
+ */
 export async function updateUserPaymentMethod(
   data: z.infer<typeof paymentMethodSchema>,
 ) {
@@ -155,7 +185,12 @@ export async function updateUserPaymentMethod(
   }
 }
 
-//* Update the user's profile
+/**
+ * Update the user's profile
+ * 
+ * @param user 
+ * @returns 
+ */
 export async function updateProfile(
   user: z.infer<typeof updateUserProfileSchema>,
 ) {
@@ -187,7 +222,12 @@ export async function updateProfile(
   }
 }
 
-//* Get all the users
+/**
+ * Get all the users
+ * 
+ * @param param0 
+ * @returns 
+ */
 export async function getAllUsers({
   limit = PAGE_SIZE,
   page,
@@ -225,7 +265,12 @@ export async function getAllUsers({
   };
 }
 
-//* Delete a user by ID
+/**
+ * Delete a user by ID
+ * 
+ * @param userId 
+ * @returns 
+ */
 export async function deleteUserById(userId: string) {
   try {
     const userExists = await prisma.user.findFirst({ where: { id: userId } });
@@ -248,7 +293,12 @@ export async function deleteUserById(userId: string) {
   }
 }
 
-//* Update a user
+/**
+ * Update a user
+ * 
+ * @param user 
+ * @returns 
+ */
 export async function updateUser(user: UpdateUser) {
   try {
     const userExists = await getUserById(user.id);

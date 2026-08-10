@@ -3,24 +3,46 @@ import qs from "query-string";
 import { twMerge } from "tailwind-merge";
 import { ZodError } from "zod";
 import { $ZodIssue } from "zod/v4/core";
+import { appRoutes } from "./constants";
 
+/**
+ * Join tailwind classes with clsx library
+ *
+ * @param inputs
+ * @returns
+ */
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-//* Converts a Prisma object into a plain JS object to be used in the frontend
+/**
+ * Converts a Prisma object into a plain JS object to be used in the frontend
+ *
+ * @param value
+ * @returns
+ */
 export function convertToPlainObject<T>(value: T): T {
   return JSON.parse(JSON.stringify(value));
 }
 
-//* Formats a number to have 2 decimal places, if there are not decimals it adds .00 at the end
+/**
+ * Formats a number to have 2 decimal places, if there are not decimals it adds .00 at the end
+ *
+ * @param number
+ * @returns
+ */
 export function formatNumberWithDecimal(number: number): string {
   const [int, decimal] = number.toString().split(".");
 
   return decimal ? `${int}.${decimal.padEnd(2, "0")}` : `${int}.00`;
 }
 
-//* Formats Zod and Prisma errors into a user friendly message
+/**
+ * Formats Zod and Prisma errors into a user friendly message
+ *
+ * @param error
+ * @returns
+ */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function formatError(error: any): string {
   if (error instanceof ZodError) {
@@ -45,7 +67,12 @@ export function formatError(error: any): string {
   }
 }
 
-//* Round number to 2 decimal places, if the value is a string it converts it to a number and then rounds it
+/**
+ * Round number to 2 decimal places, if the value is a string it converts it to a number and then rounds it
+ *
+ * @param value
+ * @returns
+ */
 export function round2(value: number | string) {
   if (typeof value === "number") {
     return Math.round((value + Number.EPSILON) * 100) / 100;
@@ -56,7 +83,12 @@ export function round2(value: number | string) {
   }
 }
 
-//* Get the value of a CSS Global Variable
+/**
+ * Get the value of a CSS Global Variable
+ *
+ * @param variableName
+ * @returns
+ */
 export function getCssVariableValue(variableName: string): string {
   //* Guard to prevent execution on the server (SSR), where browser-only APIs like 'getComputedStyle' are unavailable
   if (typeof window === "undefined") return "";
@@ -77,7 +109,12 @@ export const CURRENCY_FORMATTER = new Intl.NumberFormat("en-US", {
   minimumFractionDigits: 2,
 });
 
-//* Format cureency using the above formatter
+/**
+ * Format cureency using the above formatter
+ *
+ * @param amount
+ * @returns
+ */
 export function formatCurrency(amount: number | string | null) {
   if (typeof amount === "number") {
     return CURRENCY_FORMATTER.format(amount);
@@ -91,16 +128,32 @@ export function formatCurrency(amount: number | string | null) {
 //* Format Number
 const NUMBER_FORMATTER = new Intl.NumberFormat("en-US");
 
+/**
+ * Return a formatted number like: 24
+ *
+ * @param number
+ * @returns
+ */
 export function formatNumber(number: number) {
   return NUMBER_FORMATTER.format(number);
 }
 
-//* Shorten UUID
+/**
+ * Shorten UUID like "...76fgBg"
+ *
+ * @param uuid
+ * @returns
+ */
 export function formatId(uuid: string) {
   return `..${uuid.substring(uuid.length - 6)}`;
 }
 
-//* Formats a Date object into various string representations (full date-time, date-only, and time-only)
+/**
+ * Formats a Date object into various string representations (full date-time, date-only, and time-only)
+ *
+ * @param dateString
+ * @returns
+ */
 export const formatDateTime = (dateString: Date) => {
   //* Options for combined date and time formatting (e.g., 'Oct 31, 2023, 12:30 PM')
   const dateTimeOptions: Intl.DateTimeFormatOptions = {
@@ -153,7 +206,12 @@ export const formatDateTime = (dateString: Date) => {
   };
 };
 
-//* Form the pagination links
+/**
+ * Form the pagination links
+ *
+ * @param param0
+ * @returns
+ */
 export function formUrlQuery({
   params,
   key,
@@ -181,4 +239,14 @@ export function formUrlQuery({
       skipNull: true, //? Skip null values in the query string to avoid unnecessary parameters
     },
   );
+}
+
+/**
+ * Converts a search params object into a search url like: ...?query=shorts&category=men&price=10-20
+ *
+ * @param params
+ * @returns
+ */
+export function convertSearchParamsToSearchUrl(params: Record<string, string>) {
+  return `${appRoutes.SEARCH}?${new URLSearchParams(params)}`;
 }

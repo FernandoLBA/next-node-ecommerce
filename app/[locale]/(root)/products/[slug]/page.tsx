@@ -5,10 +5,8 @@ import ProductImages from "@/components/shared/products/product-images";
 import ProductPrice from "@/components/shared/products/product-price";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { getProductBySlug } from "@/lib/actions/product.actions";
 import { getMyCart } from "@/lib/actions/cart.actions";
-
-//? discount base cel y laptop RSQX-3993
+import { getProductBySlug } from "@/lib/actions/product.actions";
 
 const ProductDetailsPage = async (props: {
   params: Promise<{ slug: string }>;
@@ -26,9 +24,11 @@ const ProductDetailsPage = async (props: {
         <div className="grid grid-cols-1 md:grid-cols-5">
           {/* //* images column */}
           <div className="col-span-2">
-            <ProductImages images={product.images} />
+            {product.images.length >= 1 && (
+              <ProductImages images={product.images} />
+            )}
           </div>
-          
+
           {/* //* details column */}
           <div className="col-span-2 p-5">
             <div className="flex flex-col gap-6">

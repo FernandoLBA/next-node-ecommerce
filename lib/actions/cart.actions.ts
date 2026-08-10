@@ -11,7 +11,12 @@ import { appRoutes } from "../constants";
 import { convertToPlainObject, formatError, round2 } from "../utils";
 import { cartItemSchema, insertCartSchema } from "../validators";
 
-//* Calculate cart prices
+/**
+ * Calculate cart prices
+ *
+ * @param items
+ * @returns
+ */
 const calcPrice = (items: CartItem[]) => {
   const itemsPrice = round2(
       items.reduce((acc, item) => acc + Number(item.price) * item.qty, 0),
@@ -28,6 +33,12 @@ const calcPrice = (items: CartItem[]) => {
   };
 };
 
+/**
+ * Add items to cart
+ *
+ * @param data
+ * @returns
+ */
 export async function addItemToCart(data: CartItem) {
   let updatingCart = false;
   try {
@@ -119,6 +130,11 @@ export async function addItemToCart(data: CartItem) {
   }
 }
 
+/**
+ * Get items from cart by session
+ *
+ * @returns
+ */
 export async function getMyCart() {
   try {
     //* Check for cart cookie
@@ -154,6 +170,12 @@ export async function getMyCart() {
   }
 }
 
+/**
+ * Remove items from cart
+ *
+ * @param productId
+ * @returns
+ */
 export async function removeItemFromcart(productId: string) {
   try {
     //* Check for cart cookie

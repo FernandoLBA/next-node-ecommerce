@@ -104,3 +104,32 @@ export const navLinks = [
     href: appRoutes.ADMIN_USERS,
   },
 ] as const;
+
+export const priceRanges = [
+  {
+    name: "All",
+    value: "all",
+  },
+  {
+    name: "$1 - $50",
+    value: "1-50",
+  },
+  {
+    name: "$51 - $100",
+    value: "51-100",
+  },
+  {
+    name: "$101 - $200",
+    value: "101-200",
+  },
+  {
+    name: "$201 - $500",
+    value: "201-500",
+  },
+  {
+    name: "$501 - $1000",
+    value: "501-1000",
+  },
+];
+
+export const ratingRanges = ["all", "1", "2", "3", "4"];

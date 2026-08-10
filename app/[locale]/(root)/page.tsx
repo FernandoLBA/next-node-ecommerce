@@ -8,6 +8,7 @@ import {
 } from "@/lib/actions/product.actions";
 import { LATEST_PRODUCTS_LIMIT } from "@/lib/constants";
 import { Product } from "@/types";
+import ViewAllProductsButton from "@/components/view-all-products-button";
 
 export default async function HomePage() {
   const t = await getTranslations("HomePage");
@@ -25,6 +26,8 @@ export default async function HomePage() {
         title={t("title")}
         limit={LATEST_PRODUCTS_LIMIT}
       />
+
+      <ViewAllProductsButton />
     </>
   );
 }
