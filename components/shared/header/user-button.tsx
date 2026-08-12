@@ -13,8 +13,9 @@ import {
 import { Link } from "@/i18n/routing";
 import { signOutUser } from "@/lib/actions/user.actions";
 import { appRoutes, userRoles } from "@/lib/constants";
+import { FC, PropsWithChildren } from "react";
 
-async function UserButton() {
+export const UserButton: FC<PropsWithChildren> = async ({ children }) => {
   const session = await auth();
 
   if (!session) {
@@ -31,16 +32,19 @@ async function UserButton() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger
-        render={
-          <Button
-            variant="ghost"
-            className="relative w-8 h-8 rounded-full ml-2 flex-center bg-accent"
-          >
-            {firstInitial}
-          </Button>
-        }
-      />
+      <div className="flex items-center gap-2 font-medium">
+        <DropdownMenuTrigger
+          render={
+            <Button
+              variant="ghost"
+              className="relative w-8 h-8 rounded-full ml-2 flex-center bg-accent cursor-pointer"
+            >
+              {firstInitial}
+            </Button>
+          }
+        />
+        {children}
+      </div>
 
       <DropdownMenuContent className="w-56" align="end">
         <DropdownMenuGroup>
@@ -91,6 +95,6 @@ async function UserButton() {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
+};
 
 export default UserButton;

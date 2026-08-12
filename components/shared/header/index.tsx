@@ -2,7 +2,6 @@ import AppImage from "@/components/ui/app-image";
 import { Link } from "@/i18n/routing";
 import { APP_NAME, appRoutes } from "@/lib/constants";
 import Menu from "./menu";
-import CategoryDrawer from "./category-drawer";
 import Search from "./search";
 
 const Header = () => {
@@ -10,11 +9,13 @@ const Header = () => {
     <header className="w-full border-b">
       <div className="wrapper flex-between">
         <div className="flex-start">
-          <CategoryDrawer />
+          {/* <div className="block md:hidden">
+            <CategoryDrawer />
+          </div> */}
 
-          <Link href={appRoutes.HOME} className="flex-start ml-4">
+          <Link href={appRoutes.HOME} className="flex-start">
             <AppImage
-              src="/images/logo.svg"
+              src={`${appRoutes.IMAGES}/logo.svg`}
               alt={`${APP_NAME} logo`}
               height={30}
               width={30}

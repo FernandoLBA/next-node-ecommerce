@@ -3,6 +3,8 @@ import qs from "query-string";
 import { twMerge } from "tailwind-merge";
 import { ZodError } from "zod";
 import { $ZodIssue } from "zod/v4/core";
+
+import { SearchFilters, SortingProductsOptions } from "@/types";
 import { appRoutes } from "./constants";
 
 /**
@@ -249,4 +251,35 @@ export function formUrlQuery({
  */
 export function convertSearchParamsToSearchUrl(params: Record<string, string>) {
   return `${appRoutes.SEARCH}?${new URLSearchParams(params)}`;
+}
+
+/**
+ * Creates the search url with search params
+ *
+ * @param param0
+ * @returns
+ */
+export function getFilterUrl({
+  c, //? category
+  s, //? sort
+  p, //? price
+  r, //? rating
+  pg, //? page
+  ...prevFilters
+}: SearchFilters & {
+  c?: string;
+  s?: SortingProductsOptions;
+  p?: string;
+  r?: string;
+  pg?: string;
+}) {
+  const params: SearchFilters = { ...prevFilters };
+
+  if (c) params.category = c;
+  if (s) params.sort = s;
+  if (p) params.price = p;
+  if (r) params.rating = r;
+  if (pg) params.page = pg;
+
+  return convertSearchParamsToSearchUrl(params);
 }

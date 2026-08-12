@@ -2,6 +2,7 @@
 
 import { Globe } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import { FC, PropsWithChildren } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,7 +17,7 @@ import {
 import { usePathname, useRouter } from "@/i18n/routing";
 import { LANGUAGES } from "@/lib/constants";
 
-const LanguageToggle = () => {
+const LanguageToggle: FC<PropsWithChildren> = ({ children }) => {
   const t = useTranslations("Menu");
   const router = useRouter();
   const pathname = usePathname();
@@ -28,8 +29,11 @@ const LanguageToggle = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger render={<Button variant="ghost" />}>
+      <DropdownMenuTrigger
+        render={<Button className="cursor-pointer" variant="ghost" />}
+      >
         <Globe aria-hidden />
+        {children}
       </DropdownMenuTrigger>
 
       <DropdownMenuContent>

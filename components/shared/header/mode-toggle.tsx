@@ -1,10 +1,10 @@
 "use client";
 
 import { MoonIcon, SunIcon, SunMoon } from "lucide-react";
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
-
 import { useTranslations } from "next-intl";
+import { useTheme } from "next-themes";
+import { FC, PropsWithChildren, useEffect, useState } from "react";
+
 import { Button } from "../../ui/button";
 import {
   DropdownMenu,
@@ -30,7 +30,7 @@ const THEME_ICONS: Record<Theme, React.ElementType> = {
   system: SunMoon,
 };
 
-const ModeToggle = () => {
+const ModeToggle: FC<PropsWithChildren> = ({ children }) => {
   const t = useTranslations("Menu");
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
@@ -49,17 +49,18 @@ const ModeToggle = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger render={<Button variant="ghost" />}>
+      <DropdownMenuTrigger render={<Button variant="ghost" className="cursor-pointer" />}>
         <ActiveIcon aria-hidden />
-        {/* <span className="sr-only">Toggle theme</span> */}
+        {children}
       </DropdownMenuTrigger>
 
       <DropdownMenuContent>
         <DropdownMenuGroup>
           <DropdownMenuLabel>{t("themes.title")}</DropdownMenuLabel>
+
           <DropdownMenuSeparator />
 
-          {THEMES.map(({ value, label }) => (
+          {THEMES.map(({ value }) => (
             <DropdownMenuCheckboxItem
               key={value}
               checked={currentTheme === value}

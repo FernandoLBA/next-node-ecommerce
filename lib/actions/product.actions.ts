@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 
 import prisma from "@/db/db";
-import { InsertProduct, UpdateProduct } from "@/types";
+import { InsertProduct, SortingProductsOptions, UpdateProduct } from "@/types";
 import { appRoutes, LATEST_PRODUCTS_LIMIT, PAGE_SIZE } from "../constants";
 import { Prisma } from "../generated/prisma/client";
 import { convertToPlainObject, formatError } from "../utils";
@@ -74,7 +74,7 @@ export async function getAllProducts({
   category?: string;
   price?: string;
   rating?: string;
-  sort?: string;
+  sort?: SortingProductsOptions;
 }) {
   //* Query filter
   const queryFilter: Prisma.ProductWhereInput =
@@ -111,18 +111,33 @@ export async function getAllProducts({
     ...ratingFilter,
   };
 
+  //* Assign the sort by condition
+  const sortAssigner = (
+    sort?: SortingProductsOptions,
+  ): Prisma.ProductOrderByWithRelationInput => {
+    switch (sort) {
+      case "highest":
+        return { price: "desc" };
+      case "lowest":
+        return { price: "asc" };
+      case "rating":
+        return { rating: "desc" };
+      default:
+        return { createdAt: "desc" };
+    }
+  };
+
+  //* Conditional order assignament
+  const orderBy: Prisma.ProductOrderByWithRelationInput = sortAssigner(sort);
+
   const [data, count] = await prisma.$transaction([
     prisma.product.findMany({
-      orderBy: {
-        createdAt: "desc",
-      },
+      orderBy,
       where,
       skip: (page - 1) * limit,
       take: limit,
     }),
-    prisma.product.count({
-      where,
-    }),
+    prisma.product.count({ where }),
   ]);
 
   return {

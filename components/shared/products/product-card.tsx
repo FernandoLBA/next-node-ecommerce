@@ -7,7 +7,7 @@ import { appRoutes } from "@/lib/constants";
 
 const ProductCard = ({ product }: { product: Product }) => {
   return (
-    <Card className="w-full max-w-full sm:max-w-sm p-0 justify-between rounded-xl md:rounded-4xl">
+    <Card className="w-full max-w-full sm:max-w-sm p-0 justify-between rounded-md">
       <CardHeader className="p-0 gap-0 items-center">
         <Link href={`${appRoutes.PRODUCTS}/${product.slug}`}>
           <AppImage

@@ -1,3 +1,5 @@
+import { MenuIcon } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -10,7 +12,7 @@ import {
 } from "@/components/ui/drawer";
 import { Link } from "@/i18n/routing";
 import { getAllCategories } from "@/lib/actions/product.actions";
-import { MenuIcon } from "lucide-react";
+import { priceRanges } from "@/lib/constants";
 
 const CategoryDrawer = async () => {
   const categories = await getAllCategories();
@@ -39,6 +41,21 @@ const CategoryDrawer = async () => {
               <Link href={`/search?category=${c.category}`}>
                 {c.category} ({c._count})
               </Link>
+            </Button>
+          ))}
+        </div>
+
+        <DrawerHeader>
+          <DrawerTitle>Price</DrawerTitle>
+        </DrawerHeader>
+        <div className="px-2 mt-4 space-y-1">
+          {priceRanges.map((c) => (
+            <Button
+              className="w-full justify-start"
+              key={c.value}
+              variant="ghost"
+            >
+              <Link href={`/search?price=${c.value}`}>{c.name}</Link>
             </Button>
           ))}
         </div>

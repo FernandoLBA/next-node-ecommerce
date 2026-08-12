@@ -23,16 +23,18 @@ const prismaClientSingleton = () => {
     result: {
       product: {
         price: {
+          needs: { price: true },
           //* Convert Decimal values to strings when fetching results.
           //* This avoids serialization errors when passing data from Server Components to Client Components.
           compute(product) {
-            return product.price.toString();
+            return product.price.toString() ?? "0";
           },
         },
         rating: {
+          needs: { rating: true },
           //* Apply the same logic to the rating field for consistency.
           compute(product) {
-            return product.rating.toString();
+            return product.rating.toString() ?? "0";
           },
         },
       },

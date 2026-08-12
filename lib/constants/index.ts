@@ -11,9 +11,11 @@ export const DEFAULT_LANGUAGE = "es";
 export const PAGE_SIZE = 5;
 export const ADMIN_PAGE_SIZE = 10;
 export const CAROUSEL_DELAY = 5000;
+export const RATING_RANGES = ["all", "1", "2", "3", "4"] as const;
 
 export const appRoutes = {
   HOME: "/",
+  IMAGES: "/images",
 
   ADMIN: "/admin",
   ADMIN_OVERVIEW: "/admin/overview",
@@ -132,4 +134,11 @@ export const priceRanges = [
   },
 ];
 
-export const ratingRanges = ["all", "1", "2", "3", "4"];
+export const sortingOrders = {
+  newest: "newest",
+  highest: "highest",
+  lowest: "lowest",
+  rating: "rating",
+};
+
+export const SORTING_ORDERS_VALUES = Object.values(sortingOrders);

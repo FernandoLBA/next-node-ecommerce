@@ -1,15 +1,17 @@
 import { EllipsisVertical, ShoppingCart } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Link } from "@/i18n/routing";
+import { getAllCategories } from "@/lib/actions/product.actions";
 import { appRoutes } from "@/lib/constants";
-import { getTranslations } from "next-intl/server";
 import { Button } from "../../ui/button";
 import LanguageToggle from "./language-toggle";
 import ModeToggle from "./mode-toggle";
@@ -17,6 +19,7 @@ import UserButton from "./user-button";
 
 const Menu = async () => {
   const t = await getTranslations("Menu");
+  const categories = await getAllCategories();
 
   return (
     <div className="space-x-2">
@@ -26,14 +29,14 @@ const Menu = async () => {
 
         <Button variant="ghost">
           <Link href={appRoutes.CART} className="flex-between gap-1">
-            <ShoppingCart /> {t("cartTitle")}
+            <ShoppingCart />
           </Link>
         </Button>
 
         <UserButton />
       </nav>
 
-      <nav className="md:hidden">
+      <nav className="block md:hidden">
         <Sheet>
           <SheetTrigger className="align-middle">
             <EllipsisVertical />
@@ -44,17 +47,40 @@ const Menu = async () => {
               <SheetTitle>{t("title")}</SheetTitle>
             </SheetHeader>
 
-            <div className="flex flex-col gap-6">
-              <ModeToggle />
-              <LanguageToggle />
+            <div className="flex flex-col w-full items-start gap-2 pl-3">
+              <ModeToggle>Theme</ModeToggle>
+
+              <LanguageToggle>Language</LanguageToggle>
 
               <Button variant="ghost">
-                <Link href={appRoutes.CART}>
-                  <ShoppingCart />
+                <Link className="flex gap-2" href={appRoutes.CART}>
+                  <ShoppingCart /> {t("cartTitle")}
                 </Link>
               </Button>
 
-              <UserButton />
+              <UserButton>Account</UserButton>
+            </div>
+
+            <SheetHeader>
+              <SheetTitle>Categories</SheetTitle>
+
+              <SheetDescription>
+                Navigate in our exclusive departmanets and find that thing that
+                you don&apos;t know but you need
+              </SheetDescription>
+            </SheetHeader>
+
+            <div className="w-full px-6">
+              <ul className="flex justify-start flex-col gap-2">
+                {categories.map((c) => (
+                  <Link
+                    key={c.category}
+                    href={`${appRoutes.SEARCH}?category=${c.category}`}
+                  >
+                    {c.category}({c._count})
+                  </Link>
+                ))}
+              </ul>
             </div>
           </SheetContent>
         </Sheet>
