@@ -1,3 +1,4 @@
+import { DEFAULT_CURRENCY_SYMBOL } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 const ProductPrice = ({
@@ -10,7 +11,7 @@ const ProductPrice = ({
   const [int, decimal] = value.toString().split(".");
   return (
     <p className={cn("text-2xl", className)}>
-      <span className="text-xs align-super">$</span>
+      <span className="text-xs align-super">{DEFAULT_CURRENCY_SYMBOL}</span>
       {int}
       <span className="text-xs align-super">{decimal}</span>
     </p>

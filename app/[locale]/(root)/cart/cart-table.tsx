@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRight, Minus, Plus } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useTransition } from "react";
 import { toast } from "sonner";
 
@@ -21,7 +22,6 @@ import { addItemToCart, removeItemFromcart } from "@/lib/actions/cart.actions";
 import { appRoutes } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
 import type { Cart } from "@/types";
-import { useTranslations } from "next-intl";
 
 const CartTable = ({ cart }: { cart?: Cart }) => {
   const router = useRouter();
@@ -79,9 +79,7 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                       <div className="flex-between bg-accent rounded-full">
                         <Button
                           disabled={isAdding || isRemoving}
-                          variant="outline"
                           type="button"
-                          className="bg-white!"
                           onClick={() =>
                             startRemovingTransition(async () => {
                               const res = await removeItemFromcart(
@@ -101,8 +99,6 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
 
                         <Button
                           disabled={isAdding || isRemoving}
-                          className="bg-white!"
-                          variant="outline"
                           type="button"
                           onClick={() =>
                             startAddingTransition(async () => {

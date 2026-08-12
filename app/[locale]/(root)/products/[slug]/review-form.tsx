@@ -2,8 +2,9 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { StarIcon } from "lucide-react";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import z from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -32,40 +33,53 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { reviewFormDefaultValues } from "@/lib/constants";
+import { createUpdateReview } from "@/lib/actions/review.actions";
+import { RATING_REVIEW, reviewFormDefaultValues } from "@/lib/constants";
 import { insertReviewsSchema } from "@/lib/validators";
-
-const RATINGS = [1, 2, 3, 4, 5];
 
 type ReviewFormProps = {
   userId: string;
   productId: string;
-  productSlug: string;
+  onReviewSubmitted: () => void;
 };
 
-const ReviewForm = ({ productId, productSlug, userId }: ReviewFormProps) => {
+const ReviewForm = ({
+  productId,
+  userId,
+  onReviewSubmitted,
+}: ReviewFormProps) => {
   const [open, setOpen] = useState(false);
-  const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.input<typeof insertReviewsSchema>>({
     resolver: zodResolver(insertReviewsSchema),
-    defaultValues: {
-      ...reviewFormDefaultValues,
-      productId,
-      userId,
-    },
+    defaultValues: reviewFormDefaultValues,
   });
 
   const isSubmitting = form.formState.isSubmitting;
 
+  //* Open form handler
   const handleOpenForm = () => {
+    form.setValue("userId", userId);
+    form.setValue("productId", productId);
+
     setOpen(true);
   };
 
-  const onSubmit: SubmitHandler<typeof reviewFormDefaultValues> = async (
-    values: typeof reviewFormDefaultValues,
+  //* Submit form handler
+  const onSubmit: SubmitHandler<z.infer<typeof insertReviewsSchema>> = async (
+    values,
   ) => {
-    console.log("🚀 ~ onSubmit ~ values:", [values]);
+    const res = await createUpdateReview({ ...values, productId });
+
+    if (!res.success) {
+      return toast.error(res.message);
+    }
+
+    setOpen(false);
+
+    onReviewSubmitted();
+
+    toast.success(res.message);
 
     return;
   };
@@ -133,7 +147,7 @@ const ReviewForm = ({ productId, productSlug, userId }: ReviewFormProps) => {
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor="rating">Rating</FieldLabel>
                     <Select
-                      items={RATINGS.map((rate) => ({
+                      items={RATING_REVIEW.map((rate) => ({
                         label: `${rate}`,
                         value: rate,
                       }))}
@@ -147,7 +161,7 @@ const ReviewForm = ({ productId, productSlug, userId }: ReviewFormProps) => {
 
                       <SelectContent>
                         <SelectGroup>
-                          {RATINGS.map((rate) => (
+                          {RATING_REVIEW.map((rate) => (
                             <SelectItem key={rate} value={rate}>
                               {`${rate}`}{" "}
                               {Array.from({ length: rate }).map((_, index) => (

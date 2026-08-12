@@ -5,7 +5,7 @@ import { ZodError } from "zod";
 import { $ZodIssue } from "zod/v4/core";
 
 import { SearchFilters, SortingProductsOptions } from "@/types";
-import { appRoutes } from "./constants";
+import { appRoutes, DEFAULT_CURRENCY } from "./constants";
 
 /**
  * Join tailwind classes with clsx library
@@ -106,7 +106,7 @@ export function getCssVariableValue(variableName: string): string {
 
 //* Currency formatter for USD, it formats the number to have a dollar sign and 2 decimal places, for example 10 becomes $10.00
 export const CURRENCY_FORMATTER = new Intl.NumberFormat("en-US", {
-  currency: "USD",
+  currency: DEFAULT_CURRENCY,
   style: "currency",
   minimumFractionDigits: 2,
 });

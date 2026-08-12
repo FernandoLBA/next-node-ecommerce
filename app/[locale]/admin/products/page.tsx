@@ -1,5 +1,6 @@
 import Pagination from "@/components/shared/pagination";
 import DeleteDialog from "@/components/shared/products/delete-dialog";
+import StarIcon from "@/components/shared/star";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -13,6 +14,7 @@ import { Link } from "@/i18n/routing";
 import { deleteproduct, getAllProducts } from "@/lib/actions/product.actions";
 import { ADMIN_PAGE_SIZE, appRoutes } from "@/lib/constants";
 import { formatCurrency, formatId } from "@/lib/utils";
+import { Star } from "lucide-react";
 
 type AdminProductsPageProps = {
   searchParams: Promise<{
@@ -82,9 +84,14 @@ const AdminProductsPage = async (props: AdminProductsPageProps) => {
               <TableCell>{product.brand}</TableCell>
               <TableCell>{product.category}</TableCell>
               <TableCell>{product.stock}</TableCell>
-              <TableCell>{product.rating as string}</TableCell>
+              <TableCell>
+                <div className="flex items-center gap-2">
+                  <StarIcon />
+                  {product.rating as string}
+                </div>
+              </TableCell>
               <TableCell className="flex-start gap-2">
-                <Button size="sm">
+                <Button size="sm" variant="outline">
                   <Link href={`${appRoutes.ADMIN_PRODUCTS}/${product.id}`}>
                     Edit
                   </Link>

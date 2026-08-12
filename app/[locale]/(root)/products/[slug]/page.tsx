@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import AddToCart from "@/components/shared/products/add-to-cart";
 import ProductImages from "@/components/shared/products/product-images";
 import ProductPrice from "@/components/shared/products/product-price";
+import Rating from "@/components/shared/products/rating";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { getMyCart } from "@/lib/actions/cart.actions";
@@ -39,10 +40,14 @@ const ProductDetailsPage = async (props: {
               <p>
                 {product.brand} {product.category}
               </p>
+
               <h1 className="h3-bold">{product.name}</h1>
-              <p>
-                {product.rating as string} of {product.numReviews} Reviews
-              </p>
+
+              <div className="flex gap-2">
+                <Rating value={Number(product.rating)} /> of{" "}
+                {product.numReviews} Reviews
+              </div>
+
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                 <ProductPrice
                   value={Number(product.price)}
@@ -63,6 +68,7 @@ const ProductDetailsPage = async (props: {
               <CardContent>
                 <div className="mb-2 flex-between">
                   <div>Price</div>
+
                   <div>
                     <ProductPrice value={Number(product.price)} />
                   </div>

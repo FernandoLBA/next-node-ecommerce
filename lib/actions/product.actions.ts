@@ -249,7 +249,7 @@ export async function updateProduct(data: UpdateProduct) {
  * @returns
  */
 export async function getAllCategories() {
-  const productDelegate = prisma.product as Prisma.ProductDelegate; //? ProductDelegate is
+  const productDelegate = prisma.product as Prisma.ProductDelegate; //? ProductDelegate is a product model type, productDelegate is an instance of prisma.ProductDelegate
 
   const data = await productDelegate.groupBy({
     by: ["category"],

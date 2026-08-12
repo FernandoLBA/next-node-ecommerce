@@ -12,6 +12,7 @@ export const PAGE_SIZE = 5;
 export const ADMIN_PAGE_SIZE = 10;
 export const CAROUSEL_DELAY = 5000;
 export const RATING_RANGES = ["all", "1", "2", "3", "4"] as const;
+export const RATING_REVIEW = [1, 2, 3, 4, 5];
 
 export const appRoutes = {
   HOME: "/",
@@ -148,3 +149,23 @@ export const sortingOrders = {
 };
 
 export const SORTING_ORDERS_VALUES = Object.values(sortingOrders);
+
+export const currencies = {
+  USD: {
+    symbol: "$",
+    currency: "USD",
+  },
+  PEN: {
+    symbol: "S/.",
+    currency: "PEN",
+  },
+  EUR: {
+    symbol: "€",
+    currency: "EUR",
+  },
+} as const;
+
+export const CURRENCIES = Object.keys(currencies);
+export const CURRENCY: keyof typeof currencies = "PEN";
+export const DEFAULT_CURRENCY = currencies[CURRENCY].currency;
+export const DEFAULT_CURRENCY_SYMBOL = currencies[CURRENCY].symbol;

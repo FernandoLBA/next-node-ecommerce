@@ -76,7 +76,7 @@ const AdminUsersPage = async (props: {
                   )}
                 </TableCell>
                 <TableCell className="flex-start gap-2">
-                  <Button size="sm">
+                  <Button variant="outline" size="sm">
                     <Link href={`${appRoutes.ADMIN_USERS}/${user.id}`}>
                       Edit
                     </Link>

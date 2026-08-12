@@ -1,15 +1,21 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import z from "zod";
 
 import { auth } from "@/auth";
 import prisma from "@/db/db";
-import { revalidatePath } from "next/cache";
 import { appRoutes } from "../constants";
 import { TransactionClient } from "../generated/prisma/internal/prismaNamespace";
 import { formatError } from "../utils";
 import { insertReviewsSchema } from "../validators";
 
+/**
+ * Creates the review of a product and update the product review property
+ *
+ * @param data
+ * @returns
+ */
 export async function createUpdateReview(
   data: z.infer<typeof insertReviewsSchema>,
 ) {
@@ -18,20 +24,20 @@ export async function createUpdateReview(
 
     if (!session) throw new Error("User not authenticated");
 
-    //* validate and store the review
+    //? validate and store the review
     const review = insertReviewsSchema.parse({
       ...data,
       userId: session.user.id,
     });
 
-    //* Get product that is being reviewed
+    //? Get product that is being reviewed
     const product = await prisma.product.findFirst({
       where: { id: review.productId },
     });
 
     if (!product) throw new Error("Product not found");
 
-    //* CHeck if already reviewed
+    //? CHeck if already reviewed
     const reviewExists = await prisma.review.findFirst({
       where: {
         productId: review.productId,
@@ -92,4 +98,48 @@ export async function createUpdateReview(
       message: formatError(error),
     };
   }
+}
+
+/**
+ * Get all review for a product
+ *
+ * @param param0
+ * @returns
+ */
+export async function getReviews({ productId }: { productId: string }) {
+  const data = await prisma.review.findMany({
+    where: { productId },
+    include: {
+      user: {
+        select: {
+          name: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  return { data };
+}
+
+/**
+ * Get a review written by the current user
+ *
+ * @param param0
+ * @returns
+ */
+export async function getReviewByProductId({
+  productId,
+}: {
+  productId: string;
+}) {
+  const session = await auth();
+
+  if (!session) throw new Error("User is not authenticated");
+
+  return await prisma.review.findFirst({
+    where: { productId, userId: session.user.id },
+  });
 }

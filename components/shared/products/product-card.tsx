@@ -4,10 +4,11 @@ import { Link } from "@/i18n/routing";
 import { Product } from "@/types";
 import ProductPrice from "./product-price";
 import { appRoutes } from "@/lib/constants";
+import Rating from "./rating";
 
 const ProductCard = ({ product }: { product: Product }) => {
   return (
-    <Card className="w-full max-w-full sm:max-w-sm p-0 justify-between rounded-md">
+    <Card className="w-full max-w-full sm:max-w-sm p-0 justify-between">
       <CardHeader className="p-0 gap-0 items-center">
         <Link href={`${appRoutes.PRODUCTS}/${product.slug}`}>
           <AppImage
@@ -29,7 +30,7 @@ const ProductCard = ({ product }: { product: Product }) => {
         </Link>
 
         <div className="flex-between gap-4">
-          <p>{product.rating} Stars</p>
+          <Rating value={Number(product.rating)} />
           {product.stock > 0 ? (
             <ProductPrice value={Number(product.price)} />
           ) : (

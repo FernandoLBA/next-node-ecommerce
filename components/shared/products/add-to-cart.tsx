@@ -16,6 +16,9 @@ function AddToCart({ item, cart }: { item: CartItem; cart?: Cart }) {
   const [isAdding, startAdding] = useTransition();
   const [isRemoving, startRemoving] = useTransition();
 
+  /**
+   * Add items to cart
+   */
   const handleAddToCart = async () => {
     startAdding(async () => {
       const res = await addItemToCart(item);
@@ -28,16 +31,17 @@ function AddToCart({ item, cart }: { item: CartItem; cart?: Cart }) {
       toast.success(res.message, {
         description: `${item.name} added to cart`,
         action: (
-          <div className="w-full flex justify-end">
-            <Button onClick={() => router.push(appRoutes.CART)}>
-              Go To Cart
-            </Button>
-          </div>
+          <Button onClick={() => router.push(appRoutes.CART)}>
+            Go To Cart
+          </Button>
         ),
       });
     });
   };
 
+  /**
+   * Remove items from cart
+   */
   const handleRemoveFromCart = async () => {
     startRemoving(async () => {
       const { success, message } = await removeItemFromcart(item.productId);
@@ -49,23 +53,27 @@ function AddToCart({ item, cart }: { item: CartItem; cart?: Cart }) {
 
       toast.success(message, {
         description: `${item.name} removed from cart`,
+        action:
+          cart && cart.items.length >= 1 ? (
+            <Button onClick={() => router.push(appRoutes.CART)}>
+              Go To Cart
+            </Button>
+          ) : null,
       });
 
       return;
     });
   };
 
-  //* Check if the item already exists in the cart
+  //? Check if the item already exists in the cart
   const existItem =
     cart && cart.items.find((product) => product.productId === item.productId);
 
   return existItem ? (
     <div className="bg-accent rounded-full w-full flex-between">
       <Button
-        className="bg-white!"
         type="button"
         disabled={isAdding || isRemoving}
-        variant="outline"
         onClick={handleRemoveFromCart}
       >
         {isRemoving ? <LoaderIcon /> : <Minus className="w-4 h-4" />}
@@ -74,10 +82,8 @@ function AddToCart({ item, cart }: { item: CartItem; cart?: Cart }) {
       <span>{existItem.qty}</span>
 
       <Button
-        className="bg-white!"
         type="button"
         disabled={isAdding || isRemoving}
-        variant="outline"
         onClick={handleAddToCart}
       >
         {isAdding ? <LoaderIcon /> : <Plus className="w-4 h-4" />}

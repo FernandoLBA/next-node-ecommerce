@@ -93,7 +93,7 @@ const AdminOrdersPage = async (props: AdminOrdersPageProps) => {
                   )}
                 </TableCell>
                 <TableCell className="flex-start gap-2">
-                  <Button size="sm">
+                  <Button size="sm" variant="outline">
                     <Link href={`${appRoutes.ORDER}/${order.id}`}>Details</Link>
                   </Button>
 

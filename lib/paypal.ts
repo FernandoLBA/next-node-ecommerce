@@ -1,3 +1,5 @@
+import { currencies } from "./constants";
+
 const base = process.env.PAYPAL_API_URL || "https://api-m.sandbox.paypal.com";
 
 const api = {
@@ -37,11 +39,12 @@ export const paypal = {
       token,
       body: JSON.stringify({
         intent: "CAPTURE", // ? Set the intent to "CAPTURE" for immediate payment capture
-        purchase_units: [ // ? Specify the purchase units for the order
+        purchase_units: [
+          // ? Specify the purchase units for the order
           {
             amount: {
-              currency_code: "USD",
-              value: price,
+              currency_code: currencies.USD.currency, //? You can use USD only
+              value: price, //TODO: I need to get the convertion fee from PEN to USD, to correctly integrate with paypal and add 4% extra to cover PayPal fee
             },
           },
         ],

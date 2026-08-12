@@ -136,7 +136,7 @@
   }
 
   .btn-danger {
-    @apply bg-red-100 hover:bg-red-200 cursor-pointer rounded-full h-8 px-3 text-red-800;
+    @apply bg-red-100 hover:bg-red-200 cursor-pointer rounded-md h-8 px-3 text-red-800;
   }
 }
 

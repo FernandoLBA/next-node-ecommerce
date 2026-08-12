@@ -124,7 +124,7 @@ const AdminOverviewPage = async () => {
                       {formatCurrency(order.totalPrice as string)}
                     </TableCell>
                     <TableCell>
-                      <Button>
+                      <Button variant="outline">
                         <Link href={`${appRoutes.ORDER}/${order.id}`}>
                           Details
                         </Link>

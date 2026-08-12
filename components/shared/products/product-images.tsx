@@ -1,8 +1,9 @@
 "use client";
 
-import AppImage from "@/components/ui/app-image";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+
+import AppImage from "@/components/ui/app-image";
 
 const ProductImages = ({ images }: { images: string[] }) => {
   const [current, setCurrent] = useState(0);
@@ -17,20 +18,20 @@ const ProductImages = ({ images }: { images: string[] }) => {
         width={500}
       />
 
-      <div className="flex">
+      <div className={cn("flex", images.length === 0 && "hidden")}>
         {images.map((image, index) => (
           <div
             key={image}
             onClick={() => setCurrent(index)}
             className={cn(
-              "border-3 border-gray-200 mr-2 hover:border-yellow-400 cursor-pointer rounded-xl overflow-hidden",
+              "border-2 border-gray-200 mr-2 hover:border-yellow-400 cursor-pointer rounded-xl overflow-hidden",
               current === index && "border-secondary",
             )}
           >
             <AppImage
-              className="max-h-16 w-12.5 object-cover object-center"
+              className="max-h-16 w-auto object-cover object-center"
               src={image}
-              alt="product thumbnails"
+              alt="product image"
               height={50}
               width={50}
             />
