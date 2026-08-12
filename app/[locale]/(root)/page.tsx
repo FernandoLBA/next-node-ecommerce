@@ -27,7 +27,7 @@ export default async function HomePage() {
         limit={LATEST_PRODUCTS_LIMIT}
       />
 
-      <ViewAllProductsButton />
+      {latestProducts.length > 0 && <ViewAllProductsButton />}
     </>
   );
 }

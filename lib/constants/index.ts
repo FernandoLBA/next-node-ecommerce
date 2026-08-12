@@ -88,6 +88,12 @@ export const productDefaultValues = {
   banner: null,
 };
 
+export const reviewFormDefaultValues = {
+  title: "",
+  description: "",
+  rating: 0,
+};
+
 export const navLinks = [
   {
     title: "Overview",

@@ -34,7 +34,7 @@ const ProductCarousel = ({ data }: { data: Product[] }) => {
               <div className="relative mx-auto">
                 <AppImage
                   className="w-full h-auto"
-                  src={product.banner!}
+                  src={product.banner ?? ""}
                   alt="featured product"
                   width={1620}
                   height={680}

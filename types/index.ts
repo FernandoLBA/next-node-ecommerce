@@ -7,6 +7,7 @@ import {
   insertOrderItemSchema,
   insertOrderSchema,
   insertProductSchema,
+  insertReviewsSchema,
   paymentMethodSchema,
   paymentResultSchema,
   shippingAddressSchema,
@@ -44,6 +45,12 @@ export type PaymentResult = z.infer<typeof paymentResultSchema>;
 export type InsertProduct = z.infer<typeof insertProductSchema>;
 export type UpdateProduct = z.infer<typeof updateProductSchema>;
 export type UpdateUser = z.infer<typeof updateUserSchema>;
+
+export type Review = z.infer<typeof insertReviewsSchema> & {
+  id: string;
+  createdAt: Date;
+  user?: { name: string };
+};
 
 export type SalesData = {
   month: string;

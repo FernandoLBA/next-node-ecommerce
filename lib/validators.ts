@@ -4,7 +4,9 @@ import { PaymentsMethods } from "@/types";
 import { PAYMENT_METHODS, userRoles } from "./constants";
 import { formatNumberWithDecimal } from "./utils";
 
-//* Helper for currency validation
+/**
+ * Helper for currency validation
+ */
 const currency = z
   .string()
   .refine(
@@ -12,7 +14,9 @@ const currency = z
     "Price must be a valid number with two decimal places exactly",
   );
 
-//* Schema for insert products
+/**
+ * Schema for insert products
+ */
 export const insertProductSchema = z.object({
   name: z
     .string()
@@ -32,18 +36,24 @@ export const insertProductSchema = z.object({
   price: currency,
 });
 
-//* Schema for updating products extends the insert product schema and adds an id field
+/**
+ * Schema for updating products extends the insert product schema and adds an id field
+ */
 export const updateProductSchema = insertProductSchema.extend({
   id: z.string().min(1, "Product ID is required"),
 });
 
-//* Schema for user login
+/**
+ * Schema for user login
+ */
 export const signInFormSchema = z.object({
   email: z.email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters long"),
 });
 
-//* Schema for user register
+/**
+ * Schema for user register
+ */
 export const signUpFormSchema = z
   .object({
     name: z.string().min(3, "Name must be at least 3 characters long"),
@@ -58,7 +68,9 @@ export const signUpFormSchema = z
     path: ["confirmPassword"],
   });
 
-//* Cart schemas
+/**
+ * Cart schema
+ */
 export const cartItemSchema = z.object({
   productId: z.string().min(1, "Product ID is required"),
   name: z.string().min(1, "Name is required"),
@@ -68,6 +80,9 @@ export const cartItemSchema = z.object({
   price: currency,
 });
 
+/**
+ * Schema to insert items in cart
+ */
 export const insertCartSchema = z.object({
   items: z.array(cartItemSchema),
   itemsPrice: currency,
@@ -78,7 +93,9 @@ export const insertCartSchema = z.object({
   userId: z.string().optional().nullable(),
 });
 
-//* Schema for the shipping address
+/**
+ * Schema for the shipping address
+ */
 export const shippingAddressSchema = z.object({
   fullName: z.string().min(3, "Full name must be at least 3 characters long"),
   streetAddress: z
@@ -93,7 +110,9 @@ export const shippingAddressSchema = z.object({
   lng: z.number().optional(),
 });
 
-//* Schema for payment method
+/**
+ * Schema for payment method
+ */
 export const paymentMethodSchema = z
   .object({
     type: z.string().min(1, "Payment method type is required"),
@@ -103,7 +122,9 @@ export const paymentMethodSchema = z
     path: ["type"],
   });
 
-//* Schema for inserting order
+/**
+ * Schema for inserting order
+ */
 export const insertOrderSchema = z.object({
   userId: z.string().min(1, "User ID is required"),
   itemsPrice: currency,
@@ -119,7 +140,9 @@ export const insertOrderSchema = z.object({
   shippingAddress: shippingAddressSchema,
 });
 
-//* Schema for inserting order item
+/**
+ * Schema for inserting order item
+ */
 export const insertOrderItemSchema = z.object({
   productId: z.string(),
   slug: z.string(),
@@ -129,7 +152,9 @@ export const insertOrderItemSchema = z.object({
   qty: z.number(),
 });
 
-//* Schema fot the PayPal payment result
+/**
+ * Schema fot the PayPal payment result
+ */
 export const paymentResultSchema = z.object({
   id: z.string(),
   status: z.string(),
@@ -137,13 +162,17 @@ export const paymentResultSchema = z.object({
   pricePaid: z.string(),
 });
 
-//* Schema for updating the user profile
+/**
+ * Schema for updating the user profile
+ */
 export const updateUserProfileSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters long"),
   email: z.string().min(3, "Email must be at least 3 characters long"),
 });
 
-//* Schema for update users
+/**
+ * Schema for update users
+ */
 export const updateUserSchema = updateUserProfileSchema.extend({
   id: z.string().min(1, "User ID is required"),
   role: z
@@ -158,4 +187,19 @@ export const updateUserSchema = updateUserProfileSchema.extend({
         message: "Invalid user role",
       },
     ),
+});
+
+/**
+ * Schema to insert reviews
+ */
+export const insertReviewsSchema = z.object({
+  title: z.string().min(3, "Title must be at least 3 characters"),
+  description: z.string().min(3, "Title must be at least 3 characters"),
+  productId: z.string().min(1, "Product is required"),
+  userId: z.string().min(1, "User is required"),
+  rating: z
+    .number()
+    .int()
+    .min(1, "Rating must be at least 1")
+    .max(5, "Rating must be at most 5"),
 });

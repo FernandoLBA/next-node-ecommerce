@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 
+import { auth } from "@/auth";
 import AddToCart from "@/components/shared/products/add-to-cart";
 import ProductImages from "@/components/shared/products/product-images";
 import ProductPrice from "@/components/shared/products/product-price";
@@ -7,10 +8,13 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { getMyCart } from "@/lib/actions/cart.actions";
 import { getProductBySlug } from "@/lib/actions/product.actions";
+import ReviewList from "./review-list";
 
 const ProductDetailsPage = async (props: {
   params: Promise<{ slug: string }>;
 }) => {
+  const session = await auth();
+  const userId = session?.user.id;
   const { slug } = await props.params;
   const product = await getProductBySlug(slug);
 
@@ -92,6 +96,15 @@ const ProductDetailsPage = async (props: {
             </Card>
           </div>
         </div>
+      </section>
+
+      <section className="mt-10">
+        <h2 className="h2-bold">Customer Reviews</h2>
+        <ReviewList
+          userId={userId || ""}
+          productId={product.id || ""}
+          productSlug={product.slug || ""}
+        />
       </section>
     </>
   );

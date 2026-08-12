@@ -65,7 +65,7 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
                       {...field}
                       id="fullName"
                       aria-invalid={fieldState.invalid}
-                      placeholder="John Doe"
+                      placeholder="Insert your fullname"
                     />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
@@ -83,7 +83,7 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
                       {...field}
                       id="streetAddress"
                       aria-invalid={fieldState.invalid}
-                      placeholder="John Doe"
+                      placeholder="Insert your shipping address"
                     />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
@@ -101,7 +101,7 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
                       {...field}
                       id="city"
                       aria-invalid={fieldState.invalid}
-                      placeholder="John Doe"
+                      placeholder="Insert your city"
                     />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
@@ -119,7 +119,7 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
                       {...field}
                       id="postalCode"
                       aria-invalid={fieldState.invalid}
-                      placeholder="123321"
+                      placeholder="Insert your postal code"
                     />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
@@ -137,7 +137,7 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
                       {...field}
                       id="country"
                       aria-invalid={fieldState.invalid}
-                      placeholder="Peru"
+                      placeholder="Insert your country"
                     />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
