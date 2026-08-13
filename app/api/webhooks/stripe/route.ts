@@ -2,24 +2,21 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
 import { updateOrderToPaid } from "@/lib/actions/order.actions";
-import { STRIPE_SECRET_KEY } from "@/lib/constants";
 
 export async function POST(req: NextRequest) {
   //? Build the webhook event
-  const event = Stripe.webhooks.constructEvent(
+  const event = await Stripe.webhooks.constructEvent(
     await req.text(),
     req.headers.get("stripe-signature") as string,
-    STRIPE_SECRET_KEY as string,
+    process.env.STRIPE_WEBHOOK_SECRET as string,
   );
 
-  console.log("Soy el webhook menol");
   //? Check for successfull payment
   if (event.type === "charge.succeeded") {
     const { object } = event.data;
 
-    console.log({ orderId: object.metadata.orderId });
     //? Update order status
-    const res = await updateOrderToPaid({
+    await updateOrderToPaid({
       orderId: object.metadata.orderId,
       paymentResult: {
         id: object.id,
@@ -28,7 +25,6 @@ export async function POST(req: NextRequest) {
         pricePaid: (object.amount / 100).toFixed(),
       },
     });
-    console.log("🚀 ~ POST ~ res:", res);
 
     return NextResponse.json({
       message: "updateOrderToPaid was successfull",
@@ -36,6 +32,6 @@ export async function POST(req: NextRequest) {
   }
 
   return NextResponse.json({
-    message: "Event is no succeeded",
+    message: "Event is no charge.succeeded",
   });
 }

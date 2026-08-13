@@ -254,8 +254,7 @@ export async function updateOrderToPaid({
   orderId: string;
   paymentResult?: PaymentResult;
 }) {
-  console.log("🚀 ~ updateOrderToPaid ~ paymentResult:", paymentResult)
-  //* Get order from database
+  //? Get order from database
   const order = await prisma.order.findFirst({
     where: { id: orderId },
     include: {
@@ -267,7 +266,7 @@ export async function updateOrderToPaid({
 
   if (order.isPaid) throw new Error("Order is already paid");
 
-  // * Transaction to update order and account for product stock
+  //? Transaction to update order and account for product stock
   await (
     prisma.$transaction as unknown as <T>(
       arg: (tx: TransactionClient) => Promise<T>,
