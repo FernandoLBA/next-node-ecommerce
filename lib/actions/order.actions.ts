@@ -254,6 +254,7 @@ export async function updateOrderToPaid({
   orderId: string;
   paymentResult?: PaymentResult;
 }) {
+  console.log("🚀 ~ updateOrderToPaid ~ paymentResult:", paymentResult)
   //* Get order from database
   const order = await prisma.order.findFirst({
     where: { id: orderId },
