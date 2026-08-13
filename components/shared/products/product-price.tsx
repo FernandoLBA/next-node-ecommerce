@@ -10,7 +10,7 @@ const ProductPrice = ({
 }) => {
   const [int, decimal] = value.toString().split(".");
   return (
-    <p className={cn("text-2xl", className)}>
+    <p className={cn("text-lg md:text-2xl", className)}>
       <span className="text-xs align-super">{DEFAULT_CURRENCY_SYMBOL}</span>
       {int}
       <span className="text-xs align-super">{decimal}</span>

@@ -26,11 +26,16 @@ const ProductCard = ({ product }: { product: Product }) => {
         <div className="text-xs">{product.brand}</div>
 
         <Link href={`${appRoutes.PRODUCTS}/${product.slug}`}>
-          <CardTitle>{product.name}</CardTitle>
+          <CardTitle className="text-sm md:text-md">{product.name}</CardTitle>
         </Link>
 
         <div className="flex-between gap-4">
-          <Rating value={Number(product.rating)} />
+          <div className="hidden md:block">
+            <Rating value={Number(product.rating)} size="md" />
+          </div>
+          <div className="block md:hidden">
+            <Rating value={Number(product.rating)} size="sm" />
+          </div>
           {product.stock > 0 ? (
             <ProductPrice value={Number(product.price)} />
           ) : (
