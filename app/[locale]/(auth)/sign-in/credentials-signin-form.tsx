@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Link } from "@/i18n/routing";
 import { signInWithCredentials } from "@/lib/actions/user.actions";
 import { appRoutes, signInDefaultValues } from "@/lib/constants";
+import LoaderIcon from "@/components/ui/loader-icon";
 
 const SignInButton = () => {
   const { pending } = useFormStatus();
@@ -21,7 +22,14 @@ const SignInButton = () => {
       className="w-full"
       variant="default"
     >
-      {pending ? "Signing in..." : "Sign In"}
+      {pending ? (
+        <>
+          <LoaderIcon />
+          Signing in...
+        </>
+      ) : (
+        "Sign In"
+      )}
     </Button>
   );
 };

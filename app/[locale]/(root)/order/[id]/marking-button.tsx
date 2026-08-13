@@ -1,18 +1,25 @@
 import { Button } from "@/components/ui/button";
 import LoaderIcon from "@/components/ui/loader-icon";
 
-type MarkAsPaidButtonProps = {
+type MarkingButtonProps = {
   isPending: boolean;
   action: () => Promise<void>;
+  text: "paid" | "delivered";
 };
 
-const MarkAsPaidButton = ({ isPending, action }: MarkAsPaidButtonProps) => {
+const MarkingButton = ({
+  isPending,
+  action,
+  text: markAs,
+}: MarkingButtonProps) => {
+  const buttonText = `Mark as ${markAs}`;
+
   return (
     <Button className="w-full" disabled={isPending} onClick={action}>
       {isPending && <LoaderIcon className="w-4 h-4" />}
-      {isPending ? "Processing..." : "Mark as Paid"}
+      {isPending ? "Processing..." : buttonText}
     </Button>
   );
 };
 
-export default MarkAsPaidButton;
+export default MarkingButton;

@@ -13,6 +13,9 @@ export const ADMIN_PAGE_SIZE = 10;
 export const CAROUSEL_DELAY = 5000;
 export const RATING_RANGES = ["all", "1", "2", "3", "4"] as const;
 export const RATING_REVIEW = [1, 2, 3, 4, 5];
+export const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
+export const NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY =
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
 
 export const appRoutes = {
   HOME: "/",
@@ -169,3 +172,9 @@ export const CURRENCIES = Object.keys(currencies);
 export const CURRENCY: keyof typeof currencies = "PEN";
 export const DEFAULT_CURRENCY = currencies[CURRENCY].currency;
 export const DEFAULT_CURRENCY_SYMBOL = currencies[CURRENCY].symbol;
+
+export const paymentMethods = {
+  paypal: PAYMENT_METHODS[0],
+  stripe: PAYMENT_METHODS[1],
+  cashOnDelivery: PAYMENT_METHODS[2],
+};

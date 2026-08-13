@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Link } from "@/i18n/routing";
 import { signUpUser } from "@/lib/actions/user.actions";
 import { appRoutes, signUpDefaultValues } from "@/lib/constants";
+import LoaderIcon from "@/components/ui/loader-icon";
 
 const SignUpButton = () => {
   const { pending } = useFormStatus();
@@ -21,7 +22,14 @@ const SignUpButton = () => {
       className="w-full"
       variant="default"
     >
-      {pending ? "Signing up..." : "Sign up"}
+      {pending ? (
+        <>
+          <LoaderIcon />
+          Signing up...
+        </>
+      ) : (
+        "Sign up"
+      )}
     </Button>
   );
 };

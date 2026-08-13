@@ -1,4 +1,5 @@
 import { UserIcon } from "lucide-react";
+import { FC, PropsWithChildren } from "react";
 
 import { auth } from "@/auth";
 import { Button } from "@/components/ui/button";
@@ -13,7 +14,6 @@ import {
 import { Link } from "@/i18n/routing";
 import { signOutUser } from "@/lib/actions/user.actions";
 import { appRoutes, userRoles } from "@/lib/constants";
-import { FC, PropsWithChildren } from "react";
 
 export const UserButton: FC<PropsWithChildren> = async ({ children }) => {
   const session = await auth();

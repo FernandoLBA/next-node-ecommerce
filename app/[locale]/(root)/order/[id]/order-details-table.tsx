@@ -25,12 +25,12 @@ import {
   updateOrderToDeliveredCOD,
   updateOrderToPaidCOD,
 } from "@/lib/actions/order.actions";
-import { appRoutes, PAYMENT_METHODS } from "@/lib/constants";
+import { appRoutes, paymentMethods } from "@/lib/constants";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
 import { Order } from "@/types";
 import { useTransition } from "react";
-import MarkAsDeliveredButton from "./mark-delivered-button";
-import MarkAsPaidButton from "./mark-paid-button";
+import MarkingButton from "./marking-button";
+import StripePayment from "./stripe-payment";
 
 const PrintLoadingState = () => {
   const [{ isPending, isRejected }] = usePayPalScriptReducer();
@@ -49,10 +49,12 @@ const OrderDetailsTable = ({
   order,
   payPalClientId,
   isAdmin,
+  stripeClientSecret = null,
 }: {
   order: Order;
   payPalClientId: string;
   isAdmin: boolean;
+  stripeClientSecret: string | null;
 }) => {
   const {
     id,
@@ -220,9 +222,9 @@ const OrderDetailsTable = ({
                 <div>Total</div>
                 <div>{formatCurrency(totalPrice)}</div>
               </div>
-              
+
               {/* // * PayPal Payment */}
-              {!isPaid && paymentMethod === "PayPal" && (
+              {!isPaid && paymentMethod === paymentMethods.paypal && (
                 <div>
                   <PayPalScriptProvider options={{ clientId: payPalClientId }}>
                     <PrintLoadingState />
@@ -234,15 +236,33 @@ const OrderDetailsTable = ({
                 </div>
               )}
 
-              {/* //* Cash On Delivery */}
-              {isAdmin && !isPaid && paymentMethod === PAYMENT_METHODS[2] && (
-                <MarkAsPaidButton isPending={isPending} action={handlePaid} />
+              {/* //* STRIPE */}
+              {!isPaid && paymentMethod === paymentMethods.stripe && (
+                <div>
+                  <StripePayment
+                    clientSecret={stripeClientSecret as string}
+                    orderId={order.id}
+                    priceInCents={Number(order.totalPrice) * 100}
+                  />
+                </div>
               )}
 
+              {/* //* Cash On Delivery */}
+              {isAdmin &&
+                !isPaid &&
+                paymentMethod === paymentMethods.cashOnDelivery && (
+                  <MarkingButton
+                    isPending={isPending}
+                    action={handlePaid}
+                    text="paid"
+                  />
+                )}
+
               {isAdmin && isPaid && !isDelivered && (
-                <MarkAsDeliveredButton
+                <MarkingButton
                   isPending={isPending}
                   action={handleDelivered}
+                  text="delivered"
                 />
               )}
             </CardContent>

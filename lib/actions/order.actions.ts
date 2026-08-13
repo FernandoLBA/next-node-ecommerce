@@ -17,8 +17,8 @@ import { getUserById } from "./user.actions";
 
 /**
  * Create order and create the order items
- * 
- * @returns 
+ *
+ * @returns
  */
 export async function createOrder() {
   try {
@@ -122,36 +122,36 @@ export async function createOrder() {
 
 /**
  * get order by id
- * 
- * @param orderId 
- * @returns 
+ *
+ * @param orderId
+ * @returns
  */
 export async function getOrderById(orderId: string) {
-  try {
-    const data = await prisma.order.findFirst({
-      where: { id: orderId },
-      include: {
-        orderItems: true,
-        user: { select: { name: true, email: true } },
-      },
-    });
+  // try {
+  const data = await prisma.order.findFirst({
+    where: { id: orderId },
+    include: {
+      orderItems: true,
+      user: { select: { name: true, email: true } },
+    },
+  });
 
-    return convertToPlainObject(data);
-  } catch (error) {
-    if (isRedirectError(error)) throw error;
+  return convertToPlainObject(data);
+  // } catch (error) {
+  //   if (isRedirectError(error)) throw error;
 
-    return {
-      success: false,
-      message: formatError(error),
-    };
-  }
+  //   return {
+  //     success: false,
+  //     message: formatError(error),
+  //   };
+  // }
 }
 
 /**
  * Create new paypal order
- * 
- * @param orderId 
- * @returns 
+ *
+ * @param orderId
+ * @returns
  */
 export async function createPayPalOrder(orderId: string) {
   try {
@@ -192,10 +192,10 @@ export async function createPayPalOrder(orderId: string) {
 
 /**
  * Approve paypal order and update order to paid
- * 
- * @param orderId 
- * @param data 
- * @returns 
+ *
+ * @param orderId
+ * @param data
+ * @returns
  */
 export async function approvePayPalOrder(
   orderId: string,
@@ -244,8 +244,8 @@ export async function approvePayPalOrder(
 
 /**
  * Update order to paid
- * 
- * @param param0 
+ *
+ * @param param0
  */
 export async function updateOrderToPaid({
   orderId,
@@ -305,9 +305,9 @@ export async function updateOrderToPaid({
 
 /**
  * Get user's orders
- * 
- * @param param0 
- * @returns 
+ *
+ * @param param0
+ * @returns
  */
 export async function getMyOrders({
   limit = PAGE_SIZE,
@@ -339,8 +339,8 @@ export async function getMyOrders({
 
 /**
  * get sales data and order summary for admin dashboard
- * 
- * @returns 
+ *
+ * @returns
  */
 export async function getOrderSummary() {
   //* Get counts for each resource
@@ -394,9 +394,9 @@ export async function getOrderSummary() {
 
 /**
  * Get all orders for admin
- * 
- * @param param0 
- * @returns 
+ *
+ * @param param0
+ * @returns
  */
 export async function getAllOrders({
   limit = PAGE_SIZE,
@@ -446,9 +446,9 @@ export async function getAllOrders({
 
 /**
  * Delete an order by id
- * 
- * @param id 
- * @returns 
+ *
+ * @param id
+ * @returns
  */
 export async function deleteOrderById(id: string) {
   try {
@@ -470,9 +470,9 @@ export async function deleteOrderById(id: string) {
 
 /**
  * update COD order as delivered
- * 
- * @param orderId 
- * @returns 
+ *
+ * @param orderId
+ * @returns
  */
 export async function updateOrderToDeliveredCOD(orderId: string) {
   try {
@@ -507,9 +507,9 @@ export async function updateOrderToDeliveredCOD(orderId: string) {
 
 /**
  * Update COD order as paid
- * 
- * @param orderId 
- * @returns 
+ *
+ * @param orderId
+ * @returns
  */
 export async function updateOrderToPaidCOD(orderId: string) {
   try {
