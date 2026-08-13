@@ -12,12 +12,14 @@ export async function POST(req: NextRequest) {
     STRIPE_SECRET_KEY as string,
   );
 
+  console.log("Soy el webhook menol");
   //? Check for successfull payment
   if (event.type === "charge.succeeded") {
     const { object } = event.data;
 
+    console.log({ orderId: object.metadata.orderId });
     //? Update order status
-    await updateOrderToPaid({
+    const res = await updateOrderToPaid({
       orderId: object.metadata.orderId,
       paymentResult: {
         id: object.id,
@@ -26,6 +28,7 @@ export async function POST(req: NextRequest) {
         pricePaid: (object.amount / 100).toFixed(),
       },
     });
+    console.log("🚀 ~ POST ~ res:", res);
 
     return NextResponse.json({
       message: "updateOrderToPaid was successfull",
