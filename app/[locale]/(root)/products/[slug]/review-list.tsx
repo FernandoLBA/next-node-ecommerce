@@ -35,10 +35,14 @@ const ReviewList = ({ userId, productId, productSlug }: ReviewListProps) => {
     };
 
     loadReviews();
-  }, [productId]);
+  }, [productId, userId]);
 
-  const reload = () => {
-    console.log("Review submitted");
+  /**
+   * Reloads reviews after created or updated
+   */
+  const reload = async () => {
+    const res = await getReviews({ productId });
+    setReviews(res.data as Review[]);
   };
 
   return (

@@ -33,7 +33,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { createUpdateReview } from "@/lib/actions/review.actions";
+import {
+  createUpdateReview,
+  getReviewByProductId,
+} from "@/lib/actions/review.actions";
 import { RATING_REVIEW, reviewFormDefaultValues } from "@/lib/constants";
 import { insertReviewsSchema } from "@/lib/validators";
 
@@ -49,6 +52,8 @@ const ReviewForm = ({
   onReviewSubmitted,
 }: ReviewFormProps) => {
   const [open, setOpen] = useState(false);
+  const [alreadyReviewed, setAlreadyReviewed] = useState(false);
+  const textReview = alreadyReviewed ? "Update review" : "Write a review";
 
   const form = useForm<z.input<typeof insertReviewsSchema>>({
     resolver: zodResolver(insertReviewsSchema),
@@ -57,15 +62,31 @@ const ReviewForm = ({
 
   const isSubmitting = form.formState.isSubmitting;
 
-  //* Open form handler
-  const handleOpenForm = () => {
+  /**
+   * Open form handler
+   */
+  const handleOpenForm = async () => {
     form.setValue("userId", userId);
     form.setValue("productId", productId);
+
+    const review = await getReviewByProductId({ productId });
+
+    if (review) {
+      setAlreadyReviewed(true);
+      form.setValue("title", review.title);
+      form.setValue("description", review.description);
+      form.setValue("rating", review.rating);
+    }
 
     setOpen(true);
   };
 
-  //* Submit form handler
+  /**
+   * Submit form handler
+   *
+   * @param values
+   * @returns
+   */
   const onSubmit: SubmitHandler<z.infer<typeof insertReviewsSchema>> = async (
     values,
   ) => {
@@ -86,12 +107,12 @@ const ReviewForm = ({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <Button onClick={handleOpenForm}>Write a review</Button>
+      <Button onClick={handleOpenForm}>{textReview}</Button>
 
       <DialogContent className="sm:max-w-[425px">
         <form method="POST" onSubmit={form.handleSubmit(onSubmit)}>
           <DialogHeader>
-            <DialogTitle>Write a Review</DialogTitle>
+            <DialogTitle>{textReview}</DialogTitle>
 
             <DialogDescription>
               Share your thoughts with other curstomers

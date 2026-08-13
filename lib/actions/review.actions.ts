@@ -33,7 +33,20 @@ export async function createUpdateReview(
     //? Get product that is being reviewed
     const product = await prisma.product.findFirst({
       where: { id: review.productId },
+      select: {
+        slug: true,
+        orderItems: {
+          select: { order: true },
+        },
+      },
     });
+
+    const userBoughtThisProduct = product?.orderItems.some(
+      (p) => p.order.userId === session.user.id,
+    );
+
+    if (!userBoughtThisProduct)
+      throw new Error("You need to buy this product first!");
 
     if (!product) throw new Error("Product not found");
 
