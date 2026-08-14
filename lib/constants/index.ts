@@ -1,22 +1,36 @@
+// * APP CONFIG ############################################
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "Store Name";
 export const APP_DESCRIPTION =
   process.env.NEXT_PUBLIC_APP_DESCRIPTION || "Store Description";
 export const APP_SERVER_URL =
   process.env.NEXT_PUBLIC_APP_SERVER_URL || "http://localhost:3000";
-export const LATEST_PRODUCTS_LIMIT = 10;
-export const PAYMENT_METHODS = ["PayPal", "Stripe", "CashOnDelivery"] as const;
-export const DEFAULT_PAYMENT_METHOD = "PayPal";
-export const LANGUAGES = ["en", "es"] as const;
-export const DEFAULT_LANGUAGE = "es";
+
+// * PAGINATION CONFIG ############################################
 export const PAGE_SIZE = 5;
 export const ADMIN_PAGE_SIZE = 10;
-export const CAROUSEL_DELAY = 5000;
-export const RATING_RANGES = ["all", "1", "2", "3", "4"] as const;
-export const RATING_REVIEW = [1, 2, 3, 4, 5];
+
+// * PAYMENTS CONFIG ############################################
+export const PAYMENT_METHODS = ["PayPal", "Stripe", "CashOnDelivery"] as const;
+export const DEFAULT_PAYMENT_METHOD = "PayPal";
 export const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
 export const NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY =
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
 
+// * PRODUCTS CONFIG ############################################
+export const LATEST_PRODUCTS_LIMIT = 10;
+
+// * LANGUAGES CONFIG ############################################
+export const LANGUAGES = ["en", "es"] as const;
+export const DEFAULT_LANGUAGE = "es";
+
+// * RATING CONFIG ############################################
+export const RATING_RANGES = ["all", "1", "2", "3", "4"] as const;
+export const RATING_REVIEW = [1, 2, 3, 4, 5];
+
+// * CAROUSEL CONFIG ############################################
+export const CAROUSEL_DELAY = 5000;
+
+// * APP ROUTES ############################################
 export const appRoutes = {
   HOME: "/",
   IMAGES: "/images",
@@ -52,11 +66,13 @@ export const appRoutes = {
   SEARCH: "/search",
 } as const;
 
+// * APP ROLES ############################################
 export const userRoles = {
   ADMIN: "admin",
   USER: "user",
 } as const;
 
+// * DEFAULT VALUES FORM ############################################
 export const signInDefaultValues = {
   email: "",
   password: "",
@@ -98,6 +114,7 @@ export const reviewFormDefaultValues = {
   rating: 0,
 };
 
+// * NAVIGATION LINKS ############################################
 export const navLinks = [
   {
     title: "Overview",
@@ -117,6 +134,7 @@ export const navLinks = [
   },
 ] as const;
 
+// * PRICE RANGES FOR FILTERING ############################################
 export const priceRanges = [
   {
     name: "All",
@@ -144,6 +162,7 @@ export const priceRanges = [
   },
 ];
 
+// * SORTING ############################################
 export const sortingOrders = {
   newest: "newest",
   highest: "highest",
@@ -153,6 +172,7 @@ export const sortingOrders = {
 
 export const SORTING_ORDERS_VALUES = Object.values(sortingOrders);
 
+// * APP CURRENCIES ############################################
 export const currencies = {
   USD: {
     symbol: "$",
@@ -173,6 +193,7 @@ export const CURRENCY: keyof typeof currencies = "PEN";
 export const DEFAULT_CURRENCY = currencies[CURRENCY].currency;
 export const DEFAULT_CURRENCY_SYMBOL = currencies[CURRENCY].symbol;
 
+// * APP PAYMENT METHODS ############################################
 export const paymentMethods = {
   paypal: PAYMENT_METHODS[0],
   stripe: PAYMENT_METHODS[1],

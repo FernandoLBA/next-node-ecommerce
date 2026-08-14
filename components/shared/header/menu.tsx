@@ -66,16 +66,17 @@ const Menu = async () => {
 
               <SheetDescription>
                 Navigate in our exclusive departmanets and find that thing that
-                you don&apos;t know but you need
+                you don&apos;t know you but you do!
               </SheetDescription>
             </SheetHeader>
 
             <div className="w-full px-6">
-              <ul className="flex justify-start flex-col gap-2">
+              <ul className="flex justify-start flex-col">
                 {categories.map((c) => (
                   <Link
                     key={c.category}
                     href={`${appRoutes.SEARCH}?category=${c.category}`}
+                    className="border-b border-muted-foreground p-4"
                   >
                     {c.category}({c._count})
                   </Link>

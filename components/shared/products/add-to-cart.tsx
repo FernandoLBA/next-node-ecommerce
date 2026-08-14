@@ -13,14 +13,13 @@ import { Cart, CartItem } from "@/types";
 
 function AddToCart({ item, cart }: { item: CartItem; cart?: Cart }) {
   const router = useRouter();
-  const [isAdding, startAdding] = useTransition();
-  const [isRemoving, startRemoving] = useTransition();
+  const [isPending, startTransition] = useTransition();
 
   /**
    * Add items to cart
    */
   const handleAddToCart = async () => {
-    startAdding(async () => {
+    startTransition(async () => {
       const res = await addItemToCart(item);
 
       if (!res.success) {
@@ -30,8 +29,9 @@ function AddToCart({ item, cart }: { item: CartItem; cart?: Cart }) {
 
       toast.success(res.message, {
         description: `${item.name} added to cart`,
+
         action: (
-          <Button onClick={() => router.push(appRoutes.CART)}>
+          <Button variant="outline" onClick={() => router.push(appRoutes.CART)}>
             Go To Cart
           </Button>
         ),
@@ -43,7 +43,7 @@ function AddToCart({ item, cart }: { item: CartItem; cart?: Cart }) {
    * Remove items from cart
    */
   const handleRemoveFromCart = async () => {
-    startRemoving(async () => {
+    startTransition(async () => {
       const { success, message } = await removeItemFromcart(item.productId);
 
       if (!success) {
@@ -55,7 +55,10 @@ function AddToCart({ item, cart }: { item: CartItem; cart?: Cart }) {
         description: `${item.name} removed from cart`,
         action:
           cart && cart.items.length >= 1 ? (
-            <Button onClick={() => router.push(appRoutes.CART)}>
+            <Button
+              variant="outline"
+              onClick={() => router.push(appRoutes.CART)}
+            >
               Go To Cart
             </Button>
           ) : null,
@@ -71,32 +74,24 @@ function AddToCart({ item, cart }: { item: CartItem; cart?: Cart }) {
 
   return existItem ? (
     <div className="bg-accent rounded-full w-full flex-between">
-      <Button
-        type="button"
-        disabled={isAdding || isRemoving}
-        onClick={handleRemoveFromCart}
-      >
-        {isRemoving ? <LoaderIcon /> : <Minus className="w-4 h-4" />}
+      <Button type="button" disabled={isPending} onClick={handleRemoveFromCart}>
+        {isPending ? <LoaderIcon /> : <Minus className="w-4 h-4" />}
       </Button>
 
       <span>{existItem.qty}</span>
 
-      <Button
-        type="button"
-        disabled={isAdding || isRemoving}
-        onClick={handleAddToCart}
-      >
-        {isAdding ? <LoaderIcon /> : <Plus className="w-4 h-4" />}
+      <Button type="button" disabled={isPending} onClick={handleAddToCart}>
+        {isPending ? <LoaderIcon /> : <Plus className="w-4 h-4" />}
       </Button>
     </div>
   ) : (
     <Button
       className="w-full"
-      disabled={isAdding || isRemoving}
+      disabled={isPending}
       type="button"
       onClick={handleAddToCart}
     >
-      {isAdding ? (
+      {isPending ? (
         <>
           <LoaderIcon /> Adding to Cart
         </>

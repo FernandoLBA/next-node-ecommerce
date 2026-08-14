@@ -26,16 +26,16 @@ const OrderDetailsPage = async (props: { params: Promise<{ id: string }> }) => {
 
   if (!order) notFound();
 
-  //* Handle API error shape: { success: boolean; message: string }
+  //? Handle API error shape: { success: boolean; message: string }
   if ("success" in order) notFound();
 
-  //* Parse every item price to string
+  //? Parse every item price to string
   const orderItems = order.orderItems.map((item) => ({
     ...item,
     price: item.price.toString(),
   }));
 
-  //* Formats the entire Order object
+  //? Formats the entire Order object
   const formattedOrder: Order = {
     ...order,
     orderItems,

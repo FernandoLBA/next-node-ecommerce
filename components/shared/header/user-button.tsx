@@ -36,6 +36,7 @@ export const UserButton: FC<PropsWithChildren> = async ({ children }) => {
         <DropdownMenuTrigger
           render={
             <Button
+              id="user-button"
               variant="ghost"
               className="relative w-8 h-8 rounded-full ml-2 flex-center bg-accent cursor-pointer"
             >
@@ -43,7 +44,9 @@ export const UserButton: FC<PropsWithChildren> = async ({ children }) => {
             </Button>
           }
         />
-        {children}
+        <label htmlFor="user-button" className="cursor-pointer">
+          {children}
+        </label>
       </div>
 
       <DropdownMenuContent className="w-56" align="end">

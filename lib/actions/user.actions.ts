@@ -3,12 +3,14 @@
 import { hashSync } from "bcrypt-ts-edge";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { revalidatePath } from "next/dist/server/web/spec-extension/revalidate";
+import { cookies } from "next/headers";
 import z from "zod";
 
 import { auth, signIn, signOut } from "@/auth";
 import prisma from "@/db/db";
+import { redirect } from "@/i18n/routing";
 import { ShippingAddress, UpdateUser } from "@/types";
-import { appRoutes, PAGE_SIZE } from "../constants";
+import { appRoutes, DEFAULT_LANGUAGE, PAGE_SIZE } from "../constants";
 import { Prisma } from "../generated/prisma/browser";
 import { formatError } from "../utils";
 import {
@@ -21,15 +23,18 @@ import {
 
 /**
  * Sign in the user with credentials
- * 
- * @param _prevState 
- * @param formData 
- * @returns 
+ *
+ * @param _prevState
+ * @param formData
+ * @returns
  */
 export async function signInWithCredentials(
   _prevState: unknown,
   formData: FormData,
 ) {
+  const callbackUrl = (await cookies()).get("authjs.callback-url");
+  const locale = callbackUrl?.value.split("/")[3] || DEFAULT_LANGUAGE;
+
   try {
     const user = signInFormSchema.parse({
       email: formData.get("email"),
@@ -37,6 +42,13 @@ export async function signInWithCredentials(
     });
 
     await signIn("credentials", user);
+
+    if (callbackUrl?.value) {
+      redirect({
+        href: callbackUrl?.value,
+        locale: locale,
+      });
+    }
 
     return { success: true, message: "Signed in successfully" };
   } catch (error) {
@@ -49,19 +61,30 @@ export async function signInWithCredentials(
 }
 
 /**
- * Sign user out
- * 
+ * Sign user out and clear the cookies
+ *
  */
 export async function signOutUser() {
+  (await cookies()).delete("authjs.csrf-token");
+  (await cookies()).delete("authjs.session-token");
+  (await cookies()).delete("sessionCartId");
+  
+  const callbackUrl = (await cookies()).get("authjs.callback-url");
+  const locale = callbackUrl?.value.split("/")[3] || DEFAULT_LANGUAGE;
+
   await signOut();
+
+  if (callbackUrl?.value) {
+    redirect({ href: callbackUrl.value, locale });
+  }
 }
 
 /**
  * Sign up user
- * 
- * @param _prevState 
- * @param formData 
- * @returns 
+ *
+ * @param _prevState
+ * @param formData
+ * @returns
  */
 export async function signUpUser(_prevState: unknown, formData: FormData) {
   try {
@@ -101,9 +124,9 @@ export async function signUpUser(_prevState: unknown, formData: FormData) {
 
 /**
  * Get user by ID
- * 
- * @param userId 
- * @returns 
+ *
+ * @param userId
+ * @returns
  */
 export async function getUserById(userId: string) {
   const user = await prisma.user.findFirst({
@@ -117,9 +140,9 @@ export async function getUserById(userId: string) {
 
 /**
  * Update the user's address
- * 
- * @param shippingAddress 
- * @returns 
+ *
+ * @param shippingAddress
+ * @returns
  */
 export async function updateUserAddress(shippingAddress: ShippingAddress) {
   try {
@@ -151,9 +174,9 @@ export async function updateUserAddress(shippingAddress: ShippingAddress) {
 
 /**
  * Update user's payment method
- * 
- * @param data 
- * @returns 
+ *
+ * @param data
+ * @returns
  */
 export async function updateUserPaymentMethod(
   data: z.infer<typeof paymentMethodSchema>,
@@ -187,9 +210,9 @@ export async function updateUserPaymentMethod(
 
 /**
  * Update the user's profile
- * 
- * @param user 
- * @returns 
+ *
+ * @param user
+ * @returns
  */
 export async function updateProfile(
   user: z.infer<typeof updateUserProfileSchema>,
@@ -224,9 +247,9 @@ export async function updateProfile(
 
 /**
  * Get all the users
- * 
- * @param param0 
- * @returns 
+ *
+ * @param param0
+ * @returns
  */
 export async function getAllUsers({
   limit = PAGE_SIZE,
@@ -267,9 +290,9 @@ export async function getAllUsers({
 
 /**
  * Delete a user by ID
- * 
- * @param userId 
- * @returns 
+ *
+ * @param userId
+ * @returns
  */
 export async function deleteUserById(userId: string) {
   try {
@@ -295,9 +318,9 @@ export async function deleteUserById(userId: string) {
 
 /**
  * Update a user
- * 
- * @param user 
- * @returns 
+ *
+ * @param user
+ * @returns
  */
 export async function updateUser(user: UpdateUser) {
   try {

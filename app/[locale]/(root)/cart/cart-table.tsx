@@ -33,6 +33,7 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
   return (
     <>
       <h1 className="py-4 h2-bold">{t("title")}</h1>
+      {/* //* CART EMPTY MESSAGE */}
       {!cart || cart.items.length === 0 ? (
         <div>
           {t("status.empty")}{" "}
@@ -43,6 +44,7 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
       ) : (
         <div className="grid md:grid-cols-4 md:gap-5">
           <div className="overflow-x-auto md:col-span-3">
+            {/* //* CART TABLE */}
             <Table>
               <TableHeader>
                 <TableRow>
@@ -126,7 +128,8 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
             </Table>
           </div>
 
-          <Card className="flex justify-center mt-2 md:mt-0">
+          {/* //* CART ACTIONS */}
+          <Card className="flex justify-center mt-2 md:mt-0 max-h-fit">
             <CardContent className="px-4">
               <div className="flex-between text-md">
                 {t("cartActions.subTotal")} (

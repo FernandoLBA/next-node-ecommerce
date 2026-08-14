@@ -6,6 +6,8 @@ import { cookies } from "next/headers";
 
 import { authConfig } from "./auth.config";
 import prisma from "./db/db";
+import { calcPrice } from "./lib/utils";
+import { Cart, CartItem } from "./types";
 
 export const config = {
   ...authConfig,
@@ -21,24 +23,24 @@ export const config = {
         },
       },
       async authorize(credentials) {
-        //* If there are not credentials return null
+        //? If there are not credentials return null
         if (credentials == null) return null;
 
-        //* Get the user from the DB
+        //? Get the user from the DB
         const user = await prisma.user.findFirst({
           where: {
             email: credentials.email as string,
           },
         });
 
-        //* Check if user exists and if the password matches
+        //? Check if user exists and if the password matches
         if (user && user.password) {
           const isMatch = compareSync(
             credentials.password as string,
             user.password,
           );
 
-          //* If password is correct, return user
+          //? If password is correct, return user
           if (isMatch) {
             return {
               id: user.id,
@@ -49,20 +51,20 @@ export const config = {
           }
         }
 
-        //* If users does not exist or password does not match return null
+        //? If users does not exist or password does not match return null
         return null;
       },
     }),
   ],
   callbacks: {
     async session({ session, token, trigger, user }) {
-      //* Set the userId from the token (JWT sub)
+      //? Set the userId from the token (JWT sub)
       if (session.user && token.sub) {
         session.user.id = token.sub;
         session.user.role = token.role as string;
         session.user.name = token.name;
 
-        //* If there is an update, set the user name
+        //? If there is an update, set the user name
         if (trigger === "update" && user) {
           session.user.name = user.name;
         }
@@ -71,16 +73,16 @@ export const config = {
       return session;
     },
     async jwt({ token, user, trigger, session }) {
-      //* Assign user fields to token
+      //? Assign user fields to token
       if (user) {
         token.id = user.id;
         token.role = (user as { role?: string }).role;
 
-        //* If user has no name use the email
+        //*?If user has no name use the email
         if (user.name === "NO_NAME") {
           token.name = user.email?.split("@")[0];
 
-          //* Update database to reflect the token name
+          //? Update database to reflect the token name
           if (user.id) {
             await prisma.user.update({
               where: { id: user.id },
@@ -89,37 +91,59 @@ export const config = {
           }
         }
 
-        //* Transfer anonymous session cart to user's account on login or registration
+        //? Transfer anonymous session cart to user's account on login or registration
         if (trigger === "signIn" || trigger === "signUp") {
-          //* Get session cart id from cookies
+          //? Get session cart id from cookies
           const cookiesObject = await cookies();
           const sessionCartId = cookiesObject.get("sessionCartId")?.value;
 
-          //* If a sessionCartId exists in cookie
+          //? If a sessionCartId exists in cookie
           if (sessionCartId) {
-            //* Gets the cart from database by sessionCartId
+            //? Gets the new cart from database by sessionCartId
             const sessionCart = await prisma.cart.findFirst({
               where: { sessionCartId },
             });
 
-            //* If a cart exists in database
-            if (sessionCart) {
-              //* Delete current user cart
-              // await prisma.cart.deleteMany({
-              //   where: { userId: user.id },
-              // });
+            //? Gets the previous user's cart if exists
+            const previousCart = await prisma.cart.findFirst({
+              where: { userId: user.id },
+              orderBy: { createdAt: "desc" },
+            });
 
-              //* Assign new cart to the user
+            //? If a cart exists in database
+            if (sessionCart) {
+              const newPrices = calcPrice([
+                ...(sessionCart.items as CartItem[]),
+                ...(previousCart?.items as CartItem[]),
+              ]);
+
+              //? Prepare the new data to update
+              const dataToUpdate = previousCart
+                ? {
+                    items: [...previousCart.items, ...sessionCart.items],
+                    ...newPrices,
+                    userId: user.id,
+                  }
+                : { userId: user.id };
+
+              //? Assign new cart to the user with older data if exists
               await prisma.cart.update({
                 where: { id: sessionCart.id },
-                data: { userId: user.id },
+                data: { ...dataToUpdate } as Cart,
               });
+
+              //? Delete previous user cart
+              if (previousCart) {
+                await prisma.cart.delete({
+                  where: { id: previousCart.id },
+                });
+              }
             }
           }
         }
       }
 
-      //* Handle session updates
+      //? Handle session updates
       if (session?.user.name && trigger === "update") {
         token.name = session.user.name;
       }
