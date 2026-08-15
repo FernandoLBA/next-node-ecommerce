@@ -1,17 +1,12 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Stripe from "stripe";
 
 import { auth } from "@/auth";
 import { getOrderById } from "@/lib/actions/order.actions";
-import {
-  DEFAULT_CURRENCY,
-  paymentMethods,
-  STRIPE_SECRET_KEY,
-  userRoles,
-} from "@/lib/constants";
+import { DEFAULT_CURRENCY, paymentMethods, userRoles } from "@/lib/constants";
 import type { Order, ShippingAddress } from "@/types";
 import OrderDetailsTable from "./order-details-table";
+import { stripe } from "@/lib/stripe";
 
 export const metada: Metadata = {
   title: "Order Details",
@@ -36,7 +31,7 @@ const OrderDetailsPage = async (props: { params: Promise<{ id: string }> }) => {
   }));
 
   //? Formats the entire Order object
-  const formattedOrder: Order = {
+  const formattedOrder: Omit<Order, "paymentResult"> = {
     ...order,
     orderItems,
     itemsPrice: order.itemsPrice.toString(),
@@ -52,9 +47,6 @@ const OrderDetailsPage = async (props: { params: Promise<{ id: string }> }) => {
 
   //? Check if is not paid and using stripe
   if (order.paymentMethod === paymentMethods.stripe && !order.isPaid) {
-    //? Init stripe instance
-    const stripe = new Stripe(STRIPE_SECRET_KEY as string);
-
     //? Create payment intent
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(Number(order.totalPrice) * 100),

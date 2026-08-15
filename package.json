@@ -1,7 +1,11 @@
 {
-  "name": "01-prostore",
+  "name": "prostore",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Fernando Barrios"
+  },
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
@@ -9,7 +13,7 @@
     "lint": "eslint",
     "reinstall": "rm -rf node_modules && rm -rf pnpm-lock.yaml && rm -rf .next && pnpm install",
     "clear:cache": "rm -rf .next",
-    "kill:port": "npx kill-port ",
+    "kill:port": "npx kill-port",
     "prisma:init": "npx prisma init",
     "prisma:generate": "npx prisma generate",
     "prisma:migrate": "npx prisma migrate dev --name",
@@ -20,7 +24,8 @@
     "prisma:reinstall": "pnpm reinstall && rm -rf /lib/generated && pnpm prisma:reset && pnpm prisma:generate && pnpm prisma:migrate",
     "shadcn:com": "npx shadcn@latest add",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "email": "cp .env ./node_modules/react-email && email dev --dir email --port 3001"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",
@@ -29,6 +34,7 @@
     "@neondatabase/serverless": "^1.1.0",
     "@paypal/react-paypal-js": "^10.1.1",
     "@prisma/adapter-neon": "^7.8.0",
+    "@react-email/components": "^1.0.12",
     "@stripe/react-stripe-js": "^6.8.1",
     "@stripe/stripe-js": "^9.13.0",
     "@uploadthing/react": "^7.3.3",
@@ -45,8 +51,10 @@
     "query-string": "^9.4.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "react-email": "^6.9.2",
     "react-hook-form": "^7.77.0",
     "recharts": "^3.10.1",
+    "resend": "^6.20.0",
     "shadcn": "^4.10.0",
     "slugify": "^1.6.9",
     "sonner": "^2.0.7",
@@ -60,6 +68,7 @@
   "devDependencies": {
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
+    "@react-email/ui": "6.9.2",
     "@tailwindcss/postcss": "^4",
     "@types/jest": "^30.0.0",
     "@types/node": "^20.19.43",

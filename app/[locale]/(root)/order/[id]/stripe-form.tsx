@@ -10,7 +10,7 @@ import { ChangeEvent, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/utils";
-import { APP_SERVER_URL } from "@/lib/constants";
+import { NEXT_PUBLIC_APP_SERVER_URL } from "@/lib/constants";
 
 const StripeForm = ({
   priceInCents,
@@ -36,7 +36,7 @@ const StripeForm = ({
       .confirmPayment({
         elements,
         confirmParams: {
-          return_url: `${APP_SERVER_URL}/order/${orderId}/stripe-payment-success`,
+          return_url: `${NEXT_PUBLIC_APP_SERVER_URL}/order/${orderId}/stripe-payment-success`,
         },
       })
       .then(({ error }) => {

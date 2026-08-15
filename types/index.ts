@@ -39,6 +39,7 @@ export type Order = z.infer<typeof insertOrderSchema> & {
     name: string;
     email: string;
   };
+  paymentResult: PaymentResult;
 };
 
 export type OrderItem = z.infer<typeof insertOrderItemSchema>;

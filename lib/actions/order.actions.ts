@@ -5,7 +5,8 @@ import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 import { auth } from "@/auth";
 import prisma from "@/db/db";
-import { CartItem, PaymentResult, SalesData } from "@/types";
+import { sendPurchaseReceipt } from "@/email";
+import { CartItem, PaymentResult, SalesData, ShippingAddress } from "@/types";
 import { appRoutes, PAGE_SIZE } from "../constants";
 import { Prisma } from "../generated/prisma/client";
 import { TransactionClient } from "../generated/prisma/internal/prismaNamespace";
@@ -265,7 +266,8 @@ export async function updateOrderToPaid({
 
     if (!order) throw new Error("Order not found");
 
-    if (order.isPaid) throw new Error("Order is already paid");
+    if (order.isPaid)
+      return { success: true, message: "Order is already paid" };
 
     //? Transaction to update order and account for product stock
     await (
@@ -281,13 +283,18 @@ export async function updateOrderToPaid({
         });
       }
 
+      //? Converts paymentResult to a plain object to avoid issues with prisma JSON
+      const cleanPaymentResult = paymentResult
+        ? (convertToPlainObject(paymentResult) as Prisma.InputJsonValue)
+        : Prisma.JsonNull;
+
       // ? Set the order to paid
       await tx.order.update({
         where: { id: orderId },
         data: {
           isPaid: true,
           paidAt: new Date(),
-          paymentResult,
+          paymentResult: cleanPaymentResult,
         },
       });
     });
@@ -302,6 +309,41 @@ export async function updateOrderToPaid({
     });
 
     if (!updatedOrder) throw new Error("Order not found");
+
+    //? Formats and sanitize the order object before send with resend/react-email to ensure default values id any of them is null
+    const formattedOrder = {
+      ...updatedOrder,
+      shippingAddress: (updatedOrder.shippingAddress as ShippingAddress) || {},
+      paymentResult: (updatedOrder.paymentResult as PaymentResult) || {
+        id: "",
+        status: "",
+        pricePaid: "",
+        email_address: "",
+      },
+      itemsPrice: updatedOrder.itemsPrice.toString(),
+      shippingPrice: updatedOrder.shippingPrice.toString(),
+      taxPrice: updatedOrder.taxPrice.toString(),
+      totalPrice: updatedOrder.totalPrice.toString(),
+      orderItems: updatedOrder.orderItems.map((oi) => ({
+        ...oi,
+        name: (oi.name || "Product").toString(),
+        price: oi.price.toString(),
+      })),
+      user: {
+        ...updatedOrder.user,
+        name: (updatedOrder.user.name || "client name").toString(),
+        email: updatedOrder.user.email || "",
+      },
+    };
+
+    try {
+      await sendPurchaseReceipt({ order: formattedOrder });
+    } catch (emailError) {
+      return {
+        success: false,
+        message: formatError(emailError),
+      };
+    }
 
     return {
       success: true,

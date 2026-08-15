@@ -2,12 +2,18 @@
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "Store Name";
 export const APP_DESCRIPTION =
   process.env.NEXT_PUBLIC_APP_DESCRIPTION || "Store Description";
-export const APP_SERVER_URL =
+export const NEXT_PUBLIC_APP_SERVER_URL =
   process.env.NEXT_PUBLIC_APP_SERVER_URL || "http://localhost:3000";
+export const TAX_PERCENTAGE = 0.18; // TODO save in a db table
+export const SHIPPING_PRICE = 10; // TODO save in a db table
+export const SHIPPING_FREE_AMOUNT = 100; // TODO save in a db table
 
 // * PAGINATION CONFIG ############################################
 export const PAGE_SIZE = 5;
 export const ADMIN_PAGE_SIZE = 10;
+
+// * EMAIL CONFIG ############################################
+export const SENDER_EMAIL = process.env.SENDER_EMAIL || "onboarding@sender.dev";
 
 // * PAYMENTS CONFIG ############################################
 export const PAYMENT_METHODS = ["PayPal", "Stripe", "CashOnDelivery"] as const;

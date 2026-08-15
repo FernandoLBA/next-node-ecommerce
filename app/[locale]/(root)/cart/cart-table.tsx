@@ -129,7 +129,7 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
           </div>
 
           {/* //* CART ACTIONS */}
-          <Card className="flex justify-center mt-2 md:mt-0 max-h-fit">
+          <Card className="flex justify-center mt-2 md:mt-0 max-h-44">
             <CardContent className="px-4">
               <div className="flex-between text-md">
                 {t("cartActions.subTotal")} (

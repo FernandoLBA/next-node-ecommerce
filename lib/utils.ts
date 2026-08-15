@@ -5,7 +5,13 @@ import { ZodError } from "zod";
 import { $ZodIssue } from "zod/v4/core";
 
 import { CartItem, SearchFilters, SortingProductsOptions } from "@/types";
-import { appRoutes, DEFAULT_CURRENCY } from "./constants";
+import {
+  appRoutes,
+  DEFAULT_CURRENCY,
+  SHIPPING_FREE_AMOUNT,
+  SHIPPING_PRICE,
+  TAX_PERCENTAGE,
+} from "./constants";
 
 /**
  * Join tailwind classes with clsx library
@@ -84,6 +90,30 @@ export function round2(value: number | string) {
     throw new Error("Value must be a number or a string");
   }
 }
+
+/**
+ * Calculate cart prices
+ *
+ * @param items
+ * @returns
+ */
+export const calcPrice = (items: CartItem[]) => {
+  const itemsPrice = round2(
+      items.reduce((acc, item) => acc + Number(item.price) * item.qty, 0),
+    ),
+    shippingPrice = round2(
+      itemsPrice > SHIPPING_FREE_AMOUNT ? 0 : SHIPPING_PRICE,
+    ),
+    taxPrice = round2(itemsPrice * TAX_PERCENTAGE),
+    totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
+
+  return {
+    itemsPrice: itemsPrice.toFixed(2),
+    shippingPrice: shippingPrice.toFixed(2),
+    taxPrice: taxPrice.toFixed(2),
+    totalPrice: totalPrice.toFixed(2),
+  };
+};
 
 /**
  * Get the value of a CSS Global Variable
@@ -283,25 +313,3 @@ export function getFilterUrl({
 
   return convertSearchParamsToSearchUrl(params);
 }
-
-/**
- * Calculate cart prices
- *
- * @param items
- * @returns
- */
-export const calcPrice = (items: CartItem[]) => {
-  const itemsPrice = round2(
-      items.reduce((acc, item) => acc + Number(item.price) * item.qty, 0),
-    ),
-    shippingPrice = round2(itemsPrice > 100 ? 0 : 10),
-    taxPrice = round2(itemsPrice * 0.15),
-    totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
-
-  return {
-    itemsPrice: itemsPrice.toFixed(2),
-    shippingPrice: shippingPrice.toFixed(2),
-    taxPrice: taxPrice.toFixed(2),
-    totalPrice: totalPrice.toFixed(2),
-  };
-};
