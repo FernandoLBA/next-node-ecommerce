@@ -3,9 +3,10 @@
 import { usePathname, useRouter } from "next/navigation";
 
 import "@/assets/styles/globals.css";
+import { useSettings } from "@/components/providers/settings-provider";
 import AppImage from "@/components/ui/app-image";
 import { Button } from "@/components/ui/button";
-import { APP_NAME, appRoutes } from "@/lib/constants";
+import { appRoutes } from "@/lib/constants";
 import englishMessages from "@/messages/en.json";
 import spanishMessages from "@/messages/es.json";
 
@@ -14,20 +15,19 @@ const locales: Record<string, typeof englishMessages> = {
   es: spanishMessages,
 };
 
-const DEFAULT_LOCALE = "es";
-
 const NotFound = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const settings = useSettings();
 
   const detectedLocale = pathname?.split("/")[1];
-  const locale = locales[detectedLocale] || locales[DEFAULT_LOCALE];
+  const locale = locales[detectedLocale] || settings.defaultLanguage;
 
   return (
     <div className="flex-center flex-col h-screen">
       <AppImage
         src="/images/logo.svg"
-        alt={`${APP_NAME} logo`}
+        alt={`${settings.appName} logo`}
         preload
         height={48}
         width={48}

@@ -45,6 +45,8 @@ export const appRoutes = {
   ADMIN_OVERVIEW: "/admin/overview",
   ADMIN_PRODUCTS: "/admin/products",
   ADMIN_PRODUCTS_CREATE: "/admin/products/create",
+  ADMIN_CATEGORIES: "/admin/categories",
+  ADMIN_CATEGORIES_CREATE: "/admin/categories/create",
   ADMIN_ORDERS: "/admin/orders",
   ADMIN_USERS: "/admin/users",
 
@@ -127,6 +129,10 @@ export const navLinks = [
     href: appRoutes.ADMIN_OVERVIEW,
   },
   {
+    title: "Categories",
+    href: appRoutes.ADMIN_CATEGORIES,
+  },
+  {
     title: "Products",
     href: appRoutes.ADMIN_PRODUCTS,
   },
@@ -177,6 +183,13 @@ export const sortingOrders = {
 };
 
 export const SORTING_ORDERS_VALUES = Object.values(sortingOrders);
+
+export const sortingCategories = {
+  newest: "newest",
+  oldest: "oldest",
+};
+
+export const SORTING_CATEGORIES_VALUES = Object.values(sortingCategories);
 
 // * APP CURRENCIES ############################################
 export const currencies = {

@@ -26,8 +26,7 @@ import type { Cart } from "@/types";
 const CartTable = ({ cart }: { cart?: Cart }) => {
   const router = useRouter();
   const t = useTranslations("CartPage");
-  const [isRemoving, startRemovingTransition] = useTransition();
-  const [isAdding, startAddingTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
   const [isGoingToCkeckout, startGoingToCkeckoutTransition] = useTransition();
 
   return (
@@ -80,10 +79,10 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                     <TableCell>
                       <div className="flex-between bg-accent rounded-full">
                         <Button
-                          disabled={isAdding || isRemoving}
+                          disabled={isPending}
                           type="button"
                           onClick={() =>
-                            startRemovingTransition(async () => {
+                            startTransition(async () => {
                               const res = await removeItemFromcart(
                                 item.productId,
                               );
@@ -94,16 +93,16 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                             })
                           }
                         >
-                          {isRemoving ? <LoaderIcon /> : <Minus />}
+                          {isPending ? <LoaderIcon /> : <Minus />}
                         </Button>
 
                         <span className="px-2">{item.qty}</span>
 
                         <Button
-                          disabled={isAdding || isRemoving}
+                          disabled={isPending}
                           type="button"
                           onClick={() =>
-                            startAddingTransition(async () => {
+                            startTransition(async () => {
                               const res = await addItemToCart(item);
 
                               if (!res.success) {
@@ -112,7 +111,7 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                             })
                           }
                         >
-                          {isAdding ? <LoaderIcon /> : <Plus />}
+                          {isPending ? <LoaderIcon /> : <Plus />}
                         </Button>
                       </div>
                     </TableCell>

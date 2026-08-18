@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import Link from "next/link";
 
 import { auth } from "@/auth";
@@ -5,8 +6,20 @@ import AdminSearch from "@/components/admin/admin-search";
 import Menu from "@/components/shared/header/menu";
 import AppImage from "@/components/ui/app-image";
 import { redirect } from "@/i18n/routing";
+import { getAppSettings } from "@/lib/actions/app-setting.actions";
 import { APP_NAME, appRoutes, userRoles } from "@/lib/constants";
 import MainNav from "./main-nav";
+
+export const generateMetadata = async (): Promise<Metadata> => {
+  const settings = await getAppSettings();
+
+  return {
+    title: {
+      template: `%s | ${settings.appName}`,
+      default: settings.appName,
+    },
+  };
+};
 
 type AdminLayoutProps = Readonly<{
   children: React.ReactNode;

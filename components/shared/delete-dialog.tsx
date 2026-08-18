@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
@@ -23,6 +24,7 @@ const DeleteDialog = ({
   id: string;
   action: (id: string) => Promise<ResponseMessage>;
 }) => {
+  const t = useTranslations("DeleteDialog");
   const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
 
@@ -41,23 +43,28 @@ const DeleteDialog = ({
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
-      <AlertDialogTrigger className="btn-danger">Delete</AlertDialogTrigger>
+      <AlertDialogTrigger className="btn-danger">
+        {t("deleteButton")}
+      </AlertDialogTrigger>
+
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>{t("alertTitle")}</AlertDialogTitle>
+
           <AlertDialogDescription>
-            This action can&apos;t be undone
+            {t("alertDescription")}
           </AlertDialogDescription>
         </AlertDialogHeader>
+
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>{t("cancelButton")}</AlertDialogCancel>
+
           <Button
             variant="destructive"
-            size="sm"
             disabled={isPending}
             onClick={handleDeleteClick}
           >
-            {isPending ? "Deleting..." : "Delete"}
+            {isPending ? t("deletingText") : t("deleteButton")}
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>

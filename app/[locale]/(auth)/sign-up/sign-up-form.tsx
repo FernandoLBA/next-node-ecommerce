@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
@@ -7,12 +8,13 @@ import { useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import LoaderIcon from "@/components/ui/loader-icon";
 import { Link } from "@/i18n/routing";
 import { signUpUser } from "@/lib/actions/user.actions";
 import { appRoutes, signUpDefaultValues } from "@/lib/constants";
-import LoaderIcon from "@/components/ui/loader-icon";
 
 const SignUpButton = () => {
+  const t = useTranslations("SignUp");
   const { pending } = useFormStatus();
 
   return (
@@ -25,16 +27,17 @@ const SignUpButton = () => {
       {pending ? (
         <>
           <LoaderIcon />
-          Signing up...
+          {t("loadingTextButton")}
         </>
       ) : (
-        "Sign up"
+        <>{t("textButton")}</>
       )}
     </Button>
   );
 };
 
 export default function CredentialsSignUpForm() {
+  const t = useTranslations("SignUp");
   const [data, action] = useActionState(signUpUser, {
     success: false,
     message: "",
@@ -50,7 +53,7 @@ export default function CredentialsSignUpForm() {
       <input type="hidden" name="callbackUrl" value={callbackUrl} />
       <div className="space-y-6">
         <div className="space-y-2">
-          <Label htmlFor="name">Name</Label>
+          <Label htmlFor="name">{t("name")}</Label>
           <Input
             id="name"
             type="name"
@@ -61,7 +64,7 @@ export default function CredentialsSignUpForm() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t("email")}</Label>
           <Input
             id="email"
             type="text"
@@ -72,7 +75,7 @@ export default function CredentialsSignUpForm() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password">{t("password")}</Label>
           <Input
             id="password"
             type="password"
@@ -83,7 +86,7 @@ export default function CredentialsSignUpForm() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="confirmPassword">Confirm password</Label>
+          <Label htmlFor="confirmPassword">{t("confirmPassword")}</Label>
           <Input
             id="confirmPassword"
             type="password"
@@ -102,9 +105,9 @@ export default function CredentialsSignUpForm() {
         )}
 
         <div className="text-sm text-center text-muted-foreground">
-          Already have an account?{" "}
+          {t("haveAccountText")}{" "}
           <Link href={appRoutes.SIGN_IN} target="_self" className="link">
-            Sign In
+            {t("signInLinkText")}
           </Link>
         </div>
       </div>

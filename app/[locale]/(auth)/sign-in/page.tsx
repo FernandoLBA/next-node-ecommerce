@@ -1,6 +1,7 @@
-import { auth } from "@/auth";
 import { Metadata } from "next";
+import { getLocale } from "next-intl/server";
 
+import { auth } from "@/auth";
 import AppImage from "@/components/ui/app-image";
 import {
   Card,
@@ -11,22 +12,33 @@ import {
 } from "@/components/ui/card";
 import { Link, redirect } from "@/i18n/routing";
 import { APP_NAME, appRoutes } from "@/lib/constants";
+import englishMessages from "@/messages/en.json";
+import spanishMessages from "@/messages/es.json";
 import CredentialsSignInForm from "./credentials-signin-form";
 
-export const metadata: Metadata = {
-  title: "Sign In",
+const locales: Record<string, typeof englishMessages> = {
+  es: spanishMessages,
+  en: englishMessages,
+};
+
+export const generateMetadata = async (): Promise<Metadata> => {
+  const locale = await getLocale();
+  const translation = locales[locale];
+
+  return {
+    title: translation.SignIn.title,
+  };
 };
 
 const SignInPage = async (props: {
-  params: Promise<{ locale: string }>;
-
   searchParams: Promise<{
     callbackUrl: string;
   }>;
 }) => {
   const { callbackUrl } = await props.searchParams;
-  const { locale } = await props.params;
+  const locale = await getLocale();
   const session = await auth();
+  const translation = locales[locale];
 
   //* If the user is already authenticated, redirect them to the callback URL to bypass the sign-in form.
   if (session) {
@@ -45,9 +57,11 @@ const SignInPage = async (props: {
               height={100}
             />
           </Link>
-          <CardTitle className="text-center">Sign In</CardTitle>
+          <CardTitle className="text-center">
+            {translation.SignIn.title}
+          </CardTitle>
           <CardDescription className="text-center">
-            Sign in to your account
+            {translation.SignIn.subTitle}
           </CardDescription>
         </CardHeader>
 

@@ -1,14 +1,16 @@
 import { getTranslations } from "next-intl/server";
 
+import IconBoxes from "@/components/icon-boxes";
 import ProductCarousel from "@/components/shared/products/product-carousel";
 import ProductsList from "@/components/shared/products/products-list";
+import TopCategories from "@/components/top-categories";
+import ViewAllProductsButton from "@/components/view-all-products-button";
 import {
   getFeaturedProducts,
   getLatestProducts,
 } from "@/lib/actions/product.actions";
 import { LATEST_PRODUCTS_LIMIT } from "@/lib/constants";
 import { Product } from "@/types";
-import ViewAllProductsButton from "@/components/view-all-products-button";
 
 export default async function HomePage() {
   const t = await getTranslations("HomePage");
@@ -28,6 +30,13 @@ export default async function HomePage() {
       />
 
       {latestProducts.length > 0 && <ViewAllProductsButton />}
+
+      <TopCategories />
+
+      {/* // * Temporal promotions, for now I don't need it */}
+      {/* <DealCountdown /> */}
+
+      <IconBoxes />
     </>
   );
 }

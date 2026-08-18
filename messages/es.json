@@ -1,6 +1,130 @@
 {
+  "AdminPages": {
+    "overview": {
+      "title": "Tabla resumen",
+      "stats": {
+        "revenue": "Total ventas",
+        "sales": "Ventas",
+        "customers": "Clientes",
+        "products": "Productos",
+        "categories": "Categorías"
+      },
+      "graph": {
+        "title": "Resumen",
+        "emptyOrdersText": "No existen órdenes"
+      },
+      "recentSalesTable": {
+        "title": "Últimas ventas",
+        "tableHeaders": {
+          "buyer": "Comprador",
+          "date": "Fecha",
+          "total": "Total",
+          "actions": { "title": "Acciones", "detailsButton": "Detalles" },
+          "deletedUser": "Usuario Borrado"
+        }
+      }
+    },
+    "categories": {
+      "title": "Categorías",
+      "filters": {
+        "filteredBy": "Filtrado por",
+        "cleanFilterButton": "Limpiar Filtros"
+      },
+      "createButton": "Crear Categoría",
+      "tableHeaders": {
+        "id": "ID",
+        "name": "Nombre",
+        "createdDate": "Fecha de creación",
+        "actions": {
+          "title": "Acciones",
+          "editButton": "Editar"
+        }
+      }
+    },
+    "products": {
+      "title": "Productos",
+      "filters": {
+        "filteredBy": "Filtrado por",
+        "cleanFilterButton": "Limpiar Filtros"
+      },
+      "adminSearch": {
+        "placeholder": "Buscar...",
+        "searchButton": "Buscar"
+      },
+      "createButton": "Crear Producto",
+      "tableHeaders": {
+        "id": "ID",
+        "name": "Nombre",
+        "price": "Precio",
+        "brand": "Marca",
+        "category": "Categoría",
+        "stock": "Existencias",
+        "rating": "Calificación",
+        "actions": "Acciones",
+        "actionButtons": {
+          "editButton": "Editar",
+          "deleteButton": "Eliminar"
+        }
+      }
+    },
+    "orders": {
+      "title": "Órdenes",
+      "tableHeaders": {
+        "id": "ID",
+        "buyer": "Comprador",
+        "createdDate": "Fecha de órden",
+        "total": "Total",
+        "paid": "Estado de pago",
+        "delivered": "Estado de entrega",
+        "actions": "Acciones",
+        "actionButtons": {
+          "detailsButton": "Detalles",
+          "deleteButton": "Eliminar"
+        }
+      }
+    },
+    "users": {
+      "title": "Usuarios",
+      "tableHeaders": {
+        "id": "ID",
+        "name": "Nombre",
+        "email": "Correo",
+        "role": "Rol",
+        "actions": "Acciones",
+        "actionButtons": {
+          "editButton": "Editar",
+          "deleteButton": "Eliminar"
+        }
+      }
+    }
+  },
   "HomePage": {
-    "title": "Lo Último"
+    "title": "Lo último",
+    "TopCategories": {
+      "title": "Categorías destacadas"
+    }
+  },
+  "SignIn": {
+    "title": "Iniciar Sesión",
+    "subTitle": "Inicie sesión en su cuenta",
+    "email": "Correo",
+    "password": "Contraseña",
+    "loadingTextButton": "Iniciando sesión...",
+    "textButton": "Iniciar sesión",
+    "noAccountText": "No tiene cuenta?",
+    "signUpLinkText": "Regístrese"
+  },
+  "SignUp": {
+    "title": "Registrarse",
+    "subTitle": "Ingrese su información para registrarse",
+    "name": "Nombre",
+    "email": "Correo",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "loadingTextButton": "Registrando...",
+    "textButton": "Registrarse",
+    "haveAccountText": "Ya posee una cuenta?",
+    "signInLinkText": "Inicie sesión"
   },
   "Menu": {
     "title": "Menú",
@@ -16,6 +140,13 @@
       "light": "Claro",
       "dark": "Oscuro"
     }
+  },
+  "DeleteDialog": {
+    "deleteButton": "Eliminar",
+    "alertTitle": "Esta absolutamente seguro?",
+    "alertDescription": "Esta acción no puede ser revertida",
+    "cancelButton": "Cancelar",
+    "deletingText": "Eliminando..."
   },
   "Footer": {
     "rights": "Todos los derechos reservados."
@@ -35,7 +166,7 @@
       "subTotal": "Subtotal",
       "taxes": "Impuestos",
       "shipping": "Envío",
-      "goCheckout": "Ir al Checkout"
+      "goCheckout": "Ir a pagar"
     }
   },
   "Loading": {

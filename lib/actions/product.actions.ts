@@ -76,7 +76,7 @@ export async function getAllProducts({
   rating?: string;
   sort?: SortingProductsOptions;
 }) {
-  //* Query filter
+  //? Query filter
   const queryFilter: Prisma.ProductWhereInput =
     query && query !== "all"
       ? {
@@ -84,11 +84,11 @@ export async function getAllProducts({
         }
       : {};
 
-  //* Category filter
+  //? Category filter
   const categoryFilter: Prisma.ProductWhereInput =
     category && category !== "all" ? { category } : {};
 
-  //* Price or price range filter
+  //? Price or price range filter
   const priceFilter: Prisma.ProductWhereInput =
     price && price !== "all"
       ? {
@@ -152,15 +152,13 @@ export async function getAllProducts({
  * @param id
  * @returns
  */
-export async function deleteproduct(id: string) {
+export async function deleteProductById(id: string) {
   try {
     const productExists = await prisma.product.findFirst({
       where: { id },
     });
 
-    if (!productExists) {
-      throw new Error("Product not found");
-    }
+    if (!productExists) return { success: false, message: "Product not found" };
 
     await prisma.product.delete({ where: { id } });
 

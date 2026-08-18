@@ -1,6 +1,10 @@
 import z from "zod";
 
-import { PAYMENT_METHODS, SORTING_ORDERS_VALUES } from "@/lib/constants";
+import {
+  PAYMENT_METHODS,
+  SORTING_CATEGORIES_VALUES,
+  SORTING_ORDERS_VALUES,
+} from "@/lib/constants";
 import {
   cartItemSchema,
   insertCartSchema,
@@ -66,6 +70,8 @@ export type ResponseMessage = {
 
 export type PaymentsMethods = (typeof PAYMENT_METHODS)[number];
 export type SortingProductsOptions = (typeof SORTING_ORDERS_VALUES)[number];
+export type SortingCategoriesOptions =
+  (typeof SORTING_CATEGORIES_VALUES)[number];
 
 export type SearchFilters = {
   query?: string;
@@ -83,3 +89,5 @@ export type FilterSearchParams = {
 export type AsyncFilterSearchParams = {
   searchParams: Promise<SearchFilters>;
 };
+
+export type Locale = "es" | "en";

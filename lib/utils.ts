@@ -4,7 +4,14 @@ import { twMerge } from "tailwind-merge";
 import { ZodError } from "zod";
 import { $ZodIssue } from "zod/v4/core";
 
-import { CartItem, SearchFilters, SortingProductsOptions } from "@/types";
+import englishMessages from "@/messages/en.json";
+import spanishMessages from "@/messages/es.json";
+import {
+  CartItem,
+  Locale,
+  SearchFilters,
+  SortingProductsOptions,
+} from "@/types";
 import {
   appRoutes,
   DEFAULT_CURRENCY,
@@ -186,7 +193,12 @@ export function formatId(uuid: string) {
  * @param dateString
  * @returns
  */
-export const formatDateTime = (dateString: Date) => {
+export const formatDateTime = (dateString: Date, locale: Locale = "es") => {
+  const languageDate = {
+    en: "en-US",
+    es: "es-ES",
+  };
+
   //* Options for combined date and time formatting (e.g., 'Oct 31, 2023, 12:30 PM')
   const dateTimeOptions: Intl.DateTimeFormatOptions = {
     month: "short", //? Abbreviated month name (e.g., 'Oct')
@@ -214,19 +226,19 @@ export const formatDateTime = (dateString: Date) => {
 
   //* Format the full date-time string using 'en-US' locale
   const formattedDateTime: string = new Date(dateString).toLocaleDateString(
-    "en-US",
+    languageDate[locale],
     dateTimeOptions,
   );
 
   //* Format the date-only string using 'en-US' locale
   const formattedDate: string = new Date(dateString).toLocaleDateString(
-    "en-US",
+    languageDate[locale],
     dateOptions,
   );
 
   //* Format the time-only string using 'en-US' locale
   const formattedTime: string = new Date(dateString).toLocaleTimeString(
-    "en-US",
+    languageDate[locale],
     timeOptions,
   );
 
@@ -313,3 +325,14 @@ export function getFilterUrl({
 
   return convertSearchParamsToSearchUrl(params);
 }
+
+export const getLanguage = (locale: Locale) => {
+  const locales: Record<string, typeof englishMessages> = {
+    es: spanishMessages,
+    en: englishMessages,
+  };
+
+  return {
+    currentLanguage: locales[locale],
+  };
+};

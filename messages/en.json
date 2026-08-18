@@ -1,6 +1,130 @@
 {
+  "AdminPages": {
+    "overview": {
+      "title": "Dashboard",
+      "stats": {
+        "revenue": "Total Revenue",
+        "sales": "Sales",
+        "customers": "Customers",
+        "products": "Products",
+        "categories": "Categories"
+      },
+      "graph": {
+        "title": "Dashboard",
+        "emptyOrdersText": "No orders found"
+      },
+      "recentSalesTable": {
+        "title": "Recent Sales",
+        "tableHeaders": {
+          "buyer": "buyer",
+          "date": "date",
+          "total": "Total",
+          "actions": { "title": "actions", "detailsButton": "Details" },
+          "deletedUser": "Deleted User"
+        }
+      }
+    },
+    "categories": {
+      "title": "Categories",
+      "filters": {
+        "filteredBy": "Filtered by",
+        "cleanFilterButton": "Remove Filters"
+      },
+      "createButton": "Create Category",
+      "tableHeaders": {
+        "id": "ID",
+        "name": "Name",
+        "createdDate": "Date",
+        "actions": {
+          "title": "Actions",
+          "editButton": "Edit"
+        }
+      }
+    },
+    "products": {
+      "title": "Products",
+      "filters": {
+        "filteredBy": "Filtered by",
+        "cleanFilterButton": "Remove Filters"
+      },
+      "adminSearch": {
+        "placeholder": "Search...",
+        "searchButton": "Search"
+      },
+      "createButton": "Create Product",
+      "tableHeaders": {
+        "id": "ID",
+        "name": "Name",
+        "price": "Price",
+        "brand": "Brand",
+        "category": "Category",
+        "stock": "Stock",
+        "rating": "Rating",
+        "actions": "Actions",
+        "actionButtons": {
+          "editButton": "Edit",
+          "deleteButton": "Delete"
+        }
+      }
+    },
+    "orders": {
+      "title": "Órdenes",
+      "tableHeaders": {
+        "id": "ID",
+        "buyer": "Comprador",
+        "createdDate": "Fecha de órden",
+        "total": "Total",
+        "paid": "Estado de pago",
+        "delivered": "Estado de entrega",
+        "actions": "Acciones",
+        "actionButtons": {
+          "detailsButton": "Detalles",
+          "deleteButton": "Eliminar"
+        }
+      }
+    },
+    "users": {
+      "title": "Usuarios",
+      "tableHeaders": {
+        "id": "ID",
+        "name": "Nombre",
+        "email": "Correo",
+        "role": "Rol",
+        "actions": "Acciones",
+        "actionButtons": {
+          "editButton": "Editar",
+          "deleteButton": "Eliminar"
+        }
+      }
+    }
+  },
   "HomePage": {
-    "title": "Newest Arrivals"
+    "title": "Newest Arrivals",
+    "TopCategories": {
+      "title": "Featured Categories"
+    }
+  },
+  "SignIn": {
+    "title": "Sign In",
+    "subTitle": "Sign in to your account",
+    "email": "Email",
+    "password": "Password",
+    "loadingTextButton": "Signing in...",
+    "textButton": "Sign in",
+    "noAccountText": "Don't have an account?",
+    "signUpLinkText": "Sign Up"
+  },
+  "SignUp": {
+    "title": "Sign Up",
+    "subTitle": "Enter your information below to sign up",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "loadingTextButton": "Signing up...",
+    "textButton": "Sign up",
+    "haveAccountText": "Already have an account?",
+    "signInLinkText": "Sign In"
   },
   "Menu": {
     "title": "Menu",
@@ -16,6 +140,13 @@
       "light": "Light",
       "dark": "Dark"
     }
+  },
+  "DeleteDialog": {
+    "deleteButton": "Delete",
+    "alertTitle": "Are you absolutely sure?",
+    "alertDescription": "This action can't be undone",
+    "cancelButton": "Cancel",
+    "deletingText": "Deleting..."
   },
   "Footer": {
     "rights": "All Rights Reserved."

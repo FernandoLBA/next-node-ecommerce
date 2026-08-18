@@ -15,6 +15,8 @@ import { appRoutes, CAROUSEL_DELAY } from "@/lib/constants";
 import { Product } from "@/types";
 
 const ProductCarousel = ({ data }: { data: Product[] }) => {
+  const banners = data.filter((product) => product.banner);
+
   return (
     <Carousel
       className="w-full mb-12"
@@ -28,7 +30,7 @@ const ProductCarousel = ({ data }: { data: Product[] }) => {
       ]}
     >
       <CarouselContent>
-        {data.map((product) => (
+        {banners.map((product) => (
           <CarouselItem key={product.id}>
             <Link href={`${appRoutes.PRODUCTS}/${product.slug}`}>
               <div className="relative mx-auto">
@@ -37,23 +39,27 @@ const ProductCarousel = ({ data }: { data: Product[] }) => {
                   src={product.banner ?? ""}
                   alt="featured product"
                   width={1620}
-                  height={680}
+                  height={480}
                 />
-
+                {/* 
                 <div className="absolute inset-0 flex items-end justify-start">
                   <h2 className="bg-secondary text-2xl font-bold text-primary py-4 px-8">
                     {product.name}
                   </h2>
-                </div>
+                </div> */}
               </div>
             </Link>
           </CarouselItem>
         ))}
       </CarouselContent>
 
-      <CarouselPrevious />
+      <div className="hidden md:block">
+        <CarouselPrevious />
+      </div>
 
-      <CarouselNext />
+      <div className="hidden md:block">
+        <CarouselNext />
+      </div>
     </Carousel>
   );
 };

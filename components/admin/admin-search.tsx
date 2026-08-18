@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
@@ -9,12 +10,15 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 
 const AdminSearch = () => {
+  const t = useTranslations("AdminPages");
   const pathname = usePathname();
   const formActionUrl = pathname.includes(appRoutes.ADMIN_ORDERS)
     ? appRoutes.ADMIN_ORDERS
     : pathname.includes(appRoutes.ADMIN_USERS)
       ? appRoutes.ADMIN_USERS
-      : appRoutes.ADMIN_PRODUCTS;
+      : appRoutes.ADMIN_PRODUCTS
+        ? appRoutes.ADMIN_PRODUCTS
+        : appRoutes.ADMIN_CATEGORIES;
   const searchParams = useSearchParams();
   const [queryValue, setQueryValue] = useState(searchParams.get("query") || "");
 
@@ -22,7 +26,7 @@ const AdminSearch = () => {
     <form action={formActionUrl} method="GET">
       <Input
         type="search"
-        placeholder="Search..."
+        placeholder={t("products.adminSearch.placeholder")}
         name="query"
         className="md:w-25 lg:w-75"
         value={queryValue}
@@ -30,7 +34,7 @@ const AdminSearch = () => {
       />
 
       <Button className="sr-only" type="submit">
-        Search
+        {t("products.adminSearch.searchButton")}
       </Button>
     </form>
   );

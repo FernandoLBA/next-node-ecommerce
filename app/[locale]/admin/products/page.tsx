@@ -1,5 +1,8 @@
+import { Metadata } from "next";
+import { getLocale } from "next-intl/server";
+
 import Pagination from "@/components/shared/pagination";
-import DeleteDialog from "@/components/shared/products/delete-dialog";
+import DeleteDialog from "@/components/shared/delete-dialog";
 import StarIcon from "@/components/shared/star";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,10 +14,22 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Link } from "@/i18n/routing";
-import { deleteproduct, getAllProducts } from "@/lib/actions/product.actions";
+import {
+  deleteProductById,
+  getAllProducts,
+} from "@/lib/actions/product.actions";
 import { ADMIN_PAGE_SIZE, appRoutes } from "@/lib/constants";
-import { formatCurrency, formatId } from "@/lib/utils";
-import { Star } from "lucide-react";
+import { formatCurrency, formatId, getLanguage } from "@/lib/utils";
+import { Locale } from "@/types";
+
+export const generateMetadata = async (): Promise<Metadata> => {
+  const locale = await getLocale();
+  const { currentLanguage } = getLanguage(locale as Locale);
+
+  return {
+    title: currentLanguage.AdminPages.products.title,
+  };
+};
 
 type AdminProductsPageProps = {
   searchParams: Promise<{
@@ -25,7 +40,9 @@ type AdminProductsPageProps = {
 };
 
 const AdminProductsPage = async (props: AdminProductsPageProps) => {
+  const locale = await getLocale();
   const searchParams = await props.searchParams;
+  const { currentLanguage } = getLanguage(locale as Locale);
   const page = Number(searchParams.page) || 1;
   const query = searchParams.query || "";
   const category = searchParams.category || "";
@@ -41,13 +58,19 @@ const AdminProductsPage = async (props: AdminProductsPageProps) => {
     <div className="space-y-2">
       <div className="flex-between">
         <div className="flex items-baseline gap-3">
-          <h1 className="h2-bold">Products</h1>
+          <h1 className="h2-bold">
+            {currentLanguage.AdminPages.products.title}
+          </h1>
           {query && (
-            <div>
-              Filtered by <i>&quot;{query}&quot;</i>{" "}
+            <div className="flex items-center gap-2">
+              {currentLanguage.AdminPages.products.filters.filteredBy}{" "}
+              <i>&quot;{query}&quot;</i>{" "}
               <Link href={appRoutes.ADMIN_PRODUCTS}>
                 <Button variant="outline" size="sm">
-                  Remove Filters
+                  {
+                    currentLanguage.AdminPages.products.filters
+                      .cleanFilterButton
+                  }
                 </Button>
               </Link>
             </div>
@@ -55,20 +78,33 @@ const AdminProductsPage = async (props: AdminProductsPageProps) => {
         </div>
 
         <Button>
-          <Link href={appRoutes.ADMIN_PRODUCTS_CREATE}>Create Product</Link>
+          <Link href={appRoutes.ADMIN_PRODUCTS_CREATE}>
+            {currentLanguage.AdminPages.products.createButton}
+          </Link>
         </Button>
       </div>
 
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>NAME</TableHead>
+            <TableHead>
+              {currentLanguage.AdminPages.products.tableHeaders.id}
+            </TableHead>
+
+            <TableHead>
+              {currentLanguage.AdminPages.products.tableHeaders.name}
+            </TableHead>
+
             <TableHead className="text-right">PRICE</TableHead>
+
             <TableHead>BRAND</TableHead>
+
             <TableHead>CATEGORY</TableHead>
+
             <TableHead>STOCK</TableHead>
+
             <TableHead>RATING</TableHead>
+
             <TableHead className="w-25">ACTIONS</TableHead>
           </TableRow>
         </TableHeader>
@@ -97,7 +133,7 @@ const AdminProductsPage = async (props: AdminProductsPageProps) => {
                   </Link>
                 </Button>
 
-                <DeleteDialog id={product.id} action={deleteproduct} />
+                <DeleteDialog id={product.id} action={deleteProductById} />
               </TableCell>
             </TableRow>
           ))}

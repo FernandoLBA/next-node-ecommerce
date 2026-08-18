@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
@@ -7,13 +8,14 @@ import { useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import LoaderIcon from "@/components/ui/loader-icon";
 import { Link } from "@/i18n/routing";
 import { signInWithCredentials } from "@/lib/actions/user.actions";
 import { appRoutes, signInDefaultValues } from "@/lib/constants";
-import LoaderIcon from "@/components/ui/loader-icon";
 
 const SignInButton = () => {
   const { pending } = useFormStatus();
+  const t = useTranslations("SignIn");
 
   return (
     <Button
@@ -25,10 +27,10 @@ const SignInButton = () => {
       {pending ? (
         <>
           <LoaderIcon />
-          Signing in...
+          {t("loadingTextButton")}
         </>
       ) : (
-        "Sign In"
+        <>{t("textButton")}</>
       )}
     </Button>
   );
@@ -39,7 +41,7 @@ export default function CredentialsSignInForm() {
     success: false,
     message: "",
   });
-
+  const t = useTranslations("SignIn");
   const searchParams = useSearchParams();
   //* Extract the redirect URL from search parameters (e.g., /sign-in?callbackUrl=/cart)
   const callbackUrl = searchParams.get("callbackUrl") || appRoutes.HOME;
@@ -50,7 +52,7 @@ export default function CredentialsSignInForm() {
       <input type="hidden" name="callbackUrl" value={callbackUrl} />
       <div className="space-y-6">
         <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t("email")}</Label>
           <Input
             id="email"
             type="email"
@@ -62,7 +64,7 @@ export default function CredentialsSignInForm() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password">{t("password")}</Label>
           <Input
             id="password"
             type="password"
@@ -82,9 +84,9 @@ export default function CredentialsSignInForm() {
         )}
 
         <div className="text-sm text-center text-muted-foreground">
-          Don&apos;t have an account?{" "}
+          {t("noAccountText")}{" "}
           <Link href={appRoutes.SIGN_UP} target="_self" className="link">
-            Sign Up
+            {t("signUpLinkText")}
           </Link>
         </div>
       </div>

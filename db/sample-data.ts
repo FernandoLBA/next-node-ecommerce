@@ -1,14 +1,63 @@
-import { userRoles } from "@/lib/constants";
 import { hashSync } from "bcrypt-ts-edge";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+import {
+  APP_DESCRIPTION,
+  APP_NAME,
+  DEFAULT_CURRENCY,
+  DEFAULT_LANGUAGE,
+  SHIPPING_FREE_AMOUNT,
+  SHIPPING_PRICE,
+  TAX_PERCENTAGE,
+  userRoles,
+} from "@/lib/constants";
 
 const sampleData = {
+  appSettings: [
+    {
+      key: "appName",
+      value: APP_NAME,
+      description: "name of the ecommerce or brand",
+    },
+    {
+      key: "appDescription",
+      value: APP_DESCRIPTION,
+      description: "name of the ecommerce or brand",
+    },
+    {
+      key: "defaultLanguage",
+      value: DEFAULT_LANGUAGE,
+      description: "Default language of ecommerce",
+    },
+    {
+      key: "defaultCurrency",
+      value: DEFAULT_CURRENCY,
+      description: "Default currency of the app",
+    },
+    {
+      key: "taxPercentage",
+      value: TAX_PERCENTAGE,
+      description: "Default tax percentage of the app",
+    },
+    {
+      key: "shippingPrice",
+      value: SHIPPING_PRICE,
+      description: "Default shipping price of the app",
+    },
+    {
+      key: "shippingFreeAmount",
+      value: SHIPPING_FREE_AMOUNT,
+      description: "Default shipping free amount of the app",
+    },
+  ],
   users: [
     {
       name: "Admin",
       email: "fer@admin.com",
       password: hashSync("Admin123", 10),
       role: userRoles.ADMIN,
-      
     },
     {
       name: "Jane",
@@ -21,6 +70,28 @@ const sampleData = {
       email: "fer@example.com",
       password: hashSync("123123", 10),
       role: userRoles.USER,
+    },
+  ],
+  categories: [
+    {
+      name: "Men's Dress Shirts",
+      image:
+        "https://images.unsplash.com/photo-1602810320073-1230c46d89d4?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+    {
+      name: "Men's Sweatshirts",
+      image:
+        "https://images.unsplash.com/photo-1505632958218-4f23394784a6?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+    {
+      name: "Women's Sunglasses",
+      image:
+        "https://images.unsplash.com/photo-1556560957-ac5a1b5bfcb9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHdvbWVuJ3MlMjBzdW5nbGFzc2VzfGVufDB8fDB8fHww",
+    },
+    {
+      name: "Women's Purses",
+      image:
+        "https://images.unsplash.com/photo-1751522937993-46b83342398b?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
   ],
   products: [
@@ -39,7 +110,7 @@ const sampleData = {
       numReviews: 10,
       stock: 5,
       isFeatured: true,
-      banner: "banner-1.jpg",
+      banner: "/images/banner-1.jpg",
     },
     {
       name: "Brooks Brothers Long Sleeved Shirt",
@@ -56,7 +127,7 @@ const sampleData = {
       numReviews: 8,
       stock: 10,
       isFeatured: true,
-      banner: "banner-2.jpg",
+      banner: "/images/banner-2.jpg",
     },
     {
       name: "Tommy Hilfiger Classic Fit Dress Shirt",

@@ -9,10 +9,6 @@ const Header = () => {
     <header className="w-full border-b">
       <div className="wrapper flex-between">
         <div className="flex-start">
-          {/* <div className="block md:hidden">
-            <CategoryDrawer />
-          </div> */}
-
           <Link href={appRoutes.HOME} className="flex-start">
             <AppImage
               src={`${appRoutes.IMAGES}/logo.svg`}

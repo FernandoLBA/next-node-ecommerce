@@ -401,6 +401,7 @@ export async function getOrderSummary() {
   const ordersCount = await prisma.order.count();
   const productsCount = await prisma.product.count();
   const usersCount = await prisma.user.count();
+  const categoriesCount = await prisma.category.count();
 
   //* Calculate the total sales and total orders
   const totalSales = await prisma.order.aggregate({
@@ -439,6 +440,7 @@ export async function getOrderSummary() {
   return {
     ordersCount,
     productsCount,
+    categoriesCount,
     usersCount,
     totalSales,
     latestSales,

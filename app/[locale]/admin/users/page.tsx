@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 import Pagination from "@/components/shared/pagination";
-import DeleteDialog from "@/components/shared/products/delete-dialog";
+import DeleteDialog from "@/components/shared/delete-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
