@@ -60,11 +60,53 @@
         "category": "Categoría",
         "stock": "Existencias",
         "rating": "Calificación",
-        "actions": "Acciones",
-        "actionButtons": {
+        "actions": {
+          "title": "Acciones",
           "editButton": "Editar",
           "deleteButton": "Eliminar"
         }
+      },
+      "createProductForm": {
+        "title": "Crear Producto",
+        "name": {
+          "label": "Nombre",
+          "placeholder": "Ingrese el nombre"
+        },
+        "slug": {
+          "label": "Slug",
+          "placeholder": "Ingrese el slug",
+          "generateSlugButton": "Generar"
+        },
+        "category": {
+          "label": "Categoría",
+          "placeholder": "Ingrese la categoría"
+        },
+        "brand": {
+          "label": "Marca",
+          "placeholder": "Ingrese la marca"
+        },
+        "price": {
+          "label": "Precio",
+          "placeholder": "Ingrese el precio"
+        },
+        "stock": {
+          "label": "Existencias",
+          "placeholder": "Ingrese las existencias"
+        },
+        "images": {
+          "label": "Imágenes"
+        },
+        "featuredProduct": {
+          "label": "Producto Destacado",
+          "checkboxLabel": "Es destacado?"
+        },
+        "description": {
+          "label": "Descripción",
+          "placeholder": "Ingrese la descripción"
+        },
+        "createProductButton": "Crear producto",
+        "updateProductButton": "Editar producto",
+        "submittingText": "Enviando..."
       }
     },
     "orders": {
@@ -147,6 +189,10 @@
     "alertDescription": "Esta acción no puede ser revertida",
     "cancelButton": "Cancelar",
     "deletingText": "Eliminando..."
+  },
+  "AppUploadButton": {
+    "chooseFileButton": "Elija el archivo",
+    "allowedFileSizeText": "Tamaño máximo: 4MB"
   },
   "Footer": {
     "rights": "Todos los derechos reservados."

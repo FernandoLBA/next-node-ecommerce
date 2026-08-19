@@ -6,8 +6,13 @@ import prisma from "@/db/db";
 import { InsertProduct, SortingProductsOptions, UpdateProduct } from "@/types";
 import { appRoutes, LATEST_PRODUCTS_LIMIT, PAGE_SIZE } from "../constants";
 import { Prisma } from "../generated/prisma/client";
-import { convertToPlainObject, formatError } from "../utils";
+import {
+  convertToPlainObject,
+  formatError,
+  getUploadThingImageKey,
+} from "../utils";
 import { insertProductSchema, updateProductSchema } from "../validators";
+import { deleteImageFromUploadthing } from "./uploadthing.action";
 
 /**
  * Get latest products
@@ -161,6 +166,18 @@ export async function deleteProductById(id: string) {
     if (!productExists) return { success: false, message: "Product not found" };
 
     await prisma.product.delete({ where: { id } });
+
+    productExists.images.forEach(async (image) => {
+      const imageKey = getUploadThingImageKey(image);
+
+      await deleteImageFromUploadthing(imageKey as string);
+    });
+
+    if (productExists.banner && productExists.isFeatured) {
+      const imageKey = getUploadThingImageKey(productExists.banner);
+
+      await deleteImageFromUploadthing(imageKey as string);
+    }
 
     revalidatePath(appRoutes.ADMIN_PRODUCTS);
 

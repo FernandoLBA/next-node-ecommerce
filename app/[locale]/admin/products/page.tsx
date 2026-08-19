@@ -86,7 +86,7 @@ const AdminProductsPage = async (props: AdminProductsPageProps) => {
 
       <Table>
         <TableHeader>
-          <TableRow>
+          <TableRow className="uppercase">
             <TableHead>
               {currentLanguage.AdminPages.products.tableHeaders.id}
             </TableHead>
@@ -95,17 +95,29 @@ const AdminProductsPage = async (props: AdminProductsPageProps) => {
               {currentLanguage.AdminPages.products.tableHeaders.name}
             </TableHead>
 
-            <TableHead className="text-right">PRICE</TableHead>
+            <TableHead className="text-right">
+              {currentLanguage.AdminPages.products.tableHeaders.price}
+            </TableHead>
 
-            <TableHead>BRAND</TableHead>
+            <TableHead>
+              {currentLanguage.AdminPages.products.tableHeaders.brand}
+            </TableHead>
 
-            <TableHead>CATEGORY</TableHead>
+            <TableHead>
+              {currentLanguage.AdminPages.products.tableHeaders.category}
+            </TableHead>
 
-            <TableHead>STOCK</TableHead>
+            <TableHead>
+              {currentLanguage.AdminPages.products.tableHeaders.stock}
+            </TableHead>
 
-            <TableHead>RATING</TableHead>
+            <TableHead>
+              {currentLanguage.AdminPages.products.tableHeaders.rating}
+            </TableHead>
 
-            <TableHead className="w-25">ACTIONS</TableHead>
+            <TableHead className="w-25">
+              {currentLanguage.AdminPages.products.tableHeaders.actions.title}
+            </TableHead>
           </TableRow>
         </TableHeader>
 
@@ -129,7 +141,10 @@ const AdminProductsPage = async (props: AdminProductsPageProps) => {
               <TableCell className="flex-start gap-2">
                 <Button size="sm" variant="outline">
                   <Link href={`${appRoutes.ADMIN_PRODUCTS}/${product.id}`}>
-                    Edit
+                    {
+                      currentLanguage.AdminPages.products.tableHeaders.actions
+                        .editButton
+                    }
                   </Link>
                 </Button>
 

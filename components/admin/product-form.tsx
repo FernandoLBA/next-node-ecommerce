@@ -1,19 +1,25 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import { Controller, SubmitHandler, useForm, useWatch } from "react-hook-form";
 import slugify from "slugify";
+import { toast } from "sonner";
+import z from "zod";
 
 import { useRouter } from "@/i18n/routing";
 import { createProduct, updateProduct } from "@/lib/actions/product.actions";
+import {
+  deleteBannerUTFFileFromProducts,
+  deleteUTFFileFromProducts,
+} from "@/lib/actions/uploadthing.action";
 import { appRoutes, productDefaultValues } from "@/lib/constants";
-import { UploadButton } from "@/lib/uploadthing";
 import { cn } from "@/lib/utils";
 import { insertProductSchema, updateProductSchema } from "@/lib/validators";
 import { Product } from "@/types";
-import { toast } from "sonner";
-import z from "zod";
-import AppImage from "../ui/app-image";
+import { useTransition } from "react";
+import AppUploadButton from "../shared/app-upload-button";
+import AppUploadthingImage from "../shared/app-uploadthing-image";
 import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
 import { Checkbox } from "../ui/checkbox";
@@ -35,10 +41,11 @@ type ProductFormProps = {
 };
 
 type FormType =
-  | z.infer<typeof insertProductSchema>
-  | z.infer<typeof updateProductSchema>;
+  z.infer<typeof insertProductSchema> | z.infer<typeof updateProductSchema>;
 
 const ProductForm = ({ type, product, productId }: ProductFormProps) => {
+  const [isPending, startTransition] = useTransition();
+  const t = useTranslations("AdminPages");
   const router = useRouter();
   const schema = type === "Update" ? updateProductSchema : insertProductSchema;
 
@@ -85,6 +92,46 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
     }
   };
 
+  const handleDeleteImage = async (
+    imageUrl: string,
+    source: "imageProduct" | "banner" = "imageProduct",
+  ) => {
+    startTransition(async () => {
+      if (source === "imageProduct") {
+        const res = await deleteUTFFileFromProducts({
+          imageUrl,
+          productId: productId as string,
+        });
+
+        if (!res.success) {
+          toast.error(res.message);
+          return;
+        }
+
+        const currentFormImages: string[] = form.getValues("images");
+        const updatedFormImages = currentFormImages.filter(
+          (img) => img !== imageUrl,
+        );
+
+        form.setValue("images", updatedFormImages, { shouldValidate: true });
+        toast.success(res.message);
+      } else {
+        const res = await deleteBannerUTFFileFromProducts({
+          imageUrl,
+          productId: productId as string,
+        });
+
+        if (!res.success) {
+          toast.error(res.message);
+          return;
+        }
+
+        form.setValue("banner", "", { shouldValidate: true });
+        toast.success(res.message);
+      }
+    });
+  };
+
   const images = useWatch({
     control: form.control,
     name: "images",
@@ -105,18 +152,21 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
       className="space-y-8"
     >
       <FieldGroup>
+        {/* //* NAME */}
         <div className="flex flex-col md:flex-row gap-5">
           <Controller
             name="name"
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="name">Name</FieldLabel>
+                <FieldLabel htmlFor="name">
+                  {t("products.createProductForm.name.label")}
+                </FieldLabel>
                 <Input
                   {...field}
                   id="name"
                   aria-invalid={fieldState.invalid}
-                  placeholder="Enter product name"
+                  placeholder={t("products.createProductForm.name.placeholder")}
                   disabled={form.formState.isSubmitting}
                 />
                 {fieldState.invalid && (
@@ -126,12 +176,15 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
             )}
           />
 
+          {/* //* SLUG */}
           <Controller
             name="slug"
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="slug">Slug</FieldLabel>
+                <FieldLabel htmlFor="slug">
+                  {t("products.createProductForm.slug.label")}
+                </FieldLabel>
                 <div className="flex items-center gap-2">
                   <Input
                     {...field}
@@ -141,7 +194,9 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
                       form.formState.isSubmitting
                     }
                     aria-invalid={fieldState.invalid}
-                    placeholder="Enter slug"
+                    placeholder={t(
+                      "products.createProductForm.slug.placeholder",
+                    )}
                   />
                   <Button
                     type="button"
@@ -156,7 +211,7 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
                       )
                     }
                   >
-                    Generate
+                    {t("products.createProductForm.slug.generateSlugButton")}
                   </Button>
                 </div>
                 {fieldState.invalid && (
@@ -167,18 +222,23 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
           />
         </div>
 
+        {/* //* CATEGORY */}
         <div className="flex flex-col md:flex-row gap-5">
           <Controller
             name="category"
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="category">Category</FieldLabel>
+                <FieldLabel htmlFor="category">
+                  {t("products.createProductForm.category.label")}
+                </FieldLabel>
                 <Input
                   {...field}
                   id="category"
                   aria-invalid={fieldState.invalid}
-                  placeholder="Enter category"
+                  placeholder={t(
+                    "products.createProductForm.category.placeholder",
+                  )}
                   disabled={form.formState.isSubmitting}
                 />
                 {fieldState.invalid && (
@@ -193,12 +253,16 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="brand">Brand</FieldLabel>
+                <FieldLabel htmlFor="brand">
+                  {t("products.createProductForm.brand.label")}
+                </FieldLabel>
                 <Input
                   {...field}
                   id="brand"
                   aria-invalid={fieldState.invalid}
-                  placeholder="Enter brand"
+                  placeholder={t(
+                    "products.createProductForm.brand.placeholder",
+                  )}
                   disabled={form.formState.isSubmitting}
                 />
                 {fieldState.invalid && (
@@ -209,18 +273,23 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
           />
         </div>
 
+        {/* //* PRICE */}
         <div className="flex flex-col md:flex-row gap-5">
           <Controller
             name="price"
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="price">Price</FieldLabel>
+                <FieldLabel htmlFor="price">
+                  {t("products.createProductForm.price.label")}
+                </FieldLabel>
                 <Input
                   {...field}
                   id="price"
                   aria-invalid={fieldState.invalid}
-                  placeholder="Enter price"
+                  placeholder={t(
+                    "products.createProductForm.price.placeholder",
+                  )}
                   disabled={form.formState.isSubmitting}
                 />
                 {fieldState.invalid && (
@@ -235,13 +304,17 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="stock">Stock</FieldLabel>
+                <FieldLabel htmlFor="stock">
+                  {t("products.createProductForm.stock.label")}
+                </FieldLabel>
                 <Input
                   {...field}
                   type="number"
                   id="stock"
                   aria-invalid={fieldState.invalid}
-                  placeholder="Enter stock"
+                  placeholder={t(
+                    "products.createProductForm.stock.placeholder",
+                  )}
                   disabled={form.formState.isSubmitting}
                 />
                 {fieldState.invalid && (
@@ -252,30 +325,35 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
           />
         </div>
 
+        {/* //* PRODUCT IMAGES */}
         <div className="upload-field flex flex-col md:flex-row gap-5">
           <Controller
             name="images"
             control={form.control}
             render={({ fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="images">Images</FieldLabel>
+                <FieldLabel htmlFor="images">
+                  {t("products.createProductForm.images.label")}
+                </FieldLabel>
+
                 <Card className="relative">
                   <CardContent className="gap-2 min-h-48">
                     <div className="flex flex-wrap gap-2">
                       {images.map((image) => (
-                        <AppImage
+                        <AppUploadthingImage
                           key={image}
-                          className="w-20 h-20 object-cover object-center rounded-sm"
+                          className="w-20 h-20"
+                          imageUrl={image}
                           width={100}
                           height={100}
-                          src={image}
-                          alt="Product Image"
+                          action={() => handleDeleteImage(image)}
+                          isLoading={isPending}
                         />
                       ))}
 
-                      <UploadButton
-                        className="absolute bottom-2 right-2"
+                      <AppUploadButton
                         endpoint="imageUploader"
+                        className="absolute bottom-2 right-2"
                         onClientUploadComplete={(res: { url: string }[]) => {
                           form.setValue("images", [...images, res[0].url]);
                         }}
@@ -295,8 +373,12 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
           />
         </div>
 
+        {/* //* FEATURED PRODUCT BANNER */}
         <div className="upload-field">
-          <FieldLabel className="mb-3">Featured Product</FieldLabel>
+          <FieldLabel className="mb-3">
+            {t("products.createProductForm.featuredProduct.label")}
+          </FieldLabel>
+
           <Card
             className={cn("relative", `${isFeatured && !banner && "h-30"}`)}
           >
@@ -317,9 +399,15 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
                       className="resize-none"
                       disabled={form.formState.isSubmitting}
                     />
+
                     <FieldContent>
-                      <FieldLabel htmlFor="isFeatured">Is Featured?</FieldLabel>
+                      <FieldLabel htmlFor="isFeatured">
+                        {t(
+                          "products.createProductForm.featuredProduct.checkboxLabel",
+                        )}
+                      </FieldLabel>
                     </FieldContent>
+
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
                     )}
@@ -328,17 +416,35 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
               />
 
               {isFeatured && banner && (
-                <AppImage
-                  src={banner}
-                  alt="banner image"
-                  className="w-full object-cover object-center rounded-sm"
-                  width={1920}
+                <AppUploadthingImage
+                  className="w-full"
+                  imageUrl={banner}
                   height={680}
+                  width={1920}
+                  isLoading={isPending}
+                  action={() => handleDeleteImage(banner, "banner")}
                 />
+                // <div className="relative">
+                //   <AppImage
+                //     src={banner}
+                //     alt="banner image"
+                //     className="w-full rounded-sm"
+                //     width={1920}
+                //     height={680}
+                //   />
+
+                //   <Button
+                //     className="absolute rounded-full h-6 w-6 -top-3 -right-3"
+                //     onClick={() => handleDeleteImage(banner)}
+                //     disabled={isPending}
+                //   >
+                //     <X />
+                //   </Button>
+                // </div>
               )}
 
               {isFeatured && !banner && (
-                <UploadButton
+                <AppUploadButton
                   className="absolute bottom-2 right-2"
                   endpoint="imageUploader"
                   onClientUploadComplete={(res: { url: string }[]) => {
@@ -354,19 +460,25 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
           </Card>
         </div>
 
+        {/* //* DESCRIPTION */}
         <div>
           <Controller
             name="description"
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="description">Description</FieldLabel>
+                <FieldLabel htmlFor="description">
+                  {t("products.createProductForm.description.label")}
+                </FieldLabel>
+
                 <Textarea
                   {...field}
                   id="description"
                   aria-invalid={fieldState.invalid}
                   className="resize-none"
-                  placeholder="Enter product description"
+                  placeholder={t(
+                    "products.createProductForm.description.placeholder",
+                  )}
                   disabled={form.formState.isSubmitting}
                 />
                 {fieldState.invalid && (
@@ -382,15 +494,17 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
         <Button
           type="submit"
           disabled={form.formState.isSubmitting}
-          className="button col-span-2 w-full"
+          className="button col-span-2 w-full md:w-fit"
         >
           {form.formState.isSubmitting ? (
             <>
               <LoaderIcon />
-              Submitting...
+              {t("products.createProductForm.submittingText")}
             </>
+          ) : type === "Update" ? (
+            t("products.createProductForm.updateProductButton")
           ) : (
-            `${type} product`
+            t("products.createProductForm.createProductButton")
           )}
         </Button>
       </div>

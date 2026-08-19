@@ -60,15 +60,57 @@
         "category": "Category",
         "stock": "Stock",
         "rating": "Rating",
-        "actions": "Actions",
-        "actionButtons": {
+        "actions": {
+          "title": "Actions",
           "editButton": "Edit",
           "deleteButton": "Delete"
         }
+      },
+      "createProductForm": {
+        "title": "Create Product",
+        "name": {
+          "label": "Name",
+          "placeholder": "Enter the name"
+        },
+        "slug": {
+          "label": "Slug",
+          "placeholder": "Enter the slug",
+          "generateSlugButton": "Generate"
+        },
+        "category": {
+          "label": "Category",
+          "placeholder": "Enter the category"
+        },
+        "brand": {
+          "label": "Brand",
+          "placeholder": "Enter the brand"
+        },
+        "price": {
+          "label": "Price",
+          "placeholder": "Enter the price"
+        },
+        "stock": {
+          "label": "Stock",
+          "placeholder": "Enter the stock"
+        },
+        "images": {
+          "label": "Images"
+        },
+        "featuredProduct": {
+          "label": "Featured Product",
+          "checkboxLabel": "Is Featured?"
+        },
+        "description": {
+          "label": "Description",
+          "placeholder": "Enter the description"
+        },
+        "createProductButton": "Create product",
+        "updateProductButton": "Edit product",
+        "submittingText": "Submitting..."
       }
     },
     "orders": {
-      "title": "Órdenes",
+      "title": "Orders",
       "tableHeaders": {
         "id": "ID",
         "buyer": "Comprador",
@@ -147,6 +189,10 @@
     "alertDescription": "This action can't be undone",
     "cancelButton": "Cancel",
     "deletingText": "Deleting..."
+  },
+  "AppUploadButton": {
+    "chooseFileButton": "Choose File",
+    "allowedFileSizeText": "Max size: 4MB"
   },
   "Footer": {
     "rights": "All Rights Reserved."

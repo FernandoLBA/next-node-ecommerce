@@ -141,11 +141,38 @@
 }
 
 /* Uploadthing Button text override */
-html.dark .upload-field .text-white{
+html.dark .upload-field .text-white {
   @apply px-3 rounded-full bg-gray-500 font-bold text-white! hover:bg-gray-600 border-0;
 }
 
 .upload-field .text-white {
   @apply px-3 rounded-full bg-gray-100 font-bold;
   color: #232b3b !important;
+}
+
+/* Uploadthing Base button */
+.ut-button > label {
+  background-color: var(--primary) !important;
+  border-radius: calc(var(--radius) - 2px) !important;
+  padding: var(--spacing) calc(var(--spacing) * 4) !important;
+}
+
+/* Uploadthing button text */
+.ut-span {
+  font-size: var(--text-sm);
+  --tw-font-weight: var(--font-weight-medium) !important;
+  font-weight: var(--font-weight-medium) !important;
+  color: var(--primary-foreground) !important;
+}
+
+/* Uploadthing button Hover */
+.ut-button > label:hover {
+  background-color: var(--color-primary) !important;
+  opacity: 80%;
+  transition: all 0.1s ease-in-out;
+}
+
+/* Uploadthing Uploading state */
+.ut-button[data-state="uploading"] {
+  cursor: wait;
 }

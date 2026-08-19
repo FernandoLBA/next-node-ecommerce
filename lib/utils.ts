@@ -336,3 +336,16 @@ export const getLanguage = (locale: Locale) => {
     currentLanguage: locales[locale],
   };
 };
+
+/**
+ * Returns the uploadthing image key
+ *
+ * @param imageUrl
+ * @returns
+ */
+export const getUploadThingImageKey = (imageUrl: string) => {
+  if (!imageUrl)
+    throw new Error("You must provide a uploadthing valid image url");
+
+  return imageUrl.split("/").pop();
+};
