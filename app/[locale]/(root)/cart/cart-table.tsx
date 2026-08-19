@@ -48,9 +48,11 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
               <TableHeader>
                 <TableRow>
                   <TableHead>{t("table.item")}</TableHead>
+
                   <TableHead className="text-center">
                     {t("table.quantity")}
                   </TableHead>
+
                   <TableHead className="text-right">
                     {t("table.price")}
                   </TableHead>
@@ -63,9 +65,10 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                     <TableCell>
                       <Link
                         href={`${appRoutes.PRODUCTS}/${item.slug}`}
-                        className="flex items-center"
+                        className="flex items-center rounded-xl"
                       >
                         <AppImage
+                          className="rounded-md"
                           src={item.image}
                           alt={item.name}
                           width={50}
@@ -77,7 +80,7 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                     </TableCell>
 
                     <TableCell>
-                      <div className="flex-between bg-accent rounded-full">
+                      <div className="flex-between bg-input rounded-md">
                         <Button
                           disabled={isPending}
                           type="button"

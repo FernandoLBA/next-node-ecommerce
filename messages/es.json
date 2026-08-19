@@ -118,8 +118,10 @@
         "total": "Total",
         "paid": "Estado de pago",
         "delivered": "Estado de entrega",
-        "actions": "Acciones",
-        "actionButtons": {
+        "notPaidStatus": "No pagado",
+        "notDeliveredStatus": "No entregado",
+        "actions": {
+          "title": "Acciones",
           "detailsButton": "Detalles",
           "deleteButton": "Eliminar"
         }
@@ -143,7 +145,40 @@
   "HomePage": {
     "title": "Lo último",
     "TopCategories": {
-      "title": "Categorías destacadas"
+      "title": "Categorías Destacadas"
+    }
+  },
+  "Orders": {
+    "title": "Órdenes",
+    "description": "Página de órdenes del usuario",
+    "tableHeaders": {
+      "id": "ID",
+      "date": "Fecha",
+      "total": "Total",
+      "paid": "Estado de pago",
+      "delivered": "Estado de entrega",
+      "actions": {
+        "title": "Acciones",
+        "detailsButton": "Detalles",
+        "notPaidState": "No pagado",
+        "notDeliveredState": "No entregado"
+      }
+    }
+  },
+  "Profile": {
+    "title": "Perfil",
+    "description": "Página de perfil del usuario",
+    "profileForm": {
+      "email": "Correo",
+      "name": "Nombre",
+      "submitting": "Enviando...",
+      "updateProfileButton": "Actualizar perfil"
+    }
+  },
+  "Header": {
+    "search": {
+      "allLabel": "Todo",
+      "searchInputPlaceholder": "Buscar..."
     }
   },
   "SignIn": {
@@ -181,6 +216,40 @@
       "system": "Sistema",
       "light": "Claro",
       "dark": "Oscuro"
+    },
+    "userButton": {
+      "signIn": "Iniciar Sesión",
+      "userProfile": "Perfil",
+      "orderHistory": "Historial de Órdenes",
+      "admin": "Administrador",
+      "signOut": "Cerrar Sesión"
+    }
+  },
+  "ShippingAddress": {
+    "title": "Dirección de envío",
+    "subTitle": "Por favor ingrese una dirección de envío",
+    "shippingAddressForm": {
+      "fullName": {
+        "label": "Nombre Completo",
+        "placeholder": "Ingresa tu nombre completo"
+      },
+      "address": {
+        "label": "Dirección",
+        "placeholder": "Ingresa tu dirección de envío"
+      },
+      "city": {
+        "label": "Ciudad",
+        "placeholder": "Ingresa la ciudad del envío"
+      },
+      "postalCode": {
+        "label": "Código postal",
+        "placeholder": "Ingresa tu código postal"
+      },
+      "country": {
+        "label": "País",
+        "placeholder": "Ingresa tu país"
+      },
+      "saveButton": "Guardar"
     }
   },
   "DeleteDialog": {

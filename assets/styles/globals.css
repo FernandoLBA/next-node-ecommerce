@@ -38,52 +38,53 @@
 
 @layer base {
   :root {
-    --background: #ffffff;
-    --foreground: #0a0e1a;
+    --background: #f7f5ef;
+    --foreground: #232b3b;
     --card: #ffffff;
-    --card-foreground: #0a0e1a;
+    --card-foreground: #232b3b;
     --popover: #ffffff;
-    --popover-foreground: #0a0e1a;
-    --primary: #151925;
-    --primary-foreground: #f8fafc;
-    --secondary: #feca29;
-    --secondary-foreground: #232b3b;
-    --muted: #f1f5f9;
-    --muted-foreground: #6c7684;
-    --accent: #f1f5f9;
-    --accent-foreground: #151925;
-    --destructive: #f87171;
-    --destructive-foreground: #f8fafc;
-    --border: #e3e8ef;
-    --input: #e3e8ef;
-    --ring: #0a0e1a;
-    --chart-1: #f89b5c;
-    --chart-2: #2a8c7b;
-    --chart-3: #23404a;
-    --chart-4: #f6d36b;
-    --chart-5: #fdba74;
+    --popover-foreground: #232b3b;
+    --primary: #feca29;
+    --primary-foreground: #232b3b;
+    --secondary: #232b3b;
+    --secondary-foreground: #f7f5ef;
+    --muted: #eae6da;
+    --muted-foreground: #5c6270;
+    --accent: #feca29;
+    --accent-foreground: #1a1f2b;
+    --destructive: #de3c3c;
+    --destructive-foreground: #fef2f2;
+    --border: #e2ddd0;
+    --input: #ebebeb;
+    --ring: #232b3b;
+    --chart-1: #e28344;
+    --chart-2: #1e7869;
+    --chart-3: #1a3842;
+    --chart-4: #efc957;
+    --chart-5: #f3a755;
     --radius: 0.5rem;
   }
+
   .dark {
-    --background: #0a0e1a;
-    --foreground: #f8fafc;
-    --card: #0a0e1a;
-    --card-foreground: #f8fafc;
-    --popover: #0a0e1a;
-    --popover-foreground: #f8fafc;
-    --primary: #f8fafc;
-    --primary-foreground: #151925;
-    --secondary: #feca29;
-    --secondary-foreground: #232b3b;
-    --muted: #232b3b;
-    --muted-foreground: #8ca0b3;
-    --accent: #232b3b;
-    --accent-foreground: #f8fafc;
-    --destructive: #e41f1f;
-    --destructive-foreground: #f8fafc;
-    --border: #232b3b;
-    --input: #232b3b;
-    --ring: #d6e6f7;
+    --background: #0d111c;
+    --foreground: #f1ede4;
+    --card: #151a26;
+    --card-foreground: #f1ede4;
+    --popover: #151a26;
+    --popover-foreground: #f1ede4;
+    --primary: #feca29;
+    --primary-foreground: #0d111c;
+    --secondary: #1b222f;
+    --secondary-foreground: #f1ede4;
+    --muted: #1b222f;
+    --muted-foreground: #98a2b3;
+    --accent: #feca29;
+    --accent-foreground: #0d111c;
+    --destructive: #de3c3c;
+    --destructive-foreground: #fef2f2;
+    --border: #252b38;
+    --input: #455676;
+    --ring: #feca29;
     --chart-1: #2363d1;
     --chart-2: #2cbfae;
     --chart-3: #f6a94a;
@@ -138,16 +139,6 @@
   .btn-danger {
     @apply bg-red-100 hover:bg-red-200 cursor-pointer rounded-md h-8 px-3 text-red-800;
   }
-}
-
-/* Uploadthing Button text override */
-html.dark .upload-field .text-white {
-  @apply px-3 rounded-full bg-gray-500 font-bold text-white! hover:bg-gray-600 border-0;
-}
-
-.upload-field .text-white {
-  @apply px-3 rounded-full bg-gray-100 font-bold;
-  color: #232b3b !important;
 }
 
 /* Uploadthing Base button */

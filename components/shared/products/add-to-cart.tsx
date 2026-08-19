@@ -29,7 +29,6 @@ function AddToCart({ item, cart }: { item: CartItem; cart?: Cart }) {
 
       toast.success(res.message, {
         description: `${item.name} added to cart`,
-
         action: (
           <Button variant="outline" onClick={() => router.push(appRoutes.CART)}>
             Go To Cart
@@ -73,7 +72,7 @@ function AddToCart({ item, cart }: { item: CartItem; cart?: Cart }) {
     cart && cart.items.find((product) => product.productId === item.productId);
 
   return existItem ? (
-    <div className="bg-accent rounded-full w-full flex-between">
+    <div className="bg-input rounded-md w-full flex-between">
       <Button type="button" disabled={isPending} onClick={handleRemoveFromCart}>
         {isPending ? <LoaderIcon /> : <Minus className="w-4 h-4" />}
       </Button>

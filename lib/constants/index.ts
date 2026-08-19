@@ -1,3 +1,5 @@
+import { Locale } from "@/types";
+
 // * APP CONFIG ############################################
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "Store Name";
 export const APP_DESCRIPTION =
@@ -122,29 +124,42 @@ export const reviewFormDefaultValues = {
   rating: 0,
 };
 
-// * NAVIGATION LINKS ############################################
-export const navLinks = [
+// * ADMIN NAVIGATION LINKS ############################################
+export const adminNavLinks = (locale: Locale) =>
+  [
+    {
+      title: locale === "en" ? "Overview" : "Resumen",
+      href: appRoutes.ADMIN_OVERVIEW,
+    },
+    {
+      title: locale === "en" ? "Categories" : "Categorías",
+      href: appRoutes.ADMIN_CATEGORIES,
+    },
+    {
+      title: locale === "en" ? "Products" : "Productos",
+      href: appRoutes.ADMIN_PRODUCTS,
+    },
+    {
+      title: locale === "en" ? "Orders" : "Órdenes",
+      href: appRoutes.ADMIN_ORDERS,
+    },
+    {
+      title: locale === "en" ? "Users" : "Usuarios",
+      href: appRoutes.ADMIN_USERS,
+    },
+  ] as const;
+
+// * USERS NAVIGATION LINKS ############################################
+export const userNavLinks = (locale: Locale) => [
   {
-    title: "Overview",
-    href: appRoutes.ADMIN_OVERVIEW,
+    title: locale === "en" ? "Profile" : "Perfil",
+    href: appRoutes.USER_PROFILE,
   },
   {
-    title: "Categories",
-    href: appRoutes.ADMIN_CATEGORIES,
+    title: locale === "en" ? "Orders" : "Órdenes",
+    href: appRoutes.USER_ORDERS,
   },
-  {
-    title: "Products",
-    href: appRoutes.ADMIN_PRODUCTS,
-  },
-  {
-    title: "Orders",
-    href: appRoutes.ADMIN_ORDERS,
-  },
-  {
-    title: "Users",
-    href: appRoutes.ADMIN_USERS,
-  },
-] as const;
+];
 
 // * PRICE RANGES FOR FILTERING ############################################
 export const priceRanges = [

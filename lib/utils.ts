@@ -326,6 +326,12 @@ export function getFilterUrl({
   return convertSearchParamsToSearchUrl(params);
 }
 
+/**
+ * Get language object for intenationalization
+ *
+ * @param locale
+ * @returns
+ */
 export const getLanguage = (locale: Locale) => {
   const locales: Record<string, typeof englishMessages> = {
     es: spanishMessages,
@@ -348,4 +354,16 @@ export const getUploadThingImageKey = (imageUrl: string) => {
     throw new Error("You must provide a uploadthing valid image url");
 
   return imageUrl.split("/").pop();
+};
+
+/**
+ * Extracts and returns the locale language from pathname
+ *
+ * @param pathname
+ * @returns
+ */
+export const getLocaleFromPathname = (pathname: string) => {
+  if (!pathname) throw new Error("You must provide a valida pathname");
+
+  return pathname.split("/")[1] as Locale;
 };

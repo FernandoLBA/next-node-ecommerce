@@ -25,6 +25,7 @@ const Menu = async () => {
     <div className="space-x-2">
       <nav className="hidden md:flex w-fit gap-1">
         <ModeToggle />
+
         <LanguageToggle />
 
         <Button variant="ghost">

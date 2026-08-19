@@ -16,9 +16,15 @@ import { Link } from "@/i18n/routing";
 import { deleteOrderById, getAllOrders } from "@/lib/actions/order.actions";
 import { ADMIN_PAGE_SIZE, appRoutes } from "@/lib/constants";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
+import { getLocale } from "next-intl/server";
+import { getLanguage } from "../../../../lib/utils";
+import { Locale } from "@/types";
 
-export const metadata: Metadata = {
-  title: "Orders",
+export const generateMetadata = async (): Promise<Metadata> => {
+  const locale = await getLocale();
+  const { currentLanguage } = getLanguage(locale as Locale);
+
+  return { title: currentLanguage.AdminPages.orders.title };
 };
 
 type AdminOrdersPageProps = {
@@ -26,17 +32,19 @@ type AdminOrdersPageProps = {
 };
 
 const AdminOrdersPage = async (props: AdminOrdersPageProps) => {
+  const locale = await getLocale();
   const { page = "1", query } = await props.searchParams;
   const orders = await getAllOrders({
     page: Number(page),
     limit: ADMIN_PAGE_SIZE,
     query,
   });
+  const { currentLanguage } = getLanguage(locale as Locale);
 
   return (
     <div className="space-y-2">
       <div className="flex items-baseline gap-3">
-        <h1 className="h2-bold">Orders</h1>
+        <h1 className="h2-bold">{currentLanguage.AdminPages.orders.title}</h1>
         {query && (
           <div>
             Filtered by <i>&quot;{query}&quot;</i>{" "}
@@ -52,14 +60,34 @@ const AdminOrdersPage = async (props: AdminOrdersPageProps) => {
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
-            <TableRow>
-              <TableHead>ID</TableHead>
-              <TableHead>BUYER</TableHead>
-              <TableHead>DATE</TableHead>
-              <TableHead>TOTAL</TableHead>
-              <TableHead>PAID</TableHead>
-              <TableHead>DELIVERED</TableHead>
-              <TableHead>ACTIONS</TableHead>
+            <TableRow className="uppercase">
+              <TableHead>
+                {currentLanguage.AdminPages.orders.tableHeaders.id}
+              </TableHead>
+
+              <TableHead>
+                {currentLanguage.AdminPages.orders.tableHeaders.buyer}
+              </TableHead>
+
+              <TableHead>
+                {currentLanguage.AdminPages.orders.tableHeaders.createdDate}
+              </TableHead>
+
+              <TableHead className="text-right">
+                {currentLanguage.AdminPages.orders.tableHeaders.total}
+              </TableHead>
+
+              <TableHead>
+                {currentLanguage.AdminPages.orders.tableHeaders.paid}
+              </TableHead>
+
+              <TableHead>
+                {currentLanguage.AdminPages.orders.tableHeaders.delivered}
+              </TableHead>
+
+              <TableHead>
+                {currentLanguage.AdminPages.orders.tableHeaders.actions.title}
+              </TableHead>
             </TableRow>
           </TableHeader>
 
@@ -67,34 +95,51 @@ const AdminOrdersPage = async (props: AdminOrdersPageProps) => {
             {orders.data.map((order) => (
               <TableRow key={order.id}>
                 <TableCell>{formatId(order.id)}</TableCell>
+
                 <TableCell>{order.user.name}</TableCell>
+
                 <TableCell>
                   {formatDateTime(order.createdAt).dateTime}
                 </TableCell>
-                <TableCell>
+
+                <TableCell align="right">
                   {formatCurrency(Number(order.totalPrice))}
                 </TableCell>
+
                 <TableCell>
                   {order.isPaid && order.paidAt ? (
-                    <Badge variant="secondary">
-                      {formatDateTime(order.paidAt).dateTime}
-                    </Badge>
+                    <Badge>{formatDateTime(order.paidAt).dateTime}</Badge>
                   ) : (
-                    <Badge variant="destructive">Not paid</Badge>
+                    <Badge variant="destructive">
+                      {
+                        currentLanguage.AdminPages.orders.tableHeaders
+                          .notPaidStatus
+                      }
+                    </Badge>
                   )}
                 </TableCell>
+
                 <TableCell>
                   {order.isDelivered && order.deliveredAt ? (
-                    <Badge variant="secondary">
-                      {formatDateTime(order.deliveredAt).dateTime}
-                    </Badge>
+                    <Badge>{formatDateTime(order.deliveredAt).dateTime}</Badge>
                   ) : (
-                    <Badge variant="destructive">Not delivered</Badge>
+                    <Badge variant="destructive">
+                      {
+                        currentLanguage.AdminPages.orders.tableHeaders
+                          .notDeliveredStatus
+                      }
+                    </Badge>
                   )}
                 </TableCell>
+
                 <TableCell className="flex-start gap-2">
                   <Button size="sm" variant="outline">
-                    <Link href={`${appRoutes.ORDER}/${order.id}`}>Details</Link>
+                    <Link href={`${appRoutes.ORDER}/${order.id}`}>
+                      {
+                        currentLanguage.AdminPages.orders.tableHeaders.actions
+                          .detailsButton
+                      }
+                    </Link>
                   </Button>
 
                   <DeleteDialog id={order.id} action={deleteOrderById} />

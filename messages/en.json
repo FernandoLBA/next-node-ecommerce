@@ -113,15 +113,17 @@
       "title": "Orders",
       "tableHeaders": {
         "id": "ID",
-        "buyer": "Comprador",
-        "createdDate": "Fecha de órden",
+        "buyer": "Buyer",
+        "createdDate": "Date",
         "total": "Total",
-        "paid": "Estado de pago",
-        "delivered": "Estado de entrega",
-        "actions": "Acciones",
-        "actionButtons": {
-          "detailsButton": "Detalles",
-          "deleteButton": "Eliminar"
+        "paid": "Paid",
+        "delivered": "Delivered",
+        "notPaidStatus": "Not paid",
+        "notDeliveredStatus": "Not delivered",
+        "actions": {
+          "title": "Actions",
+          "detailsButton": "Details",
+          "deleteButton": "Delete"
         }
       }
     },
@@ -144,6 +146,39 @@
     "title": "Newest Arrivals",
     "TopCategories": {
       "title": "Featured Categories"
+    }
+  },
+  "Orders": {
+    "title": "Orders",
+    "description": "User's orders page",
+    "tableHeaders": {
+      "id": "ID",
+      "date": "Date",
+      "total": "Total",
+      "paid": "Paid",
+      "delivered": "Delivered",
+      "actions": {
+        "title": "Actions",
+        "detailsButton": "Details",
+        "notPaidState": "Not paid",
+        "notDeliveredState": "Not delivered"
+      }
+    }
+  },
+  "Profile": {
+    "title": "Profile",
+    "description": "Customer Profile Page",
+    "profileForm": {
+      "email": "Email",
+      "name": "Name",
+      "submitting": "Submitting...",
+      "updateProfileButton": "Update profile"
+    }
+  },
+  "Header": {
+    "search": {
+      "allLabel": "All",
+      "searchInputPlaceholder": "Search..."
     }
   },
   "SignIn": {
@@ -181,6 +216,40 @@
       "system": "System",
       "light": "Light",
       "dark": "Dark"
+    },
+    "userButton": {
+      "signIn": "Sign In",
+      "userProfile": "User Profile",
+      "orderHistory": "Order History",
+      "admin": "Admin",
+      "signOut": "Sign Out"
+    }
+  },
+  "ShippingAddress": {
+    "title": "Shipping Address",
+    "subTitle": "Please enter an address to ship to",
+    "shippingAddressForm": {
+      "fullName": {
+        "label": "Fullname",
+        "placeholder": "Insert your fullname"
+      },
+      "address": {
+        "label": "Address",
+        "placeholder": "Insert your shipping address"
+      },
+      "city": {
+        "label": "City",
+        "placeholder": "Insert your city"
+      },
+      "postalCode": {
+        "label": "Postal Code",
+        "placeholder": "Insert your postal code"
+      },
+      "country": {
+        "label": "Country",
+        "placeholder": "Insert your country"
+      },
+      "saveButton": "Save"
     }
   },
   "DeleteDialog": {

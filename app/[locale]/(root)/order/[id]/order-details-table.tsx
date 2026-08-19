@@ -128,6 +128,7 @@ const OrderDetailsTable = ({
           <Card>
             <CardContent className="px-4 gap-4">
               <h2 className="text-xl pb-4">Payment Method</h2>
+              
               <p className="pb-2">{paymentMethod}</p>
               {isPaid ? (
                 <Badge variant="secondary">

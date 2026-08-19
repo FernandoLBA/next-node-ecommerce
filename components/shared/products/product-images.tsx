@@ -24,8 +24,8 @@ const ProductImages = ({ images }: { images: string[] }) => {
             key={image}
             onClick={() => setCurrent(index)}
             className={cn(
-              "border-2 border-gray-200 mr-2 hover:border-yellow-400 cursor-pointer rounded-xl overflow-hidden",
-              current === index && "border-secondary",
+              "border-3 border-muted mr-2 hover:border-primary cursor-pointer rounded-xl overflow-hidden",
+              current === index && "border-primary",
             )}
           >
             <AppImage

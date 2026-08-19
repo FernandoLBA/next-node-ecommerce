@@ -56,10 +56,11 @@ const DeleteDialog = ({
           </AlertDialogDescription>
         </AlertDialogHeader>
 
-        <AlertDialogFooter>
+        <AlertDialogFooter className="flex items-center">
           <AlertDialogCancel>{t("cancelButton")}</AlertDialogCancel>
 
           <Button
+            size="lg"
             variant="destructive"
             disabled={isPending}
             onClick={handleDeleteClick}

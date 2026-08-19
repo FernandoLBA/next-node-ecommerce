@@ -1,14 +1,20 @@
+import { getLocale } from "next-intl/server";
 import React from "react";
 
 import { cn } from "@/lib/utils";
 
-const CheckoutSteps = ({ current = 0 }) => {
-  const steps = [
-    "User Login",
-    "Shipping Address",
-    "Payment Method",
-    "Place Order",
-  ];
+const CheckoutSteps = async ({ current = 0 }) => {
+  const locale = await getLocale();
+
+  const steps =
+    locale === "en"
+      ? ["User Login", "Shipping Address", "Payment Method", "Place Order"]
+      : [
+          "Inicio de sesión",
+          "Dirección de envío",
+          "Método de pago",
+          "Crear orden",
+        ];
 
   return (
     <div className="flex-between flex-col md:flex-row space-x-2 space-y-2 mb-10">
@@ -16,8 +22,8 @@ const CheckoutSteps = ({ current = 0 }) => {
         <React.Fragment key={step}>
           <div
             className={cn(
-              "p-2 w-56 rounded-full text-center text-sm",
-              index === current ? "bg-secondary" : "",
+              "p-2 w-44 border-2 border-muted rounded-md text-center text-sm md:text-md",
+              index === current ? "bg-primary" : "bg-input",
             )}
           >
             {step}

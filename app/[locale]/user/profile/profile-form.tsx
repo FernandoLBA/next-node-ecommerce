@@ -17,9 +17,11 @@ import { Input } from "@/components/ui/input";
 import LoaderIcon from "@/components/ui/loader-icon";
 import { updateProfile } from "@/lib/actions/user.actions";
 import { updateUserProfileSchema } from "@/lib/validators";
+import { useTranslations } from "next-intl";
 
 const ProfileForm = () => {
   const { data: session, update } = useSession();
+  const t = useTranslations("Profile");
 
   const form = useForm<z.infer<typeof updateUserProfileSchema>>({
     resolver: zodResolver(updateUserProfileSchema),
@@ -66,7 +68,9 @@ const ProfileForm = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="email">Email</FieldLabel>
+                  <FieldLabel htmlFor="email">
+                    {t("profileForm.email")}
+                  </FieldLabel>
                   <Input
                     {...field}
                     id="email"
@@ -88,7 +92,7 @@ const ProfileForm = () => {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="name">Name</FieldLabel>
+                <FieldLabel htmlFor="name">{t("profileForm.name")}</FieldLabel>
                 <Input
                   {...field}
                   id="name"
@@ -114,10 +118,10 @@ const ProfileForm = () => {
         {form.formState.isSubmitting ? (
           <>
             <LoaderIcon />
-            Submitting...
+            {t("profileForm.submitting")}
           </>
         ) : (
-          "Update profile"
+          <>{t("profileForm.updateProfileButton")}</>
         )}
       </Button>
     </form>
