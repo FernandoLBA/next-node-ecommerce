@@ -9,7 +9,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t bg-accent-foreground text-muted">
+    <footer className="border-t">
       <div className="p-5 flex-center">
         {currentYear} {APP_NAME}. {t("rights")}
       </div>

@@ -120,6 +120,10 @@
     @apply flex justify-between items-center;
   }
 
+  .flex-evenly {
+    @apply flex justify-evenly items-center;
+  }
+
   .flex-end {
     @apply flex justify-end items-center;
   }

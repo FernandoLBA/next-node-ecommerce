@@ -54,11 +54,11 @@ const ProductCarousel = ({ data }: { data: Product[] }) => {
       </CarouselContent>
 
       <div className="hidden md:block">
-        <CarouselPrevious />
+        <CarouselPrevious variant="default" />
       </div>
 
       <div className="hidden md:block">
-        <CarouselNext />
+        <CarouselNext variant="default" />
       </div>
     </Carousel>
   );
