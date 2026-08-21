@@ -1,10 +1,28 @@
 "use client";
 
-import { createContext, useContext } from "react";
+import { getAppSettings } from "@/lib/actions/app-setting.actions";
+import { formatError } from "@/lib/utils";
+import type { Currency, Locale } from "@/types";
+import { createContext, useContext, useEffect, useState } from "react";
 
-export type SettingsMap = Record<string, string>;
+//? This type must be updated while the table will be updated
+type AppSettings = {
+  appName: string;
+  appDescription: string;
+  defaultCurrency: Currency;
+  defaultLanguage: Locale;
+  shippingFreeAmount: number;
+  shippingPrice: number;
+  taxPercentage: number;
+};
 
-const SettingContext = createContext<SettingsMap>({});
+export type SettingContextType = {
+  settings: AppSettings;
+  isLoading: boolean;
+  locale: Locale;
+};
+
+const SettingContext = createContext<SettingContextType | null>(null);
 
 /**
  * App settings provider
@@ -12,15 +30,36 @@ const SettingContext = createContext<SettingsMap>({});
  * @param param0
  * @returns
  */
-export function SettingsProvider({
+export function AppSettingsProvider({
   children,
-  value,
+  locale,
 }: {
   children: React.ReactNode;
-  value: SettingsMap;
+  locale: Locale;
 }) {
+  const [settings, setSettings] = useState<AppSettings>({} as AppSettings);
+  const [isLoading, setIsloading] = useState(true);
+
+  useEffect(() => {
+    async function getSettings() {
+      try {
+        const appSettings = await getAppSettings();
+
+        setSettings(appSettings as unknown as AppSettings);
+      } catch (error) {
+        throw new Error(formatError(error));
+      } finally {
+        setIsloading(false);
+      }
+    }
+
+    getSettings();
+  }, []);
+
   return (
-    <SettingContext.Provider value={value}>{children}</SettingContext.Provider>
+    <SettingContext.Provider value={{ settings, isLoading, locale }}>
+      {children}
+    </SettingContext.Provider>
   );
 }
 

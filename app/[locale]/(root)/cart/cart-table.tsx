@@ -170,7 +170,7 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                 ) : (
                   <ArrowRight className="w-4 h-4" />
                 )}{" "}
-                {t("cartActions.goCheckout")}
+                {`${t("cartActions.goCheckout")} (${formatCurrency(cart.totalPrice)})`}
               </Button>
             </CardContent>
           </Card>

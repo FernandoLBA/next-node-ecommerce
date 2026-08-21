@@ -1,17 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import React from "react";
 
+import { usePathname } from "@/i18n/routing";
 import { adminNavLinks } from "@/lib/constants";
-import { cn, getLocaleFromPathname } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { useSettings } from "../../../components/providers/settings-provider";
 
 type AdminMainNavProps = React.HTMLAttributes<HTMLElement>;
 
 const AdminMainNav = ({ className, ...props }: AdminMainNavProps) => {
   const pathname = usePathname();
-  const locale = getLocaleFromPathname(pathname);
+  const { locale } = useSettings();
   const navTranslatedNavLinks = adminNavLinks(locale);
 
   return (

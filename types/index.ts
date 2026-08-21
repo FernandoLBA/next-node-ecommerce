@@ -1,6 +1,8 @@
 import z from "zod";
 
 import {
+  CURRENCIES,
+  CURRENCY,
   PAYMENT_METHODS,
   SORTING_CATEGORIES_VALUES,
   SORTING_ORDERS_VALUES,
@@ -91,3 +93,5 @@ export type AsyncFilterSearchParams = {
 };
 
 export type Locale = "es" | "en";
+
+export type Currency = typeof CURRENCY;

@@ -4,11 +4,12 @@ import { Inter } from "next/font/google";
 import { Toaster } from "sonner";
 
 import "@/assets/styles/globals.css";
-import { SettingsProvider } from "@/components/providers";
+import { AppSettingsProvider } from "@/components/providers";
 import ThemeProvider from "@/components/providers/theme-provider";
 import { getAppSettings } from "@/lib/actions/app-setting.actions";
 import { NEXT_PUBLIC_APP_SERVER_URL } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+import { Locale } from "@/types";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,7 +36,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const locale = await getLocale();
-  const settings = await getAppSettings();
 
   return (
     <html
@@ -44,19 +44,17 @@ export default async function RootLayout({
       className={cn("h-full antialiased", inter.className)}
     >
       <body className="min-h-full flex flex-col">
-        <SettingsProvider
-          value={settings} //? provides all the basic app settings
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark" //? This provider saves a "theme" value in localStorage.
+          disableTransitionOnChange
         >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark" //? This provider saves a "theme" value in localStorage.
-            disableTransitionOnChange
-          >
+          <AppSettingsProvider locale={locale as Locale}>
             {children}
 
             <Toaster position="bottom-right" />
-          </ThemeProvider>
-        </SettingsProvider>
+          </AppSettingsProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
