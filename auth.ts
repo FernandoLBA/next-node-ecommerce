@@ -1,6 +1,6 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { compareSync } from "bcrypt-ts-edge";
-import NextAuth, { type NextAuthConfig } from "next-auth";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { cookies } from "next/headers";
 
@@ -57,7 +57,7 @@ export const config = {
     }),
   ],
   callbacks: {
-    async session({ session, token, trigger, user }) {
+    async session({ session, token, trigger, user }: any) {
       //? Set the userId from the token (JWT sub)
       if (session.user && token.sub) {
         session.user.id = token.sub;
@@ -72,7 +72,7 @@ export const config = {
 
       return session;
     },
-    async jwt({ token, user, trigger, session }) {
+    async jwt({ token, user, trigger, session }: any) {
       //? Assign user fields to token
       if (user) {
         token.id = user.id;
@@ -152,6 +152,6 @@ export const config = {
     },
     ...authConfig.callbacks,
   },
-} satisfies NextAuthConfig;
+};
 
 export const { handlers, auth, signIn, signOut } = NextAuth(config);

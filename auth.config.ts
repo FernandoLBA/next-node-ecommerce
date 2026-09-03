@@ -1,4 +1,3 @@
-import type { NextAuthConfig } from "next-auth";
 import { NextResponse } from "next/server";
 
 import { appRoutes } from "./lib/constants";
@@ -13,15 +12,15 @@ export const authConfig = {
   providers: [], //* Providers are added in auth.ts to avoid importing bcrypt/db in the Edge runtime
   secret: process.env.AUTH_SECRET,
   session: {
-    strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 days
+    strategy: "jwt" as const,
+    maxAge: 30 * 24 * 60 * 60, //* 30 days
   },
   pages: {
     signIn: appRoutes.SIGN_IN,
     error: appRoutes.ERROR,
   },
   callbacks: {
-    authorized({ request, auth }) {
+    authorized({ request, auth }: any) {
       //* Protected routes (now using ^ anchors to avoid false positives)
       const protectedPaths = [
         /^\/shipping-address/,
@@ -56,4 +55,4 @@ export const authConfig = {
       return true;
     },
   },
-} satisfies NextAuthConfig;
+};
