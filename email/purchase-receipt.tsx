@@ -15,7 +15,8 @@ import {
 import dotenv from "dotenv";
 
 import sampleData from "@/db/sample-data";
-import { APP_NAME, NEXT_PUBLIC_APP_SERVER_URL } from "@/lib/constants";
+import { getAppSettings } from "@/lib/actions/app-setting.actions";
+import { NEXT_PUBLIC_APP_SERVER_URL } from "@/lib/constants";
 import { cn, formatCurrency } from "@/lib/utils";
 import { Order } from "@/types";
 
@@ -79,7 +80,10 @@ type OrderInformationProps = {
   order: Order;
 };
 
-export default function PurchaseReceiptEmail({ order }: OrderInformationProps) {
+export default async function PurchaseReceiptEmail({
+  order,
+}: OrderInformationProps) {
+  const settings = await getAppSettings();
   const titleClasses = "font-semibold text-yellow-400";
   const fontContentSizeClasses = "text-xs font-light";
   const mainColorTitleClasses =
@@ -164,7 +168,7 @@ export default function PurchaseReceiptEmail({ order }: OrderInformationProps) {
                   <Text
                     className={cn(mainColorTitleClasses, "m-0 text-white mt-2")}
                   >
-                    {APP_NAME}
+                    {settings.appName}
                   </Text>
                 </Column>
               </Row>

@@ -11,7 +11,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Link, redirect } from "@/i18n/routing";
-import { APP_NAME, appRoutes } from "@/lib/constants";
+import { getAppSettings } from "@/lib/actions/app-setting.actions";
+import { appRoutes } from "@/lib/constants";
 import englishMessages from "@/messages/en.json";
 import spanishMessages from "@/messages/es.json";
 import CredentialsSignInForm from "./credentials-signin-form";
@@ -36,6 +37,7 @@ const SignInPage = async (props: {
   }>;
 }) => {
   const { callbackUrl } = await props.searchParams;
+  const settings = await getAppSettings();
   const locale = await getLocale();
   const session = await auth();
   const translation = locales[locale];
@@ -52,7 +54,7 @@ const SignInPage = async (props: {
           <Link href={appRoutes.HOME} className="flex-center">
             <AppImage
               src="/images/logo.svg"
-              alt={`${APP_NAME} logo`}
+              alt={`${settings.appName} logo`}
               width={100}
               height={100}
             />

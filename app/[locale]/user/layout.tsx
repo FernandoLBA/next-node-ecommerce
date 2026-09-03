@@ -2,7 +2,8 @@ import Link from "next/link";
 
 import Menu from "@/components/shared/header/menu";
 import AppImage from "@/components/ui/app-image";
-import { APP_NAME, appRoutes } from "@/lib/constants";
+import { getAppSettings } from "@/lib/actions/app-setting.actions";
+import { appRoutes } from "@/lib/constants";
 import MainNav from "./main-nav";
 
 export default async function UserLayout({
@@ -10,6 +11,7 @@ export default async function UserLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const settings = await getAppSettings();
   return (
     <>
       <div className="flex flex-col">
@@ -20,7 +22,7 @@ export default async function UserLayout({
                 src="/images/logo.svg"
                 height={48}
                 width={48}
-                alt={APP_NAME}
+                alt={settings.appName}
               />
             </Link>
 

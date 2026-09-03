@@ -1,9 +1,6 @@
 import { Locale } from "@/types";
 
 // * APP CONFIG ############################################
-export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "Store Name";
-export const APP_DESCRIPTION =
-  process.env.NEXT_PUBLIC_APP_DESCRIPTION || "Store Description";
 export const NEXT_PUBLIC_APP_SERVER_URL =
   process.env.NEXT_PUBLIC_APP_SERVER_URL || "http://localhost:3000";
 export const TAX_PERCENTAGE = 0.18; // TODO save in a db table

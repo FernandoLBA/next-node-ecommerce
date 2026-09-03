@@ -3,52 +3,46 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-import {
-  APP_DESCRIPTION,
-  APP_NAME,
-  DEFAULT_CURRENCY,
-  DEFAULT_LANGUAGE,
-  SHIPPING_FREE_AMOUNT,
-  SHIPPING_PRICE,
-  TAX_PERCENTAGE,
-  userRoles,
-} from "@/lib/constants";
+const settings = await getAppSettings();
+
+import { getAppSettings } from "@/lib/actions/app-setting.actions";
+import { userRoles } from "@/lib/constants";
 
 const sampleData = {
   appSettings: [
     {
       key: "appName",
-      value: APP_NAME,
+      value: settings.appName,
       description: "name of the ecommerce or brand",
     },
     {
       key: "appDescription",
-      value: APP_DESCRIPTION,
+      value: settings.appDescription,
       description: "name of the ecommerce or brand",
     },
     {
       key: "defaultLanguage",
-      value: DEFAULT_LANGUAGE,
+      value: settings.defaultLanguage,
       description: "Default language of ecommerce",
     },
     {
       key: "defaultCurrency",
-      value: DEFAULT_CURRENCY,
+      value: settings.defaultCurrency,
       description: "Default currency of the app",
     },
     {
       key: "taxPercentage",
-      value: TAX_PERCENTAGE,
+      value: settings.taxPercentage,
       description: "Default tax percentage of the app",
     },
     {
       key: "shippingPrice",
-      value: SHIPPING_PRICE,
+      value: settings.shippingPrice,
       description: "Default shipping price of the app",
     },
     {
       key: "shippingFreeAmount",
-      value: SHIPPING_FREE_AMOUNT,
+      value: settings.shippingFreeAmount,
       description: "Default shipping free amount of the app",
     },
   ],

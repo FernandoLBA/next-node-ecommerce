@@ -7,7 +7,7 @@ import Menu from "@/components/shared/header/menu";
 import AppImage from "@/components/ui/app-image";
 import { redirect } from "@/i18n/routing";
 import { getAppSettings } from "@/lib/actions/app-setting.actions";
-import { APP_NAME, appRoutes, userRoles } from "@/lib/constants";
+import { appRoutes, userRoles } from "@/lib/constants";
 import MainNav from "./main-nav";
 
 export const generateMetadata = async (): Promise<Metadata> => {
@@ -30,6 +30,7 @@ export default async function AdminLayout({
   children,
   params,
 }: AdminLayoutProps) {
+  const settings = await getAppSettings();
   const session = await auth();
   const { locale } = await params;
 
@@ -51,7 +52,7 @@ export default async function AdminLayout({
                 src="/images/logo.svg"
                 height={48}
                 width={48}
-                alt={APP_NAME}
+                alt={settings.appName}
               />
             </Link>
 
