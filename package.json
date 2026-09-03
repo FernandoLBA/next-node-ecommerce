@@ -11,7 +11,7 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint",
-    "reinstall": "rm -rf node_modules && rm -rf pnpm-lock.yaml && rm -rf .next && pnpm install",
+    "reinstall": "rm -rf node_modules pnpm-lock.yaml .next .build .dist && pnpm install",
     "clear:cache": "rm -rf .next",
     "kill:port": "npx kill-port",
     "prisma:init": "npx prisma init",

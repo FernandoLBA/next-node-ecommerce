@@ -1,10 +1,13 @@
 import AppImage from "@/components/ui/app-image";
 import { Link } from "@/i18n/routing";
-import { APP_NAME, appRoutes } from "@/lib/constants";
+import { getAppSettings } from "@/lib/actions/app-setting.actions";
+import { appRoutes } from "@/lib/constants";
 import Menu from "./menu";
 import Search from "./search";
 
-const Header = () => {
+const Header = async () => {
+  const settings = await getAppSettings();
+
   return (
     <header className="w-full border-b">
       <div className="wrapper flex-between">
@@ -12,14 +15,14 @@ const Header = () => {
           <Link href={appRoutes.HOME} className="flex-start">
             <AppImage
               src={`${appRoutes.IMAGES}/logo.svg`}
-              alt={`${APP_NAME} logo`}
+              alt={`${settings.appName} logo`}
               height={30}
               width={30}
               preload
             />
 
             <span className="hidden lg:block font-bold text-2xl ml-3">
-              {APP_NAME}
+              {settings.appName}
             </span>
           </Link>
         </div>

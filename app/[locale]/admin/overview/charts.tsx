@@ -30,8 +30,7 @@ const Charts = ({ data: { salesData } }: ChartsProps) => {
           <YAxis
             tickLine={false}
             axisLine={false}
-            // tickFormatter={(value) => `${formatCurrency(value)}`}
-            tick={({ x, y, payload }) => (
+            tick={({ y, payload }) => (
               <g transform={`translate(${0},${y})`}>
                 <text
                   fontSize={13}

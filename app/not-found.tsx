@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import "@/assets/styles/globals.css";
 import { useSettings } from "@/components/providers/settings-provider";
@@ -17,7 +17,6 @@ const locales: Record<string, typeof englishMessages> = {
 
 const NotFound = () => {
   const router = useRouter();
-  const pathname = usePathname();
   const { locale, settings } = useSettings();
 
   const language = locales[locale] || spanishMessages;
@@ -32,15 +31,17 @@ const NotFound = () => {
         width={48}
       />
       <div className="flex-center flex-col p-6 w-1/3 rounded-lg shadow-md shadow-accent text-center">
-        <h1 className="text-3xl font-bold mb-4">{locale.notFoundPage.title}</h1>
-        <p className="text-destructive">{locale.notFoundPage.description}</p>
+        <h1 className="text-3xl font-bold mb-4">
+          {language.notFoundPage.title}
+        </h1>
+        <p className="text-destructive">{language.notFoundPage.description}</p>
 
         <Button
           variant="default"
           className="mt-4 ml-2"
-          onClick={() => router.push(`/${detectedLocale}${appRoutes.HOME}`)}
+          onClick={() => router.push(`/${locale}${appRoutes.HOME}`)}
         >
-          {locale.notFoundPage.goHomeLink}
+          {language.notFoundPage.goHomeLink}
         </Button>
       </div>
     </div>

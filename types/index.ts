@@ -1,7 +1,6 @@
 import z from "zod";
 
 import {
-  CURRENCIES,
   CURRENCY,
   PAYMENT_METHODS,
   SORTING_CATEGORIES_VALUES,
