@@ -10,7 +10,6 @@ import { auth, signIn, signOut } from "@/auth";
 import prisma from "@/db/db";
 import { redirect } from "@/i18n/routing";
 import { ShippingAddress, UpdateUser } from "@/types";
-import { getLocale } from "next-intl/server";
 import { appRoutes, DEFAULT_LANGUAGE, PAGE_SIZE } from "../constants";
 import { Prisma } from "../generated/prisma/browser";
 import { formatError } from "../utils";
@@ -89,7 +88,6 @@ export async function signOutUser() {
  */
 export async function signUpUser(_prevState: unknown, formData: FormData) {
   try {
-    const locale = await getLocale();
     const user = signUpFormSchema.parse({
       name: formData.get("name"),
       email: formData.get("email"),
@@ -116,8 +114,6 @@ export async function signUpUser(_prevState: unknown, formData: FormData) {
 
     return { success: true, message: "Signed up successfully" };
   } catch (error) {
-    console.log("🚀 ~ signUpUser ~ error:", error);
-
     if (isRedirectError(error)) {
       throw error;
     }

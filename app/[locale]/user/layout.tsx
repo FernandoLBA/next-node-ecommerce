@@ -7,10 +7,8 @@ import MainNav from "./main-nav";
 
 export default async function UserLayout({
   children,
-  params,
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
 }>) {
   return (
     <>

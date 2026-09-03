@@ -13,7 +13,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Link } from "@/i18n/routing";
-import { getAppSettings } from "@/lib/actions/app-setting.actions";
 import { getOrderSummary } from "@/lib/actions/order.actions";
 import { appRoutes } from "@/lib/constants";
 import {
@@ -35,7 +34,6 @@ export const generateMetadata = async (): Promise<Metadata> => {
 const AdminOverviewPage = async () => {
   const locale = await getLocale();
   const summary = await getOrderSummary();
-  const settings = await getAppSettings();
   const { currentLanguage } = getLanguage(locale as Locale);
 
   return (
