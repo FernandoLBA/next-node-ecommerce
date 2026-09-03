@@ -18,10 +18,9 @@ const locales: Record<string, typeof englishMessages> = {
 const NotFound = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const settings = useSettings();
+  const { locale, settings } = useSettings();
 
-  const detectedLocale = pathname?.split("/")[1];
-  const locale = locales[detectedLocale] || settings.defaultLanguage;
+  const language = locales[locale] || spanishMessages;
 
   return (
     <div className="flex-center flex-col h-screen">
