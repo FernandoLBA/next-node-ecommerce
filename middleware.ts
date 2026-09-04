@@ -8,7 +8,7 @@ const { auth } = NextAuth(authConfig);
 
 const intlMiddleware = createMiddleware(routing);
 
-export default auth((req: any) => {
+export default auth((req) => {
   //? 1. Run the internationalization middleware
   const response = intlMiddleware(req);
 

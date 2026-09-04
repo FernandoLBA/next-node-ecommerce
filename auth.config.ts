@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import type { NextAuthConfig } from "next-auth";
 
 import { appRoutes } from "./lib/constants";
 
@@ -9,19 +10,19 @@ import { appRoutes } from "./lib/constants";
  * required by Prisma.
  */
 export const authConfig = {
-  providers: [], //* Providers are added in auth.ts to avoid importing bcrypt/db in the Edge runtime
+  providers: [], //? Providers are added in auth.ts to avoid importing bcrypt/db in the Edge runtime
   secret: process.env.AUTH_SECRET,
   session: {
     strategy: "jwt" as const,
-    maxAge: 30 * 24 * 60 * 60, //* 30 days
+    maxAge: 30 * 24 * 60 * 60, //? 30 days
   },
   pages: {
     signIn: appRoutes.SIGN_IN,
     error: appRoutes.ERROR,
   },
   callbacks: {
-    authorized({ request, auth }: any) {
-      //* Protected routes (now using ^ anchors to avoid false positives)
+    authorized({ request, auth }) {
+      //? Protected routes (now using ^ anchors to avoid false positives)
       const protectedPaths = [
         /^\/shipping-address/,
         /^\/payment-method/,
@@ -33,13 +34,13 @@ export const authConfig = {
         /^\/admin/,
       ];
 
-      //* Get the actual pathname
+      //? Get the actual pathname
       const pathname = request.nextUrl.pathname;
 
-      //* Remove the language prefix for comparison (e.g., /es/admin -> /admin)
+      //? Remove the language prefix for comparison (e.g., /es/admin -> /admin)
       const pathnameWithoutLocale = pathname.replace(/^\/[a-z]{2}(\/|$)/, "/");
 
-      //* Check if the route (without locale) is protected
+      //? Check if the route (without locale) is protected
       if (
         !auth &&
         protectedPaths.some((path) => path.test(pathnameWithoutLocale))
@@ -55,4 +56,4 @@ export const authConfig = {
       return true;
     },
   },
-};
+} satisfies NextAuthConfig;
