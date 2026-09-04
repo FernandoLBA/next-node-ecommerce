@@ -24,7 +24,7 @@ export default auth((req) => {
 });
 
 /**
- * Matcher configuration typically used by Next.js Middleware to identify
+ * Matcher configuration typically used by Next.js Proxy to identify
  * which paths should trigger the internationalization logic.
  */
 export const config = {
