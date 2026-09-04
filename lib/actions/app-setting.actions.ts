@@ -20,7 +20,7 @@ export const getCachedAppSettings = unstable_cache(async () => {
       return acc;
     },
     {} as Record<string, string>,
-  ) as AppSetting[keyof AppSetting];
+  ) as Record<string, string>;
 });
 
 /**
