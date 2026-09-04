@@ -1,8 +1,8 @@
 import { Locale } from "@/types";
 
 // * APP CONFIG ############################################
-export const PUBLIC_APP_SERVER_URL =
-  process.env.PUBLIC_APP_SERVER_URL || "http://localhost:3000";
+export const APP_SERVER_URL =
+  process.env.APP_SERVER_URL || "http://localhost:3000";
 export const TAX_PERCENTAGE = 0.18; // TODO save in a db table
 export const SHIPPING_PRICE = 10; // TODO save in a db table
 export const SHIPPING_FREE_AMOUNT = 100; // TODO save in a db table

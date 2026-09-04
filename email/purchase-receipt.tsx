@@ -16,7 +16,7 @@ import dotenv from "dotenv";
 
 import sampleData from "@/db/sample-data";
 import { getAppSettings } from "@/lib/actions/app-setting.actions";
-import { PUBLIC_APP_SERVER_URL } from "@/lib/constants";
+import { APP_SERVER_URL } from "@/lib/constants";
 import { cn, formatCurrency } from "@/lib/utils";
 import { Order } from "@/types";
 
@@ -187,7 +187,7 @@ export default async function PurchaseReceiptEmail({
                         className="rounded"
                         src={
                           item.image.startsWith("/")
-                            ? `${PUBLIC_APP_SERVER_URL}${item.image}`
+                            ? `${APP_SERVER_URL}${item.image}`
                             : item.image
                         }
                       />

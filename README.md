@@ -199,7 +199,7 @@ The project requires a `.env` file with variables such as:
 
 ```bash
 NODE_ENV=development
-PUBLIC_APP_SERVER_URL=http://localhost:3000/
+APP_SERVER_URL=http://localhost:3000/
 DATABASE_URL=...
 AUTH_SECRET=...
 PAYPAL_API_URL=https://api-m.sandbox.paypal.com
