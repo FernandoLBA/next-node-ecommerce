@@ -7,7 +7,7 @@ import "@/assets/styles/globals.css";
 import { AppSettingsProvider } from "@/components/providers";
 import ThemeProvider from "@/components/providers/theme-provider";
 import { getAppSettings } from "@/lib/actions/app-setting.actions";
-import { NEXT_PUBLIC_APP_SERVER_URL } from "@/lib/constants";
+import { PUBLIC_APP_SERVER_URL } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { Locale } from "@/types";
 
@@ -18,7 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const appName = settings.appName;
   const appDescription = settings.appDescription;
-  const serverURL = NEXT_PUBLIC_APP_SERVER_URL;
+  const serverURL = PUBLIC_APP_SERVER_URL;
 
   return {
     title: {
