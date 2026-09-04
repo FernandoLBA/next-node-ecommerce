@@ -4,7 +4,7 @@ import { Link } from "@/i18n/routing";
 import { getBestFiveCategories } from "@/lib/actions/category.actions";
 import { appRoutes } from "@/lib/constants";
 import { getLanguage } from "@/lib/utils";
-import { Locale } from "@/types";
+import { Category, Locale } from "@/types";
 import AppImage from "./ui/app-image";
 import { Card, CardContent, CardDescription } from "./ui/card";
 
@@ -12,8 +12,8 @@ const TopCategories = async () => {
   const locale = await getLocale();
   const categories = await getBestFiveCategories();
   const { currentLanguage } = getLanguage(locale as Locale);
-  const featuredCategories = categories.slice(0, 4);
-  const bannerCategory = categories.pop();
+  const featuredCategories: Category[] = categories.slice(0, 4);
+  const bannerCategory: Category | undefined = categories.pop();
 
   return (
     <div className="bg-primary p-4 rounded-xl my-8">

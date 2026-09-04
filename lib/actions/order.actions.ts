@@ -6,7 +6,15 @@ import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { auth } from "@/auth";
 import prisma from "@/db/db";
 import { sendPurchaseReceipt } from "@/email";
-import { CartItem, PaymentResult, SalesData, ShippingAddress } from "@/types";
+import {
+  CartItem,
+  Order,
+  OrderItem,
+  OrderSummary,
+  PaymentResult,
+  SalesData,
+  ShippingAddress,
+} from "@/types";
 import { appRoutes, PAGE_SIZE } from "../constants";
 import { Prisma } from "../generated/prisma/client";
 import { TransactionClient } from "../generated/prisma/internal/prismaNamespace";
@@ -324,11 +332,9 @@ export async function updateOrderToPaid({
       shippingPrice: updatedOrder.shippingPrice.toString(),
       taxPrice: updatedOrder.taxPrice.toString(),
       totalPrice: updatedOrder.totalPrice.toString(),
-      orderItems: updatedOrder.orderItems.map((oi) => ({
-        ...oi,
-        name: (oi.name || "Product").toString(),
-        price: oi.price.toString(),
-      })),
+      orderItems: updatedOrder.orderItems.map((oi) =>
+        convertToPlainObject(oi),
+      ) as OrderItem[],
       user: {
         ...updatedOrder.user,
         name: (updatedOrder.user.name || "client name").toString(),
@@ -386,7 +392,7 @@ export async function getMyOrders({
   });
 
   return {
-    data,
+    data: data.map((order) => convertToPlainObject(order)) as Order[],
     totalPages: Math.ceil(dataCount / limit),
   };
 }
@@ -423,10 +429,12 @@ export async function getOrderSummary() {
       to_char("createdAt", 'MM/YYYY') ASC
       `;
 
-  const salesData: SalesData = salesDataRaw.map((entry) => ({
-    month: entry.month,
-    totalSales: Number(entry.totalSales),
-  }));
+  const salesData: SalesData = salesDataRaw.map(
+    (entry: { month: string; totalSales: Prisma.Decimal }) => ({
+      month: entry.month,
+      totalSales: Number(entry.totalSales),
+    }),
+  );
 
   //* Get latest sales
   const latestSales = await prisma.order.findMany({
@@ -437,15 +445,23 @@ export async function getOrderSummary() {
     take: 6,
   });
 
-  return {
+  const summary: OrderSummary = {
     ordersCount,
     productsCount,
     categoriesCount,
     usersCount,
-    totalSales,
-    latestSales,
+    totalSales: {
+      _sum: {
+        totalPrice: totalSales._sum.totalPrice?.toString() || "0",
+      },
+    },
+    latestSales: latestSales.map((order) =>
+      convertToPlainObject(order),
+    ) as Order[],
     salesData,
   };
+
+  return summary;
 }
 
 /**
@@ -495,7 +511,7 @@ export async function getAllOrders({
   ]);
 
   return {
-    data,
+    data: data.map((order) => convertToPlainObject(order)) as Order[],
     totalPages: Math.ceil(count / limit),
   };
 }

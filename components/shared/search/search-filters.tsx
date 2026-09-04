@@ -12,11 +12,11 @@ const SearchFilters = async ({ searchParams, size }: SearchFiltersProps) => {
   const categories = await getAllCategories();
   const selectedClasses = "font-bold text-accent-foreground cursor-default!";
   const hoverClasses = "hover:underline";
-  const titleClasses = `text-${size}`;
+  const titleClasses = `text-${size} font-bold`;
 
   return (
     <div className="filter-links pb-6">
-      <div className={cn(`mb-2`, titleClasses)}>Department</div>
+      <div className={cn("", titleClasses)}>Department</div>
 
       <div>
         <ul className="space-y-1 ml-2">
@@ -33,7 +33,7 @@ const SearchFilters = async ({ searchParams, size }: SearchFiltersProps) => {
         </ul>
       </div>
 
-      <div className={cn(`my-4`, titleClasses)}>Price</div>
+      <div className={cn(`mt-8`, titleClasses)}>Price</div>
 
       <div>
         <ul className="space-y-1 ml-2">
@@ -50,7 +50,7 @@ const SearchFilters = async ({ searchParams, size }: SearchFiltersProps) => {
         </ul>
       </div>
 
-      <div className={cn("my-4", titleClasses)}>Rating</div>
+      <div className={cn("mt-8", titleClasses)}>Rating</div>
 
       <div>
         <ul className="space-y-1 ml-2">

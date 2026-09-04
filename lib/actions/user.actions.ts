@@ -9,10 +9,10 @@ import z from "zod";
 import { auth, signIn, signOut } from "@/auth";
 import prisma from "@/db/db";
 import { redirect } from "@/i18n/routing";
-import { ShippingAddress, UpdateUser } from "@/types";
+import { ShippingAddress, UpdateUser, User } from "@/types";
 import { appRoutes, DEFAULT_LANGUAGE, PAGE_SIZE } from "../constants";
 import { Prisma } from "../generated/prisma/browser";
-import { formatError } from "../utils";
+import { convertToPlainObject, formatError } from "../utils";
 import {
   paymentMethodSchema,
   shippingAddressSchema,
@@ -283,7 +283,7 @@ export async function getAllUsers({
   ]);
 
   return {
-    data,
+    data: data.map((user) => convertToPlainObject(user)) as User[],
     totalPages: Math.ceil(count / limit),
   };
 }

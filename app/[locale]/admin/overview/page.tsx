@@ -21,7 +21,7 @@ import {
   formatNumber,
   getLanguage,
 } from "@/lib/utils";
-import { Locale } from "@/types";
+import type { Locale, OrderSummary } from "@/types";
 import Charts from "./charts";
 
 export const generateMetadata = async (): Promise<Metadata> => {
@@ -33,7 +33,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
 
 const AdminOverviewPage = async () => {
   const locale = await getLocale();
-  const summary = await getOrderSummary();
+  const summary: OrderSummary = await getOrderSummary();
   const { currentLanguage } = getLanguage(locale as Locale);
 
   return (
@@ -52,9 +52,7 @@ const AdminOverviewPage = async () => {
 
           <CardContent>
             <div className="text-2xl font-bold">
-              {formatCurrency(
-                summary.totalSales._sum.totalPrice?.toString() || 0,
-              )}
+              {formatCurrency(summary.totalSales._sum.totalPrice)}
             </div>
           </CardContent>
         </Card>

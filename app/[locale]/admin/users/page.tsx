@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
-import Pagination from "@/components/shared/pagination";
 import DeleteDialog from "@/components/shared/delete-dialog";
+import Pagination from "@/components/shared/pagination";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,6 +16,7 @@ import { Link } from "@/i18n/routing";
 import { deleteUserById, getAllUsers } from "@/lib/actions/user.actions";
 import { ADMIN_PAGE_SIZE, appRoutes, userRoles } from "@/lib/constants";
 import { formatId } from "@/lib/utils";
+import { User } from "@/types";
 
 export const metadata: Metadata = {
   title: "Users",
@@ -63,7 +64,7 @@ const AdminUsersPage = async (props: {
           </TableHeader>
 
           <TableBody>
-            {users.data.map((user) => (
+            {users.data.map((user: User) => (
               <TableRow key={user.id}>
                 <TableCell>{formatId(user.id)}</TableCell>
                 <TableCell>{user.name}</TableCell>

@@ -18,7 +18,7 @@ import { getMyCart } from "@/lib/actions/cart.actions";
 import { getUserById } from "@/lib/actions/user.actions";
 import { appRoutes } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
-import { ShippingAddress } from "@/types";
+import { CartItem, ShippingAddress } from "@/types";
 import PlaceOrderForm from "./place-order-form";
 
 export const metada: Metadata = {
@@ -92,7 +92,7 @@ const PlaceOrderPage = async (props: {
                 </TableHeader>
 
                 <TableBody>
-                  {cart?.items.map((item) => (
+                  {cart?.items.map((item: CartItem) => (
                     <TableRow key={item.slug}>
                       <TableCell>
                         <Link
@@ -129,7 +129,12 @@ const PlaceOrderPage = async (props: {
             <CardContent className="px-4 gap-4 space-y-4">
               <div className="flex-between">
                 <div>
-                  Items({cart.items.reduce((acc, item) => acc + item.qty, 0)})
+                  Items(
+                  {cart.items.reduce(
+                    (acc: number, item: CartItem) => acc + item.qty,
+                    0,
+                  )}
+                  )
                 </div>
                 <div>{formatCurrency(cart.itemsPrice)}</div>
               </div>

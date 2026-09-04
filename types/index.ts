@@ -19,6 +19,7 @@ import {
   updateProductSchema,
   updateUserSchema,
 } from "@/lib/validators";
+import { JsonValue } from "@prisma/client/runtime/client";
 
 export type Product = z.infer<typeof insertProductSchema> & {
   id: string;
@@ -27,6 +28,7 @@ export type Product = z.infer<typeof insertProductSchema> & {
   createdAt: Date;
 };
 
+export type User = z.infer<typeof updateUserSchema>;
 export type Cart = z.infer<typeof insertCartSchema>;
 export type CartItem = z.infer<typeof cartItemSchema>;
 export type ShippingAddress = z.infer<typeof shippingAddressSchema>;
@@ -40,10 +42,7 @@ export type Order = z.infer<typeof insertOrderSchema> & {
   isDelivered: boolean;
   deliveredAt: Date | null;
   orderItems: OrderItem[];
-  user: {
-    name: string;
-    email: string;
-  };
+  user: Omit<User, "id" | "role">;
   paymentResult: PaymentResult;
 };
 
@@ -94,3 +93,37 @@ export type AsyncFilterSearchParams = {
 export type Locale = "es" | "en";
 
 export type Currency = typeof CURRENCY;
+
+//TODO: cuando se cree el modulo, se debe crear un schema para category y usarlo en vez de este tipo
+export type Category = {
+  id: string;
+  name: string;
+  image: string;
+  createdAt: Date;
+};
+
+export type CategoryWithCount = {
+  category: string;
+  _count: number;
+};
+
+export type OrderSummary = {
+  ordersCount: number;
+  productsCount: number;
+  categoriesCount: number;
+  usersCount: number;
+  totalSales: {
+    _sum: {
+      totalPrice: string;
+    };
+  };
+  latestSales: Order[];
+  salesData: SalesData;
+};
+
+export type AppSetting = {
+  description: string | null;
+  value: JsonValue;
+  key: string;
+  updatedAt: Date;
+};

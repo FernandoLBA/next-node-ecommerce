@@ -42,7 +42,7 @@ export async function createUpdateReview(
     });
 
     const userBoughtThisProduct = product?.orderItems.some(
-      (p) => p.order.userId === session.user.id,
+      (p: { order: { userId: string } }) => p.order.userId === session.user.id,
     );
 
     if (!userBoughtThisProduct)

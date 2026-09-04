@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 import { getLocale } from "next-intl/server";
 
-import Pagination from "@/components/shared/pagination";
 import DeleteDialog from "@/components/shared/delete-dialog";
+import Pagination from "@/components/shared/pagination";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -19,7 +19,7 @@ import {
 } from "@/lib/actions/category.actions";
 import { ADMIN_PAGE_SIZE, appRoutes } from "@/lib/constants";
 import { formatDateTime, formatId, getLanguage } from "@/lib/utils";
-import { Locale } from "@/types";
+import { Category, Locale } from "@/types";
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const locale = await getLocale();
@@ -100,7 +100,7 @@ const AdminCategoriesPage = async (props: AdminCategoriesPageProps) => {
         </TableHeader>
 
         <TableBody>
-          {categories.data.map((c) => (
+          {categories.data.map((c: Category) => (
             <TableRow key={c.id}>
               <TableCell>{formatId(c.id)}</TableCell>
               <TableCell>{c.name}</TableCell>

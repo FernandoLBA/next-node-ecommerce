@@ -3,11 +3,11 @@
 import { revalidatePath } from "next/cache";
 
 import prisma from "@/db/db";
-import { SortingCategoriesOptions } from "@/types";
+import { Category, SortingCategoriesOptions } from "@/types";
 import { appRoutes } from "../constants";
 import { PAGE_SIZE } from "../constants/index";
 import { Prisma } from "../generated/prisma/client";
-import { formatError } from "../utils";
+import { convertToPlainObject, formatError } from "../utils";
 
 /**
  * Get all categories from db
@@ -62,7 +62,7 @@ export async function getAllCategories({
   ]);
 
   return {
-    data,
+    data: data.map((category) => convertToPlainObject(category)) as Category[],
     totalPages: Math.ceil(count / limit),
   };
 }
@@ -78,7 +78,7 @@ export async function getBestFiveCategories(limit: number = 5) {
     take: limit,
   });
 
-  return res;
+  return convertToPlainObject(res) as Category[];
 }
 
 /**

@@ -51,7 +51,7 @@ export async function deleteUTFFileFromProducts({
       };
 
     const updatedImages = productExists.images.filter(
-      (image) => image !== imageUrl,
+      (image: string) => image !== imageUrl,
     );
 
     await prisma.product.update({

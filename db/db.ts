@@ -2,7 +2,8 @@ import { neonConfig, PoolConfig } from "@neondatabase/serverless";
 import { PrismaNeon } from "@prisma/adapter-neon";
 import ws from "ws";
 
-import { PrismaClient } from "@/lib/generated/prisma/client"; //* Import the generated Prisma client.
+import { Decimal } from "@prisma/client/runtime/client";
+import { PrismaClient } from "../lib/generated/prisma/client"; //* Import the generated Prisma client.
 
 neonConfig.webSocketConstructor = ws; //* Set up the WebSocket constructor for Neon, required for Edge and serverless environments.
 
@@ -26,14 +27,14 @@ const prismaClientSingleton = () => {
           needs: { price: true },
           //* Convert Decimal values to strings when fetching results.
           //* This avoids serialization errors when passing data from Server Components to Client Components.
-          compute(product) {
+          compute(product: { price: Decimal }) {
             return product.price.toString() ?? "0";
           },
         },
         rating: {
           needs: { rating: true },
           //* Apply the same logic to the rating field for consistency.
-          compute(product) {
+          compute(product: { rating: Decimal }) {
             return product.rating.toString() ?? "0";
           },
         },
@@ -43,25 +44,25 @@ const prismaClientSingleton = () => {
           //* Declare 'itemsPrice' as a dependency to ensure the database value is available for computation.
           needs: { itemsPrice: true },
           //* Apply the same logic to the rating field for consistency.
-          compute(cart) {
+          compute(cart: { itemsPrice: Decimal }) {
             return cart.itemsPrice.toString();
           },
         },
         shippingPrice: {
           needs: { shippingPrice: true },
-          compute(cart) {
+          compute(cart: { shippingPrice: Decimal }) {
             return cart.shippingPrice.toString();
           },
         },
         taxPrice: {
           needs: { taxPrice: true },
-          compute(cart) {
+          compute(cart: { taxPrice: Decimal }) {
             return cart.taxPrice.toString();
           },
         },
         totalPrice: {
           needs: { totalPrice: true },
-          compute(cart) {
+          compute(cart: { totalPrice: Decimal }) {
             return cart.totalPrice.toString();
           },
         },
@@ -71,32 +72,32 @@ const prismaClientSingleton = () => {
           //* Declare 'itemsPrice' as a dependency to ensure the database value is available for computation.
           needs: { itemsPrice: true },
           //* Apply the same logic to the rating field for consistency.
-          compute(cart) {
+          compute(cart: { itemsPrice: Decimal }) {
             return cart.itemsPrice.toString();
           },
         },
         shippingPrice: {
           needs: { shippingPrice: true },
-          compute(cart) {
+          compute(cart: { shippingPrice: Decimal }) {
             return cart.shippingPrice.toString();
           },
         },
         taxPrice: {
           needs: { taxPrice: true },
-          compute(cart) {
+          compute(cart: { taxPrice: Decimal }) {
             return cart.taxPrice.toString();
           },
         },
         totalPrice: {
           needs: { totalPrice: true },
-          compute(cart) {
+          compute(cart: { totalPrice: Decimal }) {
             return cart.totalPrice.toString();
           },
         },
       },
       orderItem: {
         price: {
-          compute(cart) {
+          compute(cart: { price: Decimal }) {
             return cart.price.toString();
           },
         },

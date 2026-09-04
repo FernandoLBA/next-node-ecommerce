@@ -18,7 +18,7 @@ import { ADMIN_PAGE_SIZE, appRoutes } from "@/lib/constants";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
 import { getLocale } from "next-intl/server";
 import { getLanguage } from "../../../../lib/utils";
-import { Locale } from "@/types";
+import { Locale, Order } from "@/types";
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const locale = await getLocale();
@@ -34,11 +34,13 @@ type AdminOrdersPageProps = {
 const AdminOrdersPage = async (props: AdminOrdersPageProps) => {
   const locale = await getLocale();
   const { page = "1", query } = await props.searchParams;
+
   const orders = await getAllOrders({
     page: Number(page),
     limit: ADMIN_PAGE_SIZE,
     query,
   });
+
   const { currentLanguage } = getLanguage(locale as Locale);
 
   return (
@@ -92,7 +94,7 @@ const AdminOrdersPage = async (props: AdminOrdersPageProps) => {
           </TableHeader>
 
           <TableBody>
-            {orders.data.map((order) => (
+            {orders.data.map((order: Order) => (
               <TableRow key={order.id}>
                 <TableCell>{formatId(order.id)}</TableCell>
 

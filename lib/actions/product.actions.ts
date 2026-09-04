@@ -3,7 +3,13 @@
 import { revalidatePath } from "next/cache";
 
 import prisma from "@/db/db";
-import { InsertProduct, SortingProductsOptions, UpdateProduct } from "@/types";
+import {
+  CategoryWithCount,
+  InsertProduct,
+  Product,
+  SortingProductsOptions,
+  UpdateProduct,
+} from "@/types";
 import { appRoutes, LATEST_PRODUCTS_LIMIT, PAGE_SIZE } from "../constants";
 import { Prisma } from "../generated/prisma/client";
 import {
@@ -146,7 +152,7 @@ export async function getAllProducts({
   ]);
 
   return {
-    data,
+    data: data.map((product) => convertToPlainObject(product)) as Product[],
     totalPages: Math.ceil(count / limit),
   };
 }
@@ -167,7 +173,7 @@ export async function deleteProductById(id: string) {
 
     await prisma.product.delete({ where: { id } });
 
-    productExists.images.forEach(async (image) => {
+    productExists.images.forEach(async (image: string) => {
       const imageKey = getUploadThingImageKey(image);
 
       await deleteImageFromUploadthing(imageKey as string);
@@ -271,7 +277,7 @@ export async function getAllCategories() {
     _count: true,
   });
 
-  return data;
+  return data as CategoryWithCount[];
 }
 
 /**

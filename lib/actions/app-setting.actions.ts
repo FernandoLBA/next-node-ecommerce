@@ -4,6 +4,7 @@ import { revalidateTag, unstable_cache } from "next/cache";
 import { cache } from "react";
 
 import prisma from "@/db/db";
+import { AppSetting } from "@/types";
 
 /**
  * Persistent cache between requests and different users
@@ -14,12 +15,12 @@ export const getCachedAppSettings = unstable_cache(async () => {
   if (!appSettings) throw new Error("Failed to retreive app settings");
 
   return appSettings.reduce(
-    (acc, curr) => {
+    (acc: Record<string, string>, curr: AppSetting) => {
       acc[curr.key] = String(curr.value ?? "");
       return acc;
     },
     {} as Record<string, string>,
-  );
+  ) as AppSetting[keyof AppSetting];
 });
 
 /**
@@ -31,10 +32,10 @@ export const getAppSettings = cache(async () => {
 
 /**
  * Updates the app settings
- * 
- * @param key 
- * @param value 
- * @param description 
+ *
+ * @param key
+ * @param value
+ * @param description
  */
 export async function updateAppSetting(
   key: string,

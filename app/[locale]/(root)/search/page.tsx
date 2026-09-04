@@ -186,8 +186,8 @@ const SearchPage = async (props: AsyncFilterSearchParams) => {
         <div className="grid grid-cols-2 gap-2 md:gap-4 md:grid-cols-3">
           {products.data.length === 0 && <div>No products found</div>}
 
-          {products.data.map((product) => (
-            <ProductCard key={product.id} product={product as Product} />
+          {products.data.map((product: Product) => (
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
 
