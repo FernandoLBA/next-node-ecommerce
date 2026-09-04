@@ -168,7 +168,7 @@ export default async function PurchaseReceiptEmail({
                   <Text
                     className={cn(mainColorTitleClasses, "m-0 text-white mt-2")}
                   >
-                    {settings.appName}
+                    {settings.appName ?? "Shop Name"}
                   </Text>
                 </Column>
               </Row>
