@@ -1,10 +1,10 @@
-# ProStore
+# ShoppName
 
 Modern ecommerce application built with Next.js, Prisma, PostgreSQL, NextAuth, and external payment services.
 
 ## 1. Site description
 
-ProStore is a product marketplace with a full purchase flow:
+ShoppName is a product marketplace with a full purchase flow:
 
 - product catalog,
 - search and filters,
