@@ -7,7 +7,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
-import { Button } from "@/components/ui/button";
+import { AppButton } from "@/components/shared/app-button/app-button";
 import {
   Dialog,
   DialogContent,
@@ -107,7 +107,9 @@ const ReviewForm = ({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <Button onClick={handleOpenForm}>{textReview}</Button>
+      <AppButton className="w-full sm:w-fit" onClick={handleOpenForm}>
+        {textReview}
+      </AppButton>
 
       <DialogContent className="sm:max-w-[425px">
         <form method="POST" onSubmit={form.handleSubmit(onSubmit)}>
@@ -208,7 +210,7 @@ const ReviewForm = ({
           </div>
 
           <DialogFooter>
-            <Button
+            <AppButton
               type="submit"
               size="lg"
               className="w-full"
@@ -222,7 +224,7 @@ const ReviewForm = ({
               ) : (
                 "Submit"
               )}
-            </Button>
+            </AppButton>
           </DialogFooter>
         </form>
       </DialogContent>

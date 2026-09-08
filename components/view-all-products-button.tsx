@@ -1,13 +1,13 @@
-import { Link } from "@/i18n/routing";
-import { Button } from "./ui/button";
 import { appRoutes } from "@/lib/constants";
+import { AppLink } from "./shared/app-link/app-link";
+import { buttonVariants } from "./ui/button";
 
 const ViewAllProductsButton = () => {
   return (
     <div className="flex justify-center items-center my-8">
-      <Button className="px-8 py-4">
-        <Link href={appRoutes.SEARCH}>View All Products</Link>
-      </Button>
+      <AppLink href={appRoutes.SEARCH} className={buttonVariants()}>
+        View All Products
+      </AppLink>
     </div>
   );
 };

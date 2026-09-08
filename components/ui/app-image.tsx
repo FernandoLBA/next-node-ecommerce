@@ -45,7 +45,10 @@ export default function AppImage({
           {...props}
           src={props.src}
           alt={props.alt}
-          className={cn("object-cover object-center", props.className)}
+          className={cn(
+            "object-cover object-center rounded-md",
+            props.className,
+          )}
           style={props.style}
           fill
           loading="eager"
@@ -65,7 +68,10 @@ export default function AppImage({
       <Image
         src={props.src}
         alt={props.alt}
-        className={cn("object-cover object-center h-auto", props.className)}
+        className={cn(
+          "object-cover object-center h-auto rounded-md",
+          props.className,
+        )}
         loading="eager"
         width={props.width}
         height={props.height}

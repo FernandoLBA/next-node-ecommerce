@@ -5,11 +5,13 @@ import { useSearchParams } from "next/navigation";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 
+import { AppButton } from "@/components/shared/app-button/app-button";
+import { AppLink } from "@/components/shared/app-link/app-link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import LoaderIcon from "@/components/ui/loader-icon";
-import { Link } from "@/i18n/routing";
+import { useRouter } from "@/i18n/routing";
 import { signUpUser } from "@/lib/actions/user.actions";
 import { appRoutes, signUpDefaultValues } from "@/lib/constants";
 
@@ -37,6 +39,7 @@ const SignUpButton = () => {
 };
 
 export default function CredentialsSignUpForm() {
+  const router = useRouter();
   const t = useTranslations("SignUp");
   const [data, action] = useActionState(signUpUser, {
     success: false,
@@ -96,8 +99,16 @@ export default function CredentialsSignUpForm() {
           />
         </div>
 
-        <div>
+        <div className="space-y-2">
           <SignUpButton />
+
+          <AppButton
+            className="w-full"
+            variant="outline"
+            onClick={() => router.push(appRoutes.HOME)}
+          >
+            {t("cancelButtonText")}
+          </AppButton>
         </div>
 
         {data && !data.success && (
@@ -106,9 +117,14 @@ export default function CredentialsSignUpForm() {
 
         <div className="text-sm text-center text-muted-foreground">
           {t("haveAccountText")}{" "}
-          <Link href={appRoutes.SIGN_IN} target="_self" className="link">
+          <AppLink
+            href={appRoutes.SIGN_IN}
+            target="_self"
+            className="hover:text-accent-foreground!"
+            isUnderlined={true}
+          >
             {t("signInLinkText")}
-          </Link>
+          </AppLink>
         </div>
       </div>
     </form>

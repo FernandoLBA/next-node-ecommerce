@@ -1,9 +1,11 @@
 import { Metadata } from "next";
 
+import { AppButton } from "@/components/shared/app-button/app-button";
+import { AppLink } from "@/components/shared/app-link/app-link";
 import DeleteDialog from "@/components/shared/delete-dialog";
 import Pagination from "@/components/shared/pagination";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -12,11 +14,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Link } from "@/i18n/routing";
 import { deleteUserById, getAllUsers } from "@/lib/actions/user.actions";
 import { ADMIN_PAGE_SIZE, appRoutes, userRoles } from "@/lib/constants";
-import { formatId } from "@/lib/utils";
+import { cn, formatId } from "@/lib/utils";
 import { User } from "@/types";
+import { X } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Users",
@@ -40,13 +42,14 @@ const AdminUsersPage = async (props: {
       <div className="flex items-baseline gap-3">
         <h1 className="h2-bold">Users</h1>
         {query && (
-          <div>
+          <div className="flex-center text-muted-foreground gap-2">
             Filtered by <i>&quot;{query}&quot;</i>{" "}
-            <Link href={appRoutes.ADMIN_USERS}>
-              <Button variant="outline" size="sm">
-                Remove Filters
-              </Button>
-            </Link>
+            <AppLink
+              href={appRoutes.ADMIN_USERS}
+              className={cn(buttonVariants(), "w-6 h-6")}
+            >
+              <X />
+            </AppLink>
           </div>
         )}
       </div>
@@ -77,11 +80,11 @@ const AdminUsersPage = async (props: {
                   )}
                 </TableCell>
                 <TableCell className="flex-start gap-2">
-                  <Button variant="outline" size="sm">
-                    <Link href={`${appRoutes.ADMIN_USERS}/${user.id}`}>
+                  <AppButton variant="outline" size="sm">
+                    <AppLink href={`${appRoutes.ADMIN_USERS}/${user.id}`}>
                       Edit
-                    </Link>
-                  </Button>
+                    </AppLink>
+                  </AppButton>
 
                   <DeleteDialog id={user.id} action={deleteUserById} />
                 </TableCell>

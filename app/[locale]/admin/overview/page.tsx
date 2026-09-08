@@ -2,7 +2,8 @@ import { BadgeDollarSign, Barcode, CreditCard, Tag, Users } from "lucide-react";
 import { Metadata } from "next";
 import { getLocale } from "next-intl/server";
 
-import { Button } from "@/components/ui/button";
+import { AppButton } from "@/components/shared/app-button/app-button";
+import { AppLink } from "@/components/shared/app-link/app-link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -12,7 +13,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Link } from "@/i18n/routing";
 import { getOrderSummary } from "@/lib/actions/order.actions";
 import { appRoutes } from "@/lib/constants";
 import {
@@ -196,14 +196,14 @@ const AdminOverviewPage = async () => {
                     </TableCell>
 
                     <TableCell>
-                      <Button variant="outline">
-                        <Link href={`${appRoutes.ORDER}/${order.id}`}>
+                      <AppButton variant="outline">
+                        <AppLink href={`${appRoutes.ORDER}/${order.id}`}>
                           {
                             currentLanguage.AdminPages.overview.recentSalesTable
                               .tableHeaders.actions.detailsButton
                           }
-                        </Link>
-                      </Button>
+                        </AppLink>
+                      </AppButton>
                     </TableCell>
                   </TableRow>
                 ))}

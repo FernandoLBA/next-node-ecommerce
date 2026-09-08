@@ -3,8 +3,8 @@
 import { useSearchParams } from "next/navigation";
 
 import { useRouter } from "@/i18n/routing";
-import { Button } from "../ui/button";
 import { formUrlQuery } from "../../lib/utils";
+import { AppButton } from "./app-button/app-button";
 
 type PaginationProps = {
   page: number | string;
@@ -30,7 +30,7 @@ const Pagination = ({ page, totalPages, urlParamName }: PaginationProps) => {
 
   return (
     <div className="flex gap-2 mt-4">
-      <Button
+      <AppButton
         size="lg"
         variant="outline"
         className="w-28"
@@ -38,9 +38,9 @@ const Pagination = ({ page, totalPages, urlParamName }: PaginationProps) => {
         onClick={() => handleClick("previous")}
       >
         Previous
-      </Button>
+      </AppButton>
 
-      <Button
+      <AppButton
         size="lg"
         variant="outline"
         className="w-28"
@@ -48,7 +48,7 @@ const Pagination = ({ page, totalPages, urlParamName }: PaginationProps) => {
         onClick={() => handleClick("next")}
       >
         Next
-      </Button>
+      </AppButton>
     </div>
   );
 };

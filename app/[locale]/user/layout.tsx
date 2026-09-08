@@ -1,5 +1,4 @@
-import Link from "next/link";
-
+import { AppLink } from "@/components/shared/app-link/app-link";
 import Menu from "@/components/shared/header/menu";
 import AppImage from "@/components/ui/app-image";
 import { getAppSettings } from "@/lib/actions/app-setting.actions";
@@ -16,19 +15,19 @@ export default async function UserLayout({
     <>
       <div className="flex flex-col">
         <div className="border-b container mx-auto">
-          <div className="flex items-center h-16 px-4">
-            <Link href={appRoutes.HOME} className="w-22">
+          <div className="flex-center h-16 px-4">
+            <AppLink href={appRoutes.HOME} className="w-22">
               <AppImage
-                src="/images/logo.svg"
-                height={48}
-                width={48}
+                src={`${appRoutes.IMAGES}/logo.svg`}
+                height={30}
+                width={30}
                 alt={settings.appName}
               />
-            </Link>
+            </AppLink>
 
             <MainNav className="mx-6" />
 
-            <div className="ml-auto flex items-center space-x-4">
+            <div className="ml-auto flex-center space-x-4">
               <Menu />
             </div>
           </div>

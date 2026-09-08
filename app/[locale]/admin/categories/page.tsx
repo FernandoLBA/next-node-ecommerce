@@ -1,9 +1,11 @@
 import { Metadata } from "next";
 import { getLocale } from "next-intl/server";
 
+import { AppButton } from "@/components/shared/app-button/app-button";
+import { AppLink } from "@/components/shared/app-link/app-link";
 import DeleteDialog from "@/components/shared/delete-dialog";
 import Pagination from "@/components/shared/pagination";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -12,14 +14,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Link } from "@/i18n/routing";
 import {
   deleteCategoryById,
   getAllCategories,
 } from "@/lib/actions/category.actions";
 import { ADMIN_PAGE_SIZE, appRoutes } from "@/lib/constants";
-import { formatDateTime, formatId, getLanguage } from "@/lib/utils";
+import { cn, formatDateTime, formatId, getLanguage } from "@/lib/utils";
 import { Category, Locale } from "@/types";
+import { X } from "lucide-react";
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const locale = await getLocale();
@@ -59,26 +61,25 @@ const AdminCategoriesPage = async (props: AdminCategoriesPageProps) => {
             {currentLanguage.AdminPages.categories.title}
           </h1>
           {query && (
-            <div className="flex items-center gap-2">
+            <div className="flex-center text-muted-foreground gap-2">
               {currentLanguage.AdminPages.categories.filters.filteredBy}{" "}
               <i>&quot;{query}&quot;</i>{" "}
-              <Link href={appRoutes.ADMIN_CATEGORIES}>
-                <Button variant="outline" size="sm">
-                  {
-                    currentLanguage.AdminPages.categories.filters
-                      .cleanFilterButton
-                  }
-                </Button>
-              </Link>
+              <AppLink
+                href={appRoutes.ADMIN_CATEGORIES}
+                className={cn(buttonVariants(), "w-6 h-6")}
+              >
+                <X />
+              </AppLink>
             </div>
           )}
         </div>
 
-        <Button>
-          <Link href={appRoutes.ADMIN_CATEGORIES_CREATE}>
-            {currentLanguage.AdminPages.categories.createButton}
-          </Link>
-        </Button>
+        <AppLink
+          href={appRoutes.ADMIN_CATEGORIES_CREATE}
+          className={buttonVariants()}
+        >
+          {currentLanguage.AdminPages.categories.createButton}
+        </AppLink>
       </div>
 
       <Table>
@@ -107,14 +108,14 @@ const AdminCategoriesPage = async (props: AdminCategoriesPageProps) => {
               <TableCell>{formatDateTime(c.createdAt).dateTime}</TableCell>
 
               <TableCell className="flex-start gap-2">
-                <Button size="sm" variant="outline">
-                  <Link href={`${appRoutes.ADMIN_CATEGORIES}/${c.id}`}>
+                <AppButton size="sm" variant="outline">
+                  <AppLink href={`${appRoutes.ADMIN_CATEGORIES}/${c.id}`}>
                     {
                       currentLanguage.AdminPages.categories.tableHeaders.actions
                         .editButton
                     }
-                  </Link>
-                </Button>
+                  </AppLink>
+                </AppButton>
 
                 <DeleteDialog id={c.id} action={deleteCategoryById} />
               </TableCell>

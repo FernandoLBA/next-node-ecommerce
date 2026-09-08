@@ -1,9 +1,11 @@
 import { Metadata } from "next";
 
-import Pagination from "@/components/shared/pagination";
+import { AppButton } from "@/components/shared/app-button/app-button";
+import { AppLink } from "@/components/shared/app-link/app-link";
 import DeleteDialog from "@/components/shared/delete-dialog";
+import Pagination from "@/components/shared/pagination";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -12,13 +14,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Link } from "@/i18n/routing";
 import { deleteOrderById, getAllOrders } from "@/lib/actions/order.actions";
 import { ADMIN_PAGE_SIZE, appRoutes } from "@/lib/constants";
-import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
+import { cn, formatCurrency, formatDateTime, formatId } from "@/lib/utils";
+import { Locale, Order } from "@/types";
+import { X } from "lucide-react";
 import { getLocale } from "next-intl/server";
 import { getLanguage } from "../../../../lib/utils";
-import { Locale, Order } from "@/types";
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const locale = await getLocale();
@@ -50,11 +52,12 @@ const AdminOrdersPage = async (props: AdminOrdersPageProps) => {
         {query && (
           <div>
             Filtered by <i>&quot;{query}&quot;</i>{" "}
-            <Link href={appRoutes.ADMIN_ORDERS}>
-              <Button variant="outline" size="sm">
-                Remove Filters
-              </Button>
-            </Link>
+            <AppLink
+              href={appRoutes.ADMIN_ORDERS}
+              className={cn(buttonVariants(), "w-6 h-4")}
+            >
+              <X />
+            </AppLink>
           </div>
         )}
       </div>
@@ -135,14 +138,14 @@ const AdminOrdersPage = async (props: AdminOrdersPageProps) => {
                 </TableCell>
 
                 <TableCell className="flex-start gap-2">
-                  <Button size="sm" variant="outline">
-                    <Link href={`${appRoutes.ORDER}/${order.id}`}>
+                  <AppButton size="sm" variant="outline">
+                    <AppLink href={`${appRoutes.ORDER}/${order.id}`}>
                       {
                         currentLanguage.AdminPages.orders.tableHeaders.actions
                           .detailsButton
                       }
-                    </Link>
-                  </Button>
+                    </AppLink>
+                  </AppButton>
 
                   <DeleteDialog id={order.id} action={deleteOrderById} />
                 </TableCell>

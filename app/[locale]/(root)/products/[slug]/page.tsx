@@ -35,7 +35,7 @@ const ProductDetailsPage = async (props: {
           </div>
 
           {/* //* details column */}
-          <div className="col-span-2 p-5">
+          <div className="col-span-2 py-5 md:p-5">
             <div className="flex flex-col gap-6">
               <p>
                 {product.brand} {product.category}
@@ -104,8 +104,9 @@ const ProductDetailsPage = async (props: {
         </div>
       </section>
 
-      <section className="mt-10">
+      <section className="mt-10 space-y-4">
         <h2 className="h2-bold">Customer Reviews</h2>
+
         <ReviewList
           userId={userId || ""}
           productId={product.id || ""}

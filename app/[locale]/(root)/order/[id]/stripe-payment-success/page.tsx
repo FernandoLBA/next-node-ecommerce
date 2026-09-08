@@ -1,13 +1,15 @@
 import { notFound } from "next/navigation";
 
-import { Button } from "@/components/ui/button";
+import { AppLink } from "@/components/shared/app-link/app-link";
+import { buttonVariants } from "@/components/ui/button";
 import { sendPurchaseReceipt } from "@/email";
-import { Link, redirect } from "@/i18n/routing";
+import { redirect } from "@/i18n/routing";
 import { getOrderById } from "@/lib/actions/order.actions";
 import { appRoutes } from "@/lib/constants";
 import { stripe } from "@/lib/stripe";
-import { convertToPlainObject } from "@/lib/utils";
+import { cn, convertToPlainObject } from "@/lib/utils";
 import { PaymentResult, ShippingAddress } from "@/types";
+import AppImage from "@/components/ui/app-image";
 
 type SuccessPageProps = {
   params: Promise<{ id: string; locale: string }>;
@@ -73,14 +75,21 @@ const SuccessPage = async (props: SuccessPageProps) => {
   }
 
   return (
-    <div className="max-w-4xl w-full mx-auto space-y-8">
+    <div className="w-full h-full flex flex-col justify-center items-center gap-6">
+      <AppLink href={appRoutes.HOME}>
+        <AppImage alt="logo" src="/images/logo.svg" width={80} height={80} />
+      </AppLink>
+
       <div className="flex flex-col gap-6 items-center">
         <h1 className="h1-bold">Thanks for your purchase</h1>
         <div>We are processing your order.</div>
 
-        <Button>
-          <Link href={`${appRoutes.ORDER}/${id}`}>View Order</Link>
-        </Button>
+        <AppLink
+          className={cn(buttonVariants())}
+          href={`${appRoutes.ORDER}/${id}`}
+        >
+          View Order
+        </AppLink>
       </div>
     </div>
   );

@@ -1,8 +1,8 @@
 import { Metadata } from "next";
-import Link from "next/link";
 
 import { auth } from "@/auth";
 import AdminSearch from "@/components/admin/admin-search";
+import { AppLink } from "@/components/shared/app-link/app-link";
 import Menu from "@/components/shared/header/menu";
 import AppImage from "@/components/ui/app-image";
 import { redirect } from "@/i18n/routing";
@@ -47,16 +47,16 @@ export default async function AdminLayout({
       <div className="flex flex-col">
         <div className="border-b container mx-auto">
           <div className="flex items-center h-16 px-4">
-            <Link href={appRoutes.HOME} className="w-22">
+            <AppLink href={appRoutes.HOME} className="w-22">
               <AppImage
-                src="/images/logo.svg"
-                height={48}
-                width={48}
+                src={`${appRoutes.IMAGES}/logo.svg`}
+                height={30}
+                width={30}
                 alt={settings.appName}
               />
-            </Link>
+            </AppLink>
 
-            <MainNav className="mx-6" />
+            <MainNav />
 
             <div className="ml-auto flex items-center space-x-4">
               <AdminSearch />

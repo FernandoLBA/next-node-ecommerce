@@ -1,9 +1,10 @@
 import { Filter, X } from "lucide-react";
 
+import { AppLink } from "@/components/shared/app-link/app-link";
 import Pagination from "@/components/shared/pagination";
 import ProductCard from "@/components/shared/products/product-card";
 import SearchFilters from "@/components/shared/search/search-filters";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -22,14 +23,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Link } from "@/i18n/routing";
 import { getAllProducts } from "@/lib/actions/product.actions";
 import {
   appRoutes,
   SORTING_ORDERS_VALUES,
   sortingOrders,
 } from "@/lib/constants";
-import { getFilterUrl } from "@/lib/utils";
+import { cn, getFilterUrl } from "@/lib/utils";
 import { AsyncFilterSearchParams, Product } from "@/types";
 
 export async function generateMetadata(props: {
@@ -121,11 +121,9 @@ const SearchPage = async (props: AsyncFilterSearchParams) => {
             (category !== "all" && category !== "") ||
             price !== "all" ||
             rating !== "all" ? (
-              <Button variant="link">
-                <Link href={appRoutes.SEARCH}>
-                  <X />
-                </Link>
-              </Button>
+              <AppLink className={cn(buttonVariants())} href={appRoutes.SEARCH}>
+                <X />
+              </AppLink>
             ) : null}
           </div>
 
@@ -168,12 +166,9 @@ const SearchPage = async (props: AsyncFilterSearchParams) => {
                   <SelectGroup>
                     {SORTING_ORDERS_VALUES.map((s) => (
                       <SelectItem key={s} value={s}>
-                        <Link
-                          href={getFilterUrl({ ...params, s })}
-                          className="capitalize"
-                        >
+                        <AppLink href={getFilterUrl({ ...params, s })}>
                           {s}
-                        </Link>
+                        </AppLink>
                       </SelectItem>
                     ))}
                   </SelectGroup>

@@ -6,17 +6,18 @@ import { useState } from "react";
 
 import { usePathname } from "@/i18n/routing";
 import { appRoutes } from "@/lib/constants";
-import { Button } from "../ui/button";
+import { AppButton } from "../shared/app-button/app-button";
 import { Input } from "../ui/input";
 
 const AdminSearch = () => {
   const t = useTranslations("AdminPages");
   const pathname = usePathname();
+  console.log("🚀 ~ AdminSearch ~ pathname:", pathname);
   const formActionUrl = pathname.includes(appRoutes.ADMIN_ORDERS)
     ? appRoutes.ADMIN_ORDERS
     : pathname.includes(appRoutes.ADMIN_USERS)
       ? appRoutes.ADMIN_USERS
-      : appRoutes.ADMIN_PRODUCTS
+      : pathname.includes(appRoutes.ADMIN_PRODUCTS)
         ? appRoutes.ADMIN_PRODUCTS
         : appRoutes.ADMIN_CATEGORIES;
   const searchParams = useSearchParams();
@@ -33,9 +34,9 @@ const AdminSearch = () => {
         onChange={(e) => setQueryValue(e.target.value)}
       />
 
-      <Button className="sr-only" type="submit">
+      <AppButton className="sr-only" type="submit">
         {t("products.adminSearch.searchButton")}
-      </Button>
+      </AppButton>
     </form>
   );
 };

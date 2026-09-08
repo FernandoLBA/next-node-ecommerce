@@ -9,10 +9,10 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Link } from "@/i18n/routing";
 import { getAllCategories } from "@/lib/actions/product.actions";
 import { appRoutes } from "@/lib/constants";
-import { Button } from "../../ui/button";
+import { AppButton } from "../app-button/app-button";
+import { AppLink } from "../app-link/app-link";
 import LanguageToggle from "./language-toggle";
 import ModeToggle from "./mode-toggle";
 import UserButton from "./user-button";
@@ -28,11 +28,14 @@ const Menu = async () => {
 
         <LanguageToggle />
 
-        <Button variant="ghost">
-          <Link href={appRoutes.CART} className="flex-between gap-1">
+        <AppButton variant="ghost">
+          <AppLink
+            href={appRoutes.CART}
+            className="flex-between gap-1 text-foreground! hover:text-accent-foreground!"
+          >
             <ShoppingCart />
-          </Link>
-        </Button>
+          </AppLink>
+        </AppButton>
 
         <UserButton />
       </nav>
@@ -53,11 +56,11 @@ const Menu = async () => {
 
               <LanguageToggle>Language</LanguageToggle>
 
-              <Button variant="ghost">
-                <Link className="flex gap-2" href={appRoutes.CART}>
+              <AppButton variant="ghost">
+                <AppLink className="flex gap-2 text-foreground" href={appRoutes.CART}>
                   <ShoppingCart /> {t("cartTitle")}
-                </Link>
-              </Button>
+                </AppLink>
+              </AppButton>
 
               <UserButton>Account</UserButton>
             </div>
@@ -74,13 +77,13 @@ const Menu = async () => {
             <div className="w-full px-6">
               <ul className="flex justify-start flex-col">
                 {categories.map((c) => (
-                  <Link
+                  <AppLink
                     key={c.category}
                     href={`${appRoutes.SEARCH}?category=${c.category}`}
                     className="border-b border-muted-foreground p-4"
                   >
                     {c.category}({c._count})
-                  </Link>
+                  </AppLink>
                 ))}
               </ul>
             </div>

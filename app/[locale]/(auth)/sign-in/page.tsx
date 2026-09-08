@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { getLocale } from "next-intl/server";
 
 import { auth } from "@/auth";
+import { AppLink } from "@/components/shared/app-link/app-link";
 import AppImage from "@/components/ui/app-image";
 import {
   Card,
@@ -10,7 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Link, redirect } from "@/i18n/routing";
+import { redirect } from "@/i18n/routing";
 import { getAppSettings } from "@/lib/actions/app-setting.actions";
 import { appRoutes } from "@/lib/constants";
 import englishMessages from "@/messages/en.json";
@@ -51,17 +52,19 @@ const SignInPage = async (props: {
     <div className="w-full max-w-md mx-auto">
       <Card>
         <CardHeader className="space-y-4">
-          <Link href={appRoutes.HOME} className="flex-center">
+          <AppLink href={appRoutes.HOME} className="flex-center">
             <AppImage
               src="/images/logo.svg"
               alt={`${settings.appName} logo`}
               width={100}
               height={100}
             />
-          </Link>
+          </AppLink>
+
           <CardTitle className="text-center">
             {translation.SignIn.title}
           </CardTitle>
+
           <CardDescription className="text-center">
             {translation.SignIn.subTitle}
           </CardDescription>

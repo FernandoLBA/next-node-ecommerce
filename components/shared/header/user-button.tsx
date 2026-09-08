@@ -9,7 +9,7 @@ import { getLocale } from "next-intl/server";
 import { FC, PropsWithChildren } from "react";
 
 import { auth } from "@/auth";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,24 +18,27 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Link } from "@/i18n/routing";
 import { signOutUser } from "@/lib/actions/user.actions";
 import { appRoutes, userRoles } from "@/lib/constants";
-import { getLanguage } from "@/lib/utils";
+import { cn, getLanguage } from "@/lib/utils";
 import { Locale } from "@/types";
+import { AppButton } from "../app-button/app-button";
+import { AppLink } from "../app-link/app-link";
 
 export const UserButton: FC<PropsWithChildren> = async ({ children }) => {
   const session = await auth();
   const locale = await getLocale();
   const { currentLanguage } = getLanguage(locale as Locale);
+  const commonLinkClasses = "w-full flex-start gap-2";
 
   if (!session) {
     return (
-      <Button>
-        <Link className="flex-between gap-1" href={appRoutes.SIGN_IN}>
-          <UserIcon /> {currentLanguage.Menu.userButton.signIn}
-        </Link>
-      </Button>
+      <AppLink
+        className={cn(buttonVariants(), "flex-between gap-1")}
+        href={appRoutes.SIGN_IN}
+      >
+        <UserIcon /> {currentLanguage.Menu.userButton.signIn}
+      </AppLink>
     );
   }
 
@@ -46,12 +49,12 @@ export const UserButton: FC<PropsWithChildren> = async ({ children }) => {
       <div className="flex items-center gap-2 font-medium">
         <DropdownMenuTrigger
           render={
-            <Button
+            <AppButton
               id="user-button"
               className="relative w-8 h-8 rounded-full ml-2 flex-center cursor-pointer"
             >
               {firstInitial}
-            </Button>
+            </AppButton>
           }
         />
 
@@ -75,43 +78,40 @@ export const UserButton: FC<PropsWithChildren> = async ({ children }) => {
           </DropdownMenuLabel>
 
           <DropdownMenuItem>
-            <Link
+            <AppLink
               href={appRoutes.USER_PROFILE}
-              className="w-full flex-start gap-2"
+              className={commonLinkClasses}
             >
               <UserRoundPen />
               {currentLanguage.Menu.userButton.userProfile}
-            </Link>
+            </AppLink>
           </DropdownMenuItem>
 
           <DropdownMenuItem>
-            <Link
-              href={appRoutes.USER_ORDERS}
-              className="w-full flex-start gap-2"
-            >
+            <AppLink href={appRoutes.USER_ORDERS} className={commonLinkClasses}>
               <ShoppingBag />
               {currentLanguage.Menu.userButton.orderHistory}
-            </Link>
+            </AppLink>
           </DropdownMenuItem>
 
           {session.user.role === userRoles.ADMIN && (
             <DropdownMenuItem>
-              <Link
+              <AppLink
                 href={appRoutes.ADMIN_OVERVIEW}
-                className="w-full flex-start gap-2"
+                className={commonLinkClasses}
               >
                 <Shield />
                 {currentLanguage.Menu.userButton.admin}
-              </Link>
+              </AppLink>
             </DropdownMenuItem>
           )}
 
           <DropdownMenuItem className="p-0  mb-1">
             <form action={signOutUser} className="w-full">
-              <Button className="w-full py-4 px-2.5 h-4" type="submit">
+              <AppButton className="w-full py-4 px-2.5 h-4" type="submit">
                 <LogOut />
                 {currentLanguage.Menu.userButton.signOut}
-              </Button>
+              </AppButton>
             </form>
           </DropdownMenuItem>
         </DropdownMenuGroup>

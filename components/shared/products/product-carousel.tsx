@@ -10,9 +10,9 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Link } from "@/i18n/routing";
 import { appRoutes, CAROUSEL_DELAY } from "@/lib/constants";
 import { Product } from "@/types";
+import { AppLink } from "../app-link/app-link";
 
 const ProductCarousel = ({ data }: { data: Product[] }) => {
   const banners = data.filter((product) => product.banner);
@@ -32,7 +32,7 @@ const ProductCarousel = ({ data }: { data: Product[] }) => {
       <CarouselContent>
         {banners.map((product) => (
           <CarouselItem key={product.id}>
-            <Link href={`${appRoutes.PRODUCTS}/${product.slug}`}>
+            <AppLink href={`${appRoutes.PRODUCTS}/${product.slug}`}>
               <div className="relative mx-auto">
                 <AppImage
                   className="w-full h-auto"
@@ -48,7 +48,7 @@ const ProductCarousel = ({ data }: { data: Product[] }) => {
                   </h2>
                 </div> */}
               </div>
-            </Link>
+            </AppLink>
           </CarouselItem>
         ))}
       </CarouselContent>

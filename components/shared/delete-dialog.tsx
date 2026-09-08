@@ -14,8 +14,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
 import { ResponseMessage } from "@/types";
+import { AppButton } from "./app-button/app-button";
 
 const DeleteDialog = ({
   id,
@@ -59,14 +59,14 @@ const DeleteDialog = ({
         <AlertDialogFooter className="flex items-center">
           <AlertDialogCancel>{t("cancelButton")}</AlertDialogCancel>
 
-          <Button
+          <AppButton
             size="lg"
             variant="destructive"
             disabled={isPending}
             onClick={handleDeleteClick}
           >
             {isPending ? t("deletingText") : t("deleteButton")}
-          </Button>
+          </AppButton>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

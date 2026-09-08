@@ -7,6 +7,7 @@ import {
 } from "@paypal/react-paypal-js";
 import { toast } from "sonner";
 
+import { AppLink } from "@/components/shared/app-link/app-link";
 import AppImage from "@/components/ui/app-image";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -18,7 +19,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Link } from "@/i18n/routing";
 import {
   approvePayPalOrder,
   createPayPalOrder,
@@ -128,7 +128,7 @@ const OrderDetailsTable = ({
           <Card>
             <CardContent className="px-4 gap-4">
               <h2 className="text-xl pb-4">Payment Method</h2>
-              
+
               <p className="pb-2">{paymentMethod}</p>
               {isPaid ? (
                 <Badge variant="secondary">
@@ -175,7 +175,7 @@ const OrderDetailsTable = ({
                   {orderItems?.map((item) => (
                     <TableRow key={item.slug}>
                       <TableCell>
-                        <Link
+                        <AppLink
                           href={`${appRoutes.PRODUCTS}/${item.slug}`}
                           className="flex items-center"
                         >
@@ -185,12 +185,15 @@ const OrderDetailsTable = ({
                             width={50}
                             height={50}
                           />
+
                           <span className="px-2">{item.name}</span>
-                        </Link>
+                        </AppLink>
                       </TableCell>
+
                       <TableCell>
                         <span className="px-2">{item.qty}</span>
                       </TableCell>
+
                       <TableCell className="text-right">
                         <span className="px-2">
                           {formatCurrency(Number(item.price))}
@@ -209,18 +212,25 @@ const OrderDetailsTable = ({
             <CardContent className="px-4 gap-4 space-y-4">
               <div className="flex-between">
                 <div>Items</div>
+
                 <div>{formatCurrency(itemsPrice)}</div>
               </div>
+
               <div className="flex-between">
                 <div>Tax</div>
+
                 <div>{formatCurrency(taxPrice)}</div>
               </div>
+
               <div className="flex-between">
                 <div>Shipping</div>
+
                 <div>{formatCurrency(shippingPrice)}</div>
               </div>
+
               <div className="flex-between">
                 <div>Total</div>
+
                 <div>{formatCurrency(totalPrice)}</div>
               </div>
 

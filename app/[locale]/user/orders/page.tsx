@@ -1,10 +1,10 @@
 import { Metadata } from "next";
 import { getLocale } from "next-intl/server";
-import Link from "next/link";
 
+import { AppButton } from "@/components/shared/app-button/app-button";
+import { AppLink } from "@/components/shared/app-link/app-link";
 import Pagination from "@/components/shared/pagination";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -108,14 +108,14 @@ const OrdersPage = async (props: {
                 </TableCell>
 
                 <TableCell>
-                  <Button variant="outline">
-                    <Link href={`${appRoutes.ORDER}/${order.id}`}>
+                  <AppButton variant="outline">
+                    <AppLink href={`${appRoutes.ORDER}/${order.id}`}>
                       {
                         currentLanguage.Orders.tableHeaders.actions
                           .detailsButton
                       }
-                    </Link>
-                  </Button>
+                    </AppLink>
+                  </AppButton>
                 </TableCell>
               </TableRow>
             ))}

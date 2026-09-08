@@ -5,8 +5,9 @@ import { useTranslations } from "next-intl";
 import { useTransition } from "react";
 import { toast } from "sonner";
 
+import { AppButton } from "@/components/shared/app-button/app-button";
+import { AppLink } from "@/components/shared/app-link/app-link";
 import AppImage from "@/components/ui/app-image";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import LoaderIcon from "@/components/ui/loader-icon";
 import {
@@ -17,7 +18,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Link, useRouter } from "@/i18n/routing";
+import { useRouter } from "@/i18n/routing";
 import { addItemToCart, removeItemFromcart } from "@/lib/actions/cart.actions";
 import { appRoutes } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
@@ -36,9 +37,9 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
       {!cart || cart.items.length === 0 ? (
         <div>
           {t("status.empty")}{" "}
-          <Link href={appRoutes.HOME} className="underline">
+          <AppLink href={appRoutes.HOME} className="underline">
             {t("status.goShoppingLink")}
-          </Link>
+          </AppLink>
         </div>
       ) : (
         <div className="grid md:grid-cols-4 md:gap-5">
@@ -63,12 +64,11 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                 {cart.items.map((item) => (
                   <TableRow key={item.slug}>
                     <TableCell>
-                      <Link
+                      <AppLink
                         href={`${appRoutes.PRODUCTS}/${item.slug}`}
                         className="flex items-center rounded-xl"
                       >
                         <AppImage
-                          className="rounded-md"
                           src={item.image}
                           alt={item.name}
                           width={50}
@@ -76,14 +76,13 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                         />
 
                         <span className="px-2">{item.name}</span>
-                      </Link>
+                      </AppLink>
                     </TableCell>
 
                     <TableCell>
                       <div className="flex-between bg-input rounded-md">
-                        <Button
+                        <AppButton
                           disabled={isPending}
-                          type="button"
                           onClick={() =>
                             startTransition(async () => {
                               const res = await removeItemFromcart(
@@ -97,11 +96,11 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                           }
                         >
                           {isPending ? <LoaderIcon /> : <Minus />}
-                        </Button>
+                        </AppButton>
 
                         <span className="px-2">{item.qty}</span>
 
-                        <Button
+                        <AppButton
                           disabled={isPending}
                           type="button"
                           onClick={() =>
@@ -115,7 +114,7 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                           }
                         >
                           {isPending ? <LoaderIcon /> : <Plus />}
-                        </Button>
+                        </AppButton>
                       </div>
                     </TableCell>
 
@@ -156,7 +155,7 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                 </span>
               </div>
 
-              <Button
+              <AppButton
                 className="w-full"
                 disabled={isGoingToCkeckout}
                 onClick={() =>
@@ -171,7 +170,7 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                   <ArrowRight className="w-4 h-4" />
                 )}{" "}
                 {`${t("cartActions.goCheckout")} (${formatCurrency(cart.totalPrice)})`}
-              </Button>
+              </AppButton>
             </CardContent>
           </Card>
         </div>

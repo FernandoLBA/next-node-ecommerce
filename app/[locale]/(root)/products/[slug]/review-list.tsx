@@ -3,6 +3,7 @@
 import { Calendar, User } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import { AppLink } from "@/components/shared/app-link/app-link";
 import Rating from "@/components/shared/products/rating";
 import {
   Card,
@@ -11,7 +12,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Link } from "@/i18n/routing";
 import { getReviews } from "@/lib/actions/review.actions";
 import { appRoutes } from "@/lib/constants";
 import { formatDateTime } from "@/lib/utils";
@@ -57,13 +57,14 @@ const ReviewList = ({ userId, productId, productSlug }: ReviewListProps) => {
         />
       ) : (
         <div>
-          Please
-          <Link
-            className="text-blue-700 px-2"
+          Please{" "}
+          <AppLink
             href={`${appRoutes.SIGN_IN}?callbackUrl=${appRoutes.PRODUCTS}/${productSlug}`}
+            isUnderlined
+            className="hover:text-accent-foreground!"
           >
             Sign in
-          </Link>
+          </AppLink>{" "}
           to write a review
         </div>
       )}

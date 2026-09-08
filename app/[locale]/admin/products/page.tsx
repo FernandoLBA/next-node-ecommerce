@@ -1,10 +1,12 @@
 import { Metadata } from "next";
 import { getLocale } from "next-intl/server";
 
-import Pagination from "@/components/shared/pagination";
+import { AppButton } from "@/components/shared/app-button/app-button";
+import { AppLink } from "@/components/shared/app-link/app-link";
 import DeleteDialog from "@/components/shared/delete-dialog";
+import Pagination from "@/components/shared/pagination";
 import StarIcon from "@/components/shared/star";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -13,14 +15,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Link } from "@/i18n/routing";
 import {
   deleteProductById,
   getAllProducts,
 } from "@/lib/actions/product.actions";
 import { ADMIN_PAGE_SIZE, appRoutes } from "@/lib/constants";
-import { formatCurrency, formatId, getLanguage } from "@/lib/utils";
+import { cn, formatCurrency, formatId, getLanguage } from "@/lib/utils";
 import { Locale } from "@/types";
+import { X } from "lucide-react";
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const locale = await getLocale();
@@ -61,27 +63,26 @@ const AdminProductsPage = async (props: AdminProductsPageProps) => {
           <h1 className="h2-bold">
             {currentLanguage.AdminPages.products.title}
           </h1>
+
           {query && (
-            <div className="flex items-center gap-2">
+            <div className="flex-center text-muted-foreground gap-2">
               {currentLanguage.AdminPages.products.filters.filteredBy}{" "}
               <i>&quot;{query}&quot;</i>{" "}
-              <Link href={appRoutes.ADMIN_PRODUCTS}>
-                <Button variant="outline" size="sm">
-                  {
-                    currentLanguage.AdminPages.products.filters
-                      .cleanFilterButton
-                  }
-                </Button>
-              </Link>
+              <AppLink
+                href={appRoutes.ADMIN_PRODUCTS}
+                className={cn(buttonVariants(), "w-6 h-6")}
+              >
+                <X />
+              </AppLink>
             </div>
           )}
         </div>
 
-        <Button>
-          <Link href={appRoutes.ADMIN_PRODUCTS_CREATE}>
+        <AppButton>
+          <AppLink href={appRoutes.ADMIN_PRODUCTS_CREATE}>
             {currentLanguage.AdminPages.products.createButton}
-          </Link>
-        </Button>
+          </AppLink>
+        </AppButton>
       </div>
 
       <Table>
@@ -139,14 +140,14 @@ const AdminProductsPage = async (props: AdminProductsPageProps) => {
                 </div>
               </TableCell>
               <TableCell className="flex-start gap-2">
-                <Button size="sm" variant="outline">
-                  <Link href={`${appRoutes.ADMIN_PRODUCTS}/${product.id}`}>
+                <AppButton size="sm" variant="outline">
+                  <AppLink href={`${appRoutes.ADMIN_PRODUCTS}/${product.id}`}>
                     {
                       currentLanguage.AdminPages.products.tableHeaders.actions
                         .editButton
                     }
-                  </Link>
-                </Button>
+                  </AppLink>
+                </AppButton>
 
                 <DeleteDialog id={product.id} action={deleteProductById} />
               </TableCell>

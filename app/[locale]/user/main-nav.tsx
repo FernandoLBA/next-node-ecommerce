@@ -1,12 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import React from "react";
 
 import { useSettings } from "@/components/providers";
+import { AppLink } from "@/components/shared/app-link/app-link";
+import { usePathname } from "@/i18n/routing";
 import { userNavLinks } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import { usePathname } from "@/i18n/routing";
 
 const MainNav = ({
   className,
@@ -21,16 +21,14 @@ const MainNav = ({
       {...props}
     >
       {userNavLinks(locale).map((link) => (
-        <Link
+        <AppLink
           key={link.href}
           href={link.href}
-          className={cn(
-            "text-sm font-medium transition-colors hover:text-primary",
-            pathname.includes(link.href) ? "" : "text-muted-foreground",
-          )}
+          className="hover:text-accent-foreground"
+          isSelected={pathname.includes(link.href)}
         >
           {link.title}
-        </Link>
+        </AppLink>
       ))}
     </nav>
   );

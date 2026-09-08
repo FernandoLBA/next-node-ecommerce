@@ -35,21 +35,26 @@ const ModeToggle: FC<PropsWithChildren> = ({ children }) => {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
-  //#region(mismatch issue)
   useEffect(() => {
     const raf = requestAnimationFrame(() => setMounted(true));
     return () => cancelAnimationFrame(raf);
   }, []);
 
   if (!mounted) return null;
-  //#endregion
 
   const currentTheme = (theme as Theme) ?? "system";
   const ActiveIcon = THEME_ICONS[currentTheme];
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger render={<Button variant="ghost" className="cursor-pointer" />}>
+      <DropdownMenuTrigger
+        render={
+          <Button
+            variant="ghost"
+            className="cursor-pointer hover:text-accent-foreground"
+          />
+        }
+      >
         <ActiveIcon aria-hidden />
         {children}
       </DropdownMenuTrigger>
@@ -65,6 +70,7 @@ const ModeToggle: FC<PropsWithChildren> = ({ children }) => {
               key={value}
               checked={currentTheme === value}
               onCheckedChange={() => setTheme(value)}
+              className="hover:text-black!"
             >
               {t(`themes.${value}`)}
             </DropdownMenuCheckboxItem>

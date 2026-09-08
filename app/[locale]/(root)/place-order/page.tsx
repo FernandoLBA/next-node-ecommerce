@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 
 import { auth } from "@/auth";
+import { AppLink } from "@/components/shared/app-link/app-link";
 import CheckoutSteps from "@/components/shared/checkout-steps";
 import AppImage from "@/components/ui/app-image";
 import { Button } from "@/components/ui/button";
@@ -13,7 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Link, redirect } from "@/i18n/routing";
+import { redirect } from "@/i18n/routing";
 import { getMyCart } from "@/lib/actions/cart.actions";
 import { getUserById } from "@/lib/actions/user.actions";
 import { appRoutes } from "@/lib/constants";
@@ -47,21 +48,26 @@ const PlaceOrderPage = async (props: {
   return (
     <>
       <CheckoutSteps current={3} />
+
       <h1 className="py-4 text-2xl">Place order</h1>
+
       <div className="grid md:grid-cols-3 md:gap-5">
         <div className="md:col-span-2 overflow-x-auto space-y-4">
           <Card>
             <CardContent className="px-4 gap-4">
               <h2 className="text-xl pb-4">Shipping Address</h2>
+
               <p>{userAddress.fullName}</p>
+
               <p>
                 {userAddress.streetAddress}, {userAddress.city},{" "}
                 {userAddress.postalCode}, {userAddress.country}{" "}
               </p>
+
               <div className="mt-3">
-                <Link href={appRoutes.SHIPPING_ADDRESS}>
+                <AppLink href={appRoutes.SHIPPING_ADDRESS}>
                   <Button variant="outline">Edit</Button>
-                </Link>
+                </AppLink>
               </div>
             </CardContent>
           </Card>
@@ -69,12 +75,13 @@ const PlaceOrderPage = async (props: {
           <Card>
             <CardContent className="px-4 gap-4">
               <h2 className="text-xl pb-4">Payment Method</h2>
+
               <p>{user.paymentMethod}</p>
 
               <div className="mt-3">
-                <Link href={appRoutes.PAYMENT_METHOD}>
+                <AppLink href={appRoutes.PAYMENT_METHOD}>
                   <Button variant="outline">Edit</Button>
-                </Link>
+                </AppLink>
               </div>
             </CardContent>
           </Card>
@@ -82,11 +89,14 @@ const PlaceOrderPage = async (props: {
           <Card>
             <CardContent className="px-4 gap-4">
               <h2 className="text-xl pb-4">Order Items</h2>
+
               <Table>
                 <TableHeader>
                   <TableRow>
                     <TableHead>Item</TableHead>
+
                     <TableHead>Quantity</TableHead>
+
                     <TableHead>Price</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -95,7 +105,7 @@ const PlaceOrderPage = async (props: {
                   {cart?.items.map((item: CartItem) => (
                     <TableRow key={item.slug}>
                       <TableCell>
-                        <Link
+                        <AppLink
                           href={`${appRoutes.PRODUCTS}/${item.slug}`}
                           className="flex items-center"
                         >
@@ -105,12 +115,15 @@ const PlaceOrderPage = async (props: {
                             width={50}
                             height={50}
                           />
+
                           <span className="px-2">{item.name}</span>
-                        </Link>
+                        </AppLink>
                       </TableCell>
+
                       <TableCell>
                         <span className="px-2">{item.qty}</span>
                       </TableCell>
+
                       <TableCell className="text-right">
                         <span className="px-2">
                           {formatCurrency(Number(item.price))}
@@ -136,18 +149,25 @@ const PlaceOrderPage = async (props: {
                   )}
                   )
                 </div>
+
                 <div>{formatCurrency(cart.itemsPrice)}</div>
               </div>
+
               <div className="flex-between">
                 <div>Tax</div>
+
                 <div>{formatCurrency(cart.taxPrice)}</div>
               </div>
+
               <div className="flex-between">
                 <div>Shipping</div>
+
                 <div>{formatCurrency(cart.shippingPrice)}</div>
               </div>
+
               <div className="flex-between">
                 <div>Total</div>
+
                 <div>{formatCurrency(cart.totalPrice)}</div>
               </div>
 

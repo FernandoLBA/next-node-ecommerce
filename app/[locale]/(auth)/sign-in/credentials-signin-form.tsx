@@ -5,11 +5,12 @@ import { useSearchParams } from "next/navigation";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 
-import { Button } from "@/components/ui/button";
+import { AppButton } from "@/components/shared/app-button/app-button";
+import { AppLink } from "@/components/shared/app-link/app-link";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import LoaderIcon from "@/components/ui/loader-icon";
-import { Link } from "@/i18n/routing";
+import { useRouter } from "@/i18n/routing";
 import { signInWithCredentials } from "@/lib/actions/user.actions";
 import { appRoutes, signInDefaultValues } from "@/lib/constants";
 
@@ -18,7 +19,7 @@ const SignInButton = () => {
   const t = useTranslations("SignIn");
 
   return (
-    <Button
+    <AppButton
       type="submit"
       disabled={pending}
       className="w-full"
@@ -32,11 +33,12 @@ const SignInButton = () => {
       ) : (
         <>{t("textButton")}</>
       )}
-    </Button>
+    </AppButton>
   );
 };
 
 export default function CredentialsSignInForm() {
+  const router = useRouter();
   const [data, action] = useActionState(signInWithCredentials, {
     success: false,
     message: "",
@@ -53,6 +55,7 @@ export default function CredentialsSignInForm() {
       <div className="space-y-6">
         <div className="space-y-2">
           <Label htmlFor="email">{t("email")}</Label>
+
           <Input
             id="email"
             type="email"
@@ -65,6 +68,7 @@ export default function CredentialsSignInForm() {
 
         <div className="space-y-2">
           <Label htmlFor="password">{t("password")}</Label>
+
           <Input
             id="password"
             type="password"
@@ -75,8 +79,16 @@ export default function CredentialsSignInForm() {
           />
         </div>
 
-        <div>
+        <div className="space-y-2">
           <SignInButton />
+
+          <AppButton
+            className="w-full"
+            variant="outline"
+            onClick={() => router.push(appRoutes.HOME)}
+          >
+            {t("cancelTextButton")}
+          </AppButton>
         </div>
 
         {data && !data.success && (
@@ -85,9 +97,14 @@ export default function CredentialsSignInForm() {
 
         <div className="text-sm text-center text-muted-foreground">
           {t("noAccountText")}{" "}
-          <Link href={appRoutes.SIGN_UP} target="_self" className="link">
+          <AppLink
+            href={appRoutes.SIGN_UP}
+            target="_self"
+            isUnderlined={true}
+            className="hover:text-accent-foreground!"
+          >
             {t("signUpLinkText")}
-          </Link>
+          </AppLink>
         </div>
       </div>
     </form>

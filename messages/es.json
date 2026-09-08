@@ -188,6 +188,7 @@
     "password": "Contraseña",
     "loadingTextButton": "Iniciando sesión...",
     "textButton": "Iniciar sesión",
+    "cancelTextButton": "Volver al inicio",
     "noAccountText": "No tiene cuenta?",
     "signUpLinkText": "Regístrese"
   },
@@ -200,6 +201,7 @@
     "confirmPassword": "Confirmar contraseña",
     "loadingTextButton": "Registrando...",
     "textButton": "Registrarse",
+    "cancelButtonText": "Volver al inicio",
     "haveAccountText": "Ya posee una cuenta?",
     "signInLinkText": "Inicie sesión"
   },

@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import React from "react";
 
+import { AppLink } from "@/components/shared/app-link/app-link";
 import { usePathname } from "@/i18n/routing";
 import { adminNavLinks } from "@/lib/constants";
 import { cn } from "@/lib/utils";
@@ -21,16 +21,14 @@ const AdminMainNav = ({ className, ...props }: AdminMainNavProps) => {
       {...props}
     >
       {navTranslatedNavLinks.map((link) => (
-        <Link
+        <AppLink
           key={link.href}
           href={link.href}
-          className={cn(
-            "text-sm font-medium transition-colors hover:text-primary",
-            pathname.includes(link.href) ? "" : "text-muted-foreground",
-          )}
+          isSelected={pathname.includes(link.href)}
+          className={cn("hover:text-accent-foreground!")}
         >
           {link.title}
-        </Link>
+        </AppLink>
       ))}
     </nav>
   );

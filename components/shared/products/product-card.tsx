@@ -1,16 +1,16 @@
 import AppImage from "@/components/ui/app-image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Link } from "@/i18n/routing";
-import { Product } from "@/types";
-import ProductPrice from "./product-price";
 import { appRoutes } from "@/lib/constants";
+import { Product } from "@/types";
+import { AppLink } from "../app-link/app-link";
+import ProductPrice from "./product-price";
 import Rating from "./rating";
 
 const ProductCard = ({ product }: { product: Product }) => {
   return (
     <Card className="w-full max-w-full sm:max-w-sm p-0 justify-between">
       <CardHeader className="p-0 gap-0 items-center">
-        <Link href={`${appRoutes.PRODUCTS}/${product.slug}`}>
+        <AppLink href={`${appRoutes.PRODUCTS}/${product.slug}`}>
           <AppImage
             containerClassName="p-0"
             className="m-0 p-0 w-full md:w-75 h-75 max-h-75"
@@ -19,23 +19,25 @@ const ProductCard = ({ product }: { product: Product }) => {
             height={300}
             width={300}
           />
-        </Link>
+        </AppLink>
       </CardHeader>
 
       <CardContent className="p-4 grid gap-2">
         <div className="text-xs">{product.brand}</div>
 
-        <Link href={`${appRoutes.PRODUCTS}/${product.slug}`}>
+        <AppLink href={`${appRoutes.PRODUCTS}/${product.slug}`}>
           <CardTitle className="text-sm md:text-md">{product.name}</CardTitle>
-        </Link>
+        </AppLink>
 
         <div className="flex-between gap-4">
           <div className="hidden md:block">
             <Rating value={Number(product.rating)} size="md" />
           </div>
+
           <div className="block md:hidden">
             <Rating value={Number(product.rating)} size="sm" />
           </div>
+
           {product.stock > 0 ? (
             <ProductPrice value={Number(product.price)} />
           ) : (

@@ -188,6 +188,7 @@
     "password": "Password",
     "loadingTextButton": "Signing in...",
     "textButton": "Sign in",
+    "cancelTextButton": "Back home",
     "noAccountText": "Don't have an account?",
     "signUpLinkText": "Sign Up"
   },
@@ -200,6 +201,7 @@
     "confirmPassword": "Confirm password",
     "loadingTextButton": "Signing up...",
     "textButton": "Sign up",
+    "cancelButtonText": "Back home",
     "haveAccountText": "Already have an account?",
     "signInLinkText": "Sign In"
   },

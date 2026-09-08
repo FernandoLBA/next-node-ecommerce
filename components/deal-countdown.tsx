@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 
-import { Link } from "@/i18n/routing";
 import { appRoutes } from "@/lib/constants";
+import { AppButton } from "./shared/app-button/app-button";
+import { AppLink } from "./shared/app-link/app-link";
 import AppImage from "./ui/app-image";
-import { Button } from "./ui/button";
 
 //? Static target date (replace with desired date)
 const TARGET_DATE = new Date("2026-08-18T01:13:00");
@@ -83,15 +83,15 @@ const DealCountdown = () => {
           </p>
 
           <div className="text-center">
-            <Button>
-              <Link href={appRoutes.SEARCH}>View Products</Link>
-            </Button>
+            <AppButton>
+              <AppLink href={appRoutes.SEARCH}>View Products</AppLink>
+            </AppButton>
           </div>
         </div>
 
         <div className="flex justify-center">
           <AppImage
-            src="/images/promo.jpg"
+            src={`${appRoutes.IMAGES}/promo.jpg`}
             alt="promotion"
             width={300}
             height={200}
@@ -121,15 +121,15 @@ const DealCountdown = () => {
         </ul>
 
         <div className="text-center">
-          <Button>
-            <Link href={appRoutes.SEARCH}>View Products</Link>
-          </Button>
+          <AppButton>
+            <AppLink href={appRoutes.SEARCH}>View Products</AppLink>
+          </AppButton>
         </div>
       </div>
 
       <div className="flex justify-center">
         <AppImage
-          src="/images/promo.jpg"
+          src={`${appRoutes.IMAGES}/promo.jpg`}
           alt="promotion"
           width={300}
           height={200}

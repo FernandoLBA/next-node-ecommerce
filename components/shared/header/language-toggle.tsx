@@ -30,7 +30,7 @@ const LanguageToggle: FC<PropsWithChildren> = ({ children }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        render={<Button className="cursor-pointer" variant="ghost" />}
+        render={<Button className="cursor-pointer hover:text-accent-foreground" variant="ghost" />}
       >
         <Globe aria-hidden />
         {children}
@@ -46,6 +46,7 @@ const LanguageToggle: FC<PropsWithChildren> = ({ children }) => {
               key={value}
               checked={locale === value}
               onCheckedChange={() => switchLocale(value)}
+              className="hover:text-black!"
             >
               {t(`languages.${value}`)}
             </DropdownMenuCheckboxItem>
