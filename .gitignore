@@ -26,6 +26,7 @@
 
 # markdown files
 ARCHITECTURE.md
+DEVELOPMENT_GUIDELINES.md
 
 # debug
 npm-debug.log*

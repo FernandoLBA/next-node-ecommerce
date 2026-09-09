@@ -23,13 +23,14 @@ import { appRoutes, userRoles } from "@/lib/constants";
 import { cn, getLanguage } from "@/lib/utils";
 import { Locale } from "@/types";
 import { AppButton } from "../app-button/app-button";
+import { AppLinkButton } from "../app-link-button/app-link-button";
 import { AppLink } from "../app-link/app-link";
 
 export const UserButton: FC<PropsWithChildren> = async ({ children }) => {
   const session = await auth();
   const locale = await getLocale();
   const { currentLanguage } = getLanguage(locale as Locale);
-  const commonLinkClasses = "w-full flex-start gap-2";
+  const commonLinkClasses = `w-full flex-start gap-2`;
 
   if (!session) {
     return (
@@ -78,31 +79,37 @@ export const UserButton: FC<PropsWithChildren> = async ({ children }) => {
           </DropdownMenuLabel>
 
           <DropdownMenuItem>
-            <AppLink
+            <AppLinkButton
+              variant="link"
               href={appRoutes.USER_PROFILE}
-              className={commonLinkClasses}
+              className="text-foreground!"
             >
               <UserRoundPen />
               {currentLanguage.Menu.userButton.userProfile}
-            </AppLink>
+            </AppLinkButton>
           </DropdownMenuItem>
 
           <DropdownMenuItem>
-            <AppLink href={appRoutes.USER_ORDERS} className={commonLinkClasses}>
+            <AppLinkButton
+              variant="link"
+              href={appRoutes.USER_ORDERS}
+              className="text-foreground!"
+            >
               <ShoppingBag />
               {currentLanguage.Menu.userButton.orderHistory}
-            </AppLink>
+            </AppLinkButton>
           </DropdownMenuItem>
 
           {session.user.role === userRoles.ADMIN && (
             <DropdownMenuItem>
-              <AppLink
+              <AppLinkButton
+                variant="link"
                 href={appRoutes.ADMIN_OVERVIEW}
-                className={commonLinkClasses}
+                className="text-foreground!"
               >
                 <Shield />
                 {currentLanguage.Menu.userButton.admin}
-              </AppLink>
+              </AppLinkButton>
             </DropdownMenuItem>
           )}
 

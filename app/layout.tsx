@@ -46,7 +46,7 @@ export default async function RootLayout({
       <body className="min-h-full flex flex-col">
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark" //? This provider saves a "theme" value in localStorage.
+          defaultTheme="light" //? This provider saves a "theme" value in localStorage.
           disableTransitionOnChange
         >
           <AppSettingsProvider locale={locale as Locale}>

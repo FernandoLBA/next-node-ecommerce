@@ -55,13 +55,13 @@ const AdminCategoriesPage = async (props: AdminCategoriesPageProps) => {
 
   return (
     <div className="space-y-2">
-      <div className="flex-between">
-        <div className="flex items-baseline gap-3">
+      <div className="flex justify-between items-start">
+        <div className="flex-col gap-3">
           <h1 className="h2-bold">
             {currentLanguage.AdminPages.categories.title}
           </h1>
           {query && (
-            <div className="flex-center text-muted-foreground gap-2">
+            <div className="flex-center text-sm text-muted-foreground gap-2 mt-2">
               {currentLanguage.AdminPages.categories.filters.filteredBy}{" "}
               <i>&quot;{query}&quot;</i>{" "}
               <AppLink

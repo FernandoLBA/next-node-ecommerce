@@ -5,7 +5,6 @@ import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import { FC, PropsWithChildren, useEffect, useState } from "react";
 
-import { Button } from "../../ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -15,6 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
+import { AppButton } from "../app-button/app-button";
 
 const THEMES = [
   { value: "system", label: "System", icon: SunMoon },
@@ -49,15 +49,12 @@ const ModeToggle: FC<PropsWithChildren> = ({ children }) => {
     <DropdownMenu>
       <DropdownMenuTrigger
         render={
-          <Button
-            variant="ghost"
-            className="cursor-pointer hover:text-accent-foreground"
-          />
+          <AppButton variant="ghost" className="flex-center cursor-pointer">
+            <ActiveIcon aria-hidden />
+            {children}
+          </AppButton>
         }
-      >
-        <ActiveIcon aria-hidden />
-        {children}
-      </DropdownMenuTrigger>
+      />
 
       <DropdownMenuContent>
         <DropdownMenuGroup>

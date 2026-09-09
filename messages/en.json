@@ -221,8 +221,8 @@
     },
     "userButton": {
       "signIn": "Sign In",
-      "userProfile": "User Profile",
-      "orderHistory": "Order History",
+      "userProfile": "My Profile",
+      "orderHistory": "My Orders",
       "admin": "Admin",
       "signOut": "Sign Out"
     }

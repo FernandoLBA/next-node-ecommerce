@@ -15,6 +15,10 @@ const MainNav = ({
   const pathname = usePathname();
   const { locale } = useSettings();
 
+  const isSelected = (href: string) => {
+    return pathname.includes(href);
+  };
+
   return (
     <nav
       className={cn("flex items-center space-x-4 lg:space-x-6", className)}
@@ -24,8 +28,9 @@ const MainNav = ({
         <AppLink
           key={link.href}
           href={link.href}
-          className="hover:text-accent-foreground"
-          isSelected={pathname.includes(link.href)}
+          className={cn(
+            `nav-links ${isSelected(link.href) && "nav-link-selected"}`,
+          )}
         >
           {link.title}
         </AppLink>

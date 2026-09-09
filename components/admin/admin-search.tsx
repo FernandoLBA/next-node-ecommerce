@@ -12,7 +12,6 @@ import { Input } from "../ui/input";
 const AdminSearch = () => {
   const t = useTranslations("AdminPages");
   const pathname = usePathname();
-  console.log("🚀 ~ AdminSearch ~ pathname:", pathname);
   const formActionUrl = pathname.includes(appRoutes.ADMIN_ORDERS)
     ? appRoutes.ADMIN_ORDERS
     : pathname.includes(appRoutes.ADMIN_USERS)

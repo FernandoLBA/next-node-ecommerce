@@ -6,7 +6,7 @@ import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
-import { Button } from "@/components/ui/button";
+import { AppButton } from "@/components/shared/app-button/app-button";
 import {
   Field,
   FieldError,
@@ -15,12 +15,14 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import LoaderIcon from "@/components/ui/loader-icon";
+import { useRouter } from "@/i18n/routing";
 import { updateProfile } from "@/lib/actions/user.actions";
 import { updateUserProfileSchema } from "@/lib/validators";
 import { useTranslations } from "next-intl";
 
 const ProfileForm = () => {
   const { data: session, update } = useSession();
+  const router = useRouter();
   const t = useTranslations("Profile");
 
   const form = useForm<z.infer<typeof updateUserProfileSchema>>({
@@ -62,37 +64,39 @@ const ProfileForm = () => {
     >
       <div className="flex flex-col gap-5">
         <FieldGroup>
-          <FieldGroup>
-            <Controller
-              name="email"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="email">
-                    {t("profileForm.email")}
-                  </FieldLabel>
-                  <Input
-                    {...field}
-                    id="email"
-                    className="input-field"
-                    aria-invalid={fieldState.invalid}
-                    placeholder="example@mail.com"
-                    disabled
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
-          </FieldGroup>
+          <Controller
+            name="email"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="email">
+                  {t("profileForm.email")}
+                </FieldLabel>
 
+                <Input
+                  {...field}
+                  id="email"
+                  className="input-field"
+                  aria-invalid={fieldState.invalid}
+                  placeholder="example@mail.com"
+                  disabled
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+        </FieldGroup>
+
+        <FieldGroup>
           <Controller
             name="name"
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
                 <FieldLabel htmlFor="name">{t("profileForm.name")}</FieldLabel>
+
                 <Input
                   {...field}
                   id="name"
@@ -109,21 +113,22 @@ const ProfileForm = () => {
         </FieldGroup>
       </div>
 
-      <Button
-        type="submit"
-        size="lg"
-        className="button col-span-2 w-full"
-        disabled={form.formState.isSubmitting}
-      >
-        {form.formState.isSubmitting ? (
-          <>
-            <LoaderIcon />
-            {t("profileForm.submitting")}
-          </>
-        ) : (
-          <>{t("profileForm.updateProfileButton")}</>
-        )}
-      </Button>
+      <div className="flex flex-col space-y-2">
+        <AppButton type="submit" disabled={form.formState.isSubmitting}>
+          {form.formState.isSubmitting ? (
+            <>
+              <LoaderIcon />
+              {t("profileForm.submitting")}
+            </>
+          ) : (
+            <>{t("profileForm.updateProfileButton")}</>
+          )}
+        </AppButton>
+
+        <AppButton variant="outline" disabled={form.formState.isSubmitting}>
+          Back home
+        </AppButton>
+      </div>
     </form>
   );
 };

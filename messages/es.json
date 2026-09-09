@@ -221,8 +221,8 @@
     },
     "userButton": {
       "signIn": "Iniciar Sesión",
-      "userProfile": "Perfil",
-      "orderHistory": "Historial de Órdenes",
+      "userProfile": "Mi Perfil",
+      "orderHistory": "Mis Órdenes",
       "admin": "Administrador",
       "signOut": "Cerrar Sesión"
     }

@@ -47,14 +47,14 @@ const AdminOrdersPage = async (props: AdminOrdersPageProps) => {
 
   return (
     <div className="space-y-2">
-      <div className="flex items-baseline gap-3">
+      <div className="flex-col gap-3">
         <h1 className="h2-bold">{currentLanguage.AdminPages.orders.title}</h1>
         {query && (
-          <div>
+          <div className="flex-start text-sm text-muted-foreground gap-2 mt-2">
             Filtered by <i>&quot;{query}&quot;</i>{" "}
             <AppLink
               href={appRoutes.ADMIN_ORDERS}
-              className={cn(buttonVariants(), "w-6 h-4")}
+              className={cn(buttonVariants(), "w-6 h-6")}
             >
               <X />
             </AppLink>

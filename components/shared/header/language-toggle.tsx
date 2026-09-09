@@ -4,7 +4,6 @@ import { Globe } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { FC, PropsWithChildren } from "react";
 
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -16,6 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { usePathname, useRouter } from "@/i18n/routing";
 import { LANGUAGES } from "@/lib/constants";
+import { AppButton } from "../app-button/app-button";
 
 const LanguageToggle: FC<PropsWithChildren> = ({ children }) => {
   const t = useTranslations("Menu");
@@ -30,11 +30,13 @@ const LanguageToggle: FC<PropsWithChildren> = ({ children }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        render={<Button className="cursor-pointer hover:text-accent-foreground" variant="ghost" />}
-      >
-        <Globe aria-hidden />
-        {children}
-      </DropdownMenuTrigger>
+        render={
+          <AppButton className="cursor-pointer flex-center" variant="ghost">
+            <Globe aria-hidden />
+            {children}
+          </AppButton>
+        }
+      />
 
       <DropdownMenuContent>
         <DropdownMenuGroup>

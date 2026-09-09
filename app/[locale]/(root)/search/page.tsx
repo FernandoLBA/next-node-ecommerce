@@ -121,7 +121,7 @@ const SearchPage = async (props: AsyncFilterSearchParams) => {
             (category !== "all" && category !== "") ||
             price !== "all" ||
             rating !== "all" ? (
-              <AppLink className={cn(buttonVariants())} href={appRoutes.SEARCH}>
+              <AppLink className={cn(buttonVariants(), "w-6 h-6")} href={appRoutes.SEARCH}>
                 <X />
               </AppLink>
             ) : null}

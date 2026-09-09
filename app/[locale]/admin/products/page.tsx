@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { getLocale } from "next-intl/server";
 
 import { AppButton } from "@/components/shared/app-button/app-button";
+import { AppLinkButton } from "@/components/shared/app-link-button/app-link-button";
 import { AppLink } from "@/components/shared/app-link/app-link";
 import DeleteDialog from "@/components/shared/delete-dialog";
 import Pagination from "@/components/shared/pagination";
@@ -58,14 +59,14 @@ const AdminProductsPage = async (props: AdminProductsPageProps) => {
 
   return (
     <div className="space-y-2">
-      <div className="flex-between">
-        <div className="flex items-baseline gap-3">
+      <div className="flex justify-between items-start">
+        <div className="flex-col gap-3">
           <h1 className="h2-bold">
             {currentLanguage.AdminPages.products.title}
           </h1>
 
           {query && (
-            <div className="flex-center text-muted-foreground gap-2">
+            <div className="flex-center text-sm text-muted-foreground gap-2 mt-2">
               {currentLanguage.AdminPages.products.filters.filteredBy}{" "}
               <i>&quot;{query}&quot;</i>{" "}
               <AppLink
@@ -140,14 +141,15 @@ const AdminProductsPage = async (props: AdminProductsPageProps) => {
                 </div>
               </TableCell>
               <TableCell className="flex-start gap-2">
-                <AppButton size="sm" variant="outline">
-                  <AppLink href={`${appRoutes.ADMIN_PRODUCTS}/${product.id}`}>
-                    {
-                      currentLanguage.AdminPages.products.tableHeaders.actions
-                        .editButton
-                    }
-                  </AppLink>
-                </AppButton>
+                <AppLinkButton
+                  variant="outline"
+                  href={`${appRoutes.ADMIN_PRODUCTS}/${product.id}`}
+                >
+                  {
+                    currentLanguage.AdminPages.products.tableHeaders.actions
+                      .editButton
+                  }
+                </AppLinkButton>
 
                 <DeleteDialog id={product.id} action={deleteProductById} />
               </TableCell>

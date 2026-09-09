@@ -1,8 +1,7 @@
 import { Metadata } from "next";
 import { getLocale } from "next-intl/server";
 
-import { AppButton } from "@/components/shared/app-button/app-button";
-import { AppLink } from "@/components/shared/app-link/app-link";
+import { AppLinkButton } from "@/components/shared/app-link-button/app-link-button";
 import Pagination from "@/components/shared/pagination";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -82,7 +81,7 @@ const OrdersPage = async (props: {
 
                 <TableCell>
                   {order.isPaid && order.paidAt ? (
-                    <Badge variant="secondary">
+                    <Badge>
                       {formatDateTime(order.paidAt).dateTime}
                     </Badge>
                   ) : (
@@ -94,7 +93,7 @@ const OrdersPage = async (props: {
 
                 <TableCell>
                   {order.isDelivered && order.deliveredAt ? (
-                    <Badge variant="secondary">
+                    <Badge>
                       {formatDateTime(order.deliveredAt).dateTime}
                     </Badge>
                   ) : (
@@ -108,14 +107,12 @@ const OrdersPage = async (props: {
                 </TableCell>
 
                 <TableCell>
-                  <AppButton variant="outline">
-                    <AppLink href={`${appRoutes.ORDER}/${order.id}`}>
-                      {
-                        currentLanguage.Orders.tableHeaders.actions
-                          .detailsButton
-                      }
-                    </AppLink>
-                  </AppButton>
+                  <AppLinkButton
+                    variant="outline"
+                    href={`${appRoutes.ORDER}/${order.id}`}
+                  >
+                    {currentLanguage.Orders.tableHeaders.actions.detailsButton}
+                  </AppLinkButton>
                 </TableCell>
               </TableRow>
             ))}

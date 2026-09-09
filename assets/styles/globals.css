@@ -1,19 +1,23 @@
 @import "tailwindcss";
 
-/* @variant dark (&:where(.dark, .dark *));  */
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
 
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
 
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
-
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
 
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
@@ -27,10 +31,6 @@
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
 
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
@@ -39,19 +39,19 @@
 @layer base {
   :root {
     --background: #f7f5ef;
-    --foreground: #232b3b;
+    --foreground: #0d111c;
     --card: #ffffff;
-    --card-foreground: #232b3b;
+    --card-foreground: #0d111c;
     --popover: #ffffff;
-    --popover-foreground: #232b3b;
+    --popover-foreground: #0d111c;
     --primary: #feca29;
-    --primary-foreground: #232b3b;
+    --primary-foreground: #0d111c;
     --secondary: #232b3b;
     --secondary-foreground: #f7f5ef;
     --muted: #eae6da;
     --muted-foreground: #5c6270;
     --accent: #feca29;
-    --accent-foreground: #1a1f2b;
+    --accent-foreground: #0d111c;
     --destructive: #de3c3c;
     --destructive-foreground: #fef2f2;
     --border: #e2ddd0;
@@ -79,12 +79,12 @@
     --muted: #1b222f;
     --muted-foreground: #98a2b3;
     --accent: #feca29;
-    --accent-foreground: #feca29;
+    --accent-foreground: #0d111c;
     --destructive: #de3c3c;
     --destructive-foreground: #fef2f2;
     --border: #252b38;
     --input: #455676;
-    --ring: #feca29;
+    --ring: #fef2f2;
     --chart-1: #2363d1;
     --chart-2: #2cbfae;
     --chart-3: #f6a94a;
@@ -142,6 +142,18 @@
 
   .btn-danger {
     @apply bg-red-100 hover:bg-red-200 cursor-pointer rounded-md h-8 px-3 text-red-800;
+  }
+
+  .nav-links {
+    @apply text-muted-foreground hover:text-foreground dark:hover:text-primary!;
+  }
+
+  .nav-link-selected {
+    @apply text-foreground! dark:text-primary! font-bold hover:font-bold;
+  }
+
+  .transitions {
+    @apply transition-all ease-in-out duration-200;
   }
 }
 

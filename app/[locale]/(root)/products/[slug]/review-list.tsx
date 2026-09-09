@@ -79,18 +79,25 @@ const ReviewList = ({ userId, productId, productSlug }: ReviewListProps) => {
             </CardHeader>
 
             <CardContent>
-              <div className="flex space-x-4 text-sm text-muted-foreground">
+              <div className="flex justify-between sm:justify-start space-x-4 text-sm text-muted-foreground">
                 {/* RATING */}
                 <Rating value={review.rating} />
 
-                <div className="flex items-center">
+                <div className="flex-center text-xs md:text-sm">
                   <User className="mr-1 h-3 w-3" />
                   {review.user ? review.user.name : "User"}
                 </div>
 
-                <div className="flex items-center">
+                {/* SHOWS ON BIG SCREENS */}
+                <div className="hidden sm:flex sm:items-center text-sm">
                   <Calendar className="mr-1 h-3 w-3" />
                   {formatDateTime(review.createdAt).dateTime}
+                </div>
+
+                {/* SHOWS ON SMALL SCREENS */}
+                <div className="flex-center sm:hidden! text-xs">
+                  <Calendar className="mr-1 h-3 w-3" />
+                  {formatDateTime(review.createdAt).dateOnly}
                 </div>
               </div>
             </CardContent>

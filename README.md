@@ -96,7 +96,7 @@ The app is designed as a realistic ecommerce platform, with business logic separ
 ├── next.config.ts
 ├── .env
 ├── README.md
-└── architecture.md
+└── ARCHITECTURE.md
 ```
 
 ### Design pattern

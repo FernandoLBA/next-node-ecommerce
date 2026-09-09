@@ -31,7 +31,7 @@ const Menu = async () => {
         <AppButton variant="ghost">
           <AppLink
             href={appRoutes.CART}
-            className="flex-between gap-1 text-foreground! hover:text-accent-foreground!"
+            className="flex-between gap-1"
           >
             <ShoppingCart />
           </AppLink>

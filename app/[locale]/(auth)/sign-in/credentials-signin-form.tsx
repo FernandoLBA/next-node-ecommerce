@@ -97,12 +97,7 @@ export default function CredentialsSignInForm() {
 
         <div className="text-sm text-center text-muted-foreground">
           {t("noAccountText")}{" "}
-          <AppLink
-            href={appRoutes.SIGN_UP}
-            target="_self"
-            isUnderlined={true}
-            className="hover:text-accent-foreground!"
-          >
+          <AppLink href={appRoutes.SIGN_UP} isUnderlined={true}>
             {t("signUpLinkText")}
           </AppLink>
         </div>

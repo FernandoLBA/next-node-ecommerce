@@ -46,7 +46,7 @@ export default async function AdminLayout({
     <>
       <div className="flex flex-col">
         <div className="border-b container mx-auto">
-          <div className="flex items-center h-16 px-4">
+          <div className="flex-center h-16">
             <AppLink href={appRoutes.HOME} className="w-22">
               <AppImage
                 src={`${appRoutes.IMAGES}/logo.svg`}
@@ -58,7 +58,7 @@ export default async function AdminLayout({
 
             <MainNav />
 
-            <div className="ml-auto flex items-center space-x-4">
+            <div className="ml-auto flex-center space-x-4">
               <AdminSearch />
 
               <Menu />
