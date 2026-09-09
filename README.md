@@ -2,77 +2,69 @@
 
 Modern ecommerce application built with Next.js, Prisma, PostgreSQL, NextAuth, and external payment services.
 
-## 1. Site description
+The application provides a complete shopping experience with product browsing, search and filters, cart management, authentication, shipping, payments, orders, reviews, and an administration area.
 
-ShoppName is a product marketplace with a full purchase flow:
+## Features
 
-- product catalog,
-- search and filters,
-- shopping cart,
-- user authentication,
-- shipping address,
-- payment method,
-- orders and payments with Stripe/PayPal,
-- admin panel,
-- multilingual support,
-- product reviews,
-- UploadThing image integration and Resend email integration.
+- Product catalog, search, filters, categories, and product reviews.
+- Shopping cart with persistent session support.
+- User registration, sign-in, profile, and order history.
+- Shipping address and checkout flows.
+- Stripe and PayPal payment integrations.
+- Admin area for products, categories, orders, and users.
+- Image uploads through UploadThing.
+- Purchase receipt emails through Resend.
+- English and Spanish localized routes and messages.
+- Light theme by default with dark-theme support.
 
-The app is designed as a realistic ecommerce platform, with business logic separated from the presentation layer and external services encapsulated to keep the project modular and maintainable.
-
----
-
-## 2. Main stack
+## Technology stack
 
 ### Frontend
-- Next.js 16
+
+- Next.js 16 with App Router
 - React 19
-- App Router
-- Tailwind CSS
-- Reusable components under `components/ui` and `components/shared`
+- Tailwind CSS v4
+- Reusable components in `components/ui` and `components/shared`
+- `next-intl` for localized routing and messages
 
 ### Backend and data
+
+- Next.js Server Actions and API routes
 - Prisma ORM
 - PostgreSQL
-- Next.js Server Actions
+- Zod for input validation
 
-### Authentication
-- NextAuth v5 beta
-- Credentials provider
-- bcrypt for passwords
-- JWT sessions
+### Authentication and services
 
-### Internationalization
-- next-intl
-- locale-based routes (`en`, `es`)
-
-### Payments and external services
-- Stripe
-- PayPal
+- NextAuth v5 beta with credentials and JWT sessions
+- bcrypt-compatible password hashing through `bcrypt-ts-edge`
+- Stripe and PayPal
 - UploadThing
 - Resend
 
----
-
-## 3. Project architecture
+## Project structure
 
 ```text
 .
-├── app/                     # App Router and pages
-│   ├── api/                 # API routes and webhooks
-│   ├── [locale]/            # locale-based routes
-│   │   ├── (auth)/          # login / sign up
-│   │   ├── (root)/          # catalog, cart, checkout
-│   │   ├── admin/           # administration
-│   │   └── user/            # user profile and orders
+├── app/                     # App Router pages, layouts, and API routes
+│   ├── api/                 # APIs and webhooks
+│   ├── [locale]/            # English and Spanish localized routes
+│   │   ├── (auth)/          # Sign-in and sign-up
+│   │   ├── (root)/          # Catalog, cart, and checkout
+│   │   ├── admin/           # Administration area
+│   │   └── user/            # Profile and orders
 │   ├── layout.tsx
 │   └── not-found.tsx
-├── components/              # reusable UI
+├── assets/styles/           # Global CSS and theme tokens
+├── components/              # Reusable UI and feature components
 │   ├── admin/
 │   ├── providers/
 │   ├── shared/
 │   └── ui/
-├── lib/                     # logic, services, and utilities
+├── db/                      # Prisma client, seed, and sample data
+├── email/                   # React Email templates
+├── i18n/                    # next-intl configuration
+├── lib/                     # Actions, integrations, constants, and utilities
 │   ├── actions/
 │   ├── constants/
 │   ├── generated/prisma/
@@ -82,124 +74,85 @@ The app is designed as a realistic ecommerce platform, with business logic separ
 │   ├── uploadthing.ts
 │   ├── utils.ts
 │   └── validators.ts
-├── prisma/                  # schema and migrations
-├── db/                      # DB access, seed, and sample data
-├── i18n/                    # i18n config
-├── messages/                # locale messages
-├── email/                   # email templates
-├── public/                  # public assets
-├── tests/                   # tests
-├── auth.ts                  # main auth configuration
-├── auth.config.ts           # config for middleware/edge
-├── middleware.ts            # protection + locale routing
-├── package.json
+├── messages/                # en.json and es.json translations
+├── prisma/                  # Schema and migrations
+├── public/                  # Static assets
+├── tests/                   # Automated tests
+├── auth.ts                  # Main authentication configuration
+├── auth.config.ts           # Edge-compatible authentication configuration
+├── proxy.ts                 # Auth, locale routing, and cart session cookie
 ├── next.config.ts
-├── .env
-├── README.md
-└── ARCHITECTURE.md
+├── package.json
+└── tsconfig.json
 ```
 
-### Design pattern
+## Architecture and development conventions
 
-The application is organized by feature and layer:
+The codebase is organized by layer and feature:
 
-- UI: components, pages, and layouts
-- domain: business rules, validators, and server actions
-- infrastructure: Prisma, Stripe, PayPal, UploadThing, Resend
-- authentication: NextAuth + middlewares
+- UI: pages, layouts, providers, and reusable components.
+- Domain: validators, server actions, and business rules.
+- Infrastructure: Prisma, Stripe, PayPal, UploadThing, and Resend.
+- Authentication: NextAuth configuration and `proxy.ts`.
 
-This keeps the project scalable and makes it easier to evolve each module without introducing tight coupling.
+When adding a feature:
 
----
+- Keep page components focused on composing views and loading data.
+- Put mutations and business logic in `lib/actions/`.
+- Keep generic primitives in `components/ui/` and ecommerce-specific reusable UI in `components/shared/`.
+- Use `@/i18n/routing` for localized `Link`, `redirect`, `useRouter`, and `usePathname` APIs.
+- Keep interactive behavior in small Client Components and prefer Server Components elsewhere.
+- Validate external input with Zod on the server, even when the client also validates it.
+- Use theme tokens such as `bg-background`, `text-foreground`, and `bg-primary` instead of hardcoded component colors.
+- Keep global styles and CSS variables in `assets/styles/globals.css`.
 
-## 4. Main functional flow
+## Main flows
 
-### Purchases
-1. The user browses products.
-2. Adds items to the cart.
-3. Signs in or signs up.
-4. Completes the shipping address and payment method.
-5. Creates the order.
-6. Subtotal, shipping, and taxes are calculated.
-7. The payment is processed with Stripe or PayPal.
-8. The order is updated as paid or pending depending on the flow.
+### Purchase flow
 
-### Administrator
-- add/edit products,
-- review orders,
-- manage categories,
-- view users,
-- monitor store status.
+1. The customer browses products and adds items to the cart.
+2. The customer signs in or creates an account.
+3. The customer completes shipping details and selects a payment method.
+4. The application creates the order and calculates subtotal, shipping, and taxes.
+5. Stripe or PayPal processes the payment.
+6. The order is updated as paid or pending according to the provider flow.
+7. A purchase receipt can be sent by email.
 
-### Reviews
-Buyers can rate products with comments and scores, reinforcing trust in the catalog.
+### Administration flow
 
----
+Administrators can add and edit products, manage categories, review orders, view users, and monitor store operations. Each administrative action must verify authorization on the server.
 
-## 5. Security and authentication
+### Reviews flow
 
-The app uses NextAuth with a credentials-based flow and JWT. Authentication integrates with Prisma to store users, accounts, and sessions in PostgreSQL.
+Authenticated customers can rate products and add comments according to the product review rules.
 
-This project also follows several good practices:
+## Security
 
-- private routes are controlled via middleware,
-- secret keys are kept out of source code,
-- external services use credentials from `.env`,
-- incoming data is validated with Zod before persistence or processing.
+- Keep secrets and private provider credentials in `.env`.
+- Never expose private variables through the `NEXT_PUBLIC_` prefix.
+- Validate all external input before persistence or provider calls.
+- Protect private pages and write operations independently.
+- Do not trust roles or permissions received from the client.
+- Verify webhook authenticity and make payment handlers idempotent.
+- Do not expose stack traces, secrets, or complete provider responses to users.
+- Do not commit `.env` files or real credentials.
 
----
+## Internationalization
 
-## 6. Internationalization
+Localized routes use the following prefixes:
 
-The project uses `next-intl` and structures routes with a locale prefix:
-
-- `/es/...`
 - `/en/...`
+- `/es/...`
 
-This allows the app to scale to additional languages without duplicating the functional structure.
+Visible user-facing text belongs in both `messages/en.json` and `messages/es.json`. Internal navigation should use the routing helpers from `@/i18n/routing` rather than direct `next/link` imports.
 
----
+## Environment variables
 
-## 7. Development guidelines
-
-### General conventions
-- Use App Router for new routes.
-- Keep business logic in `lib/actions`.
-- Keep reusable components in `components/shared` and `components/ui`.
-- Prefer Server Actions over logic embedded in components.
-- Use `@/` as the import alias.
-
-### Security
-- Do not expose secrets to the client.
-- Keep sensitive variables only in `.env`.
-- Validate inputs with Zod before saving or running transactions.
-- Protect sensitive routes with middleware and session checks.
-
-### Persistence
-- Use Prisma as the central data access layer.
-- Adjust models and migrations carefully.
-- Keep transactions for critical operations such as orders and payments.
-
-### Style and maintainability
-- Separate UI, logic, and services.
-- Avoid business logic inside reusable components.
-- Organize by feature/domain.
-- Use clear naming for files, functions, and variables.
-
-### External integrations
-- Encapsulate Stripe, PayPal, UploadThing, and Resend clients in `lib/`.
-- Avoid duplicating logic across pages and actions.
-- Test critical payment and order flows before release.
-
----
-
-## 8. Required environment variables
-
-The project requires a `.env` file with variables such as:
+Create a local `.env` file with values similar to:
 
 ```bash
 NODE_ENV=development
-APP_SERVER_URL=http://localhost:3000/
+APP_SERVER_URL=http://localhost:3000
 DATABASE_URL=...
 AUTH_SECRET=...
 PAYPAL_API_URL=https://api-m.sandbox.paypal.com
@@ -215,32 +168,68 @@ RESEND_API_KEY=...
 SENDER_EMAIL=...
 ```
 
-> Important: `AUTH_SECRET`, `DATABASE_URL`, `STRIPE_SECRET_KEY`, `PAYPAL_APP_SECRET`, and similar values should not be shared or committed publicly.
+`AUTH_SECRET`, `DATABASE_URL`, provider keys, and webhook secrets must never be shared or committed.
 
----
+## Getting started
 
-## 9. Useful scripts
+Requirements:
+
+- Node.js compatible with the installed Next.js version.
+- pnpm 9 or a compatible pnpm version.
+- A PostgreSQL database.
+- Provider credentials for the integrations used locally.
+
+Install dependencies and start the development server:
 
 ```bash
 pnpm install
 pnpm dev
-pnpm build
-pnpm prisma generate
-pnpm prisma migrate dev
-pnpm prisma studio
-pnpm test
 ```
 
----
+The application is then available at `http://localhost:3000`.
 
-## 10. Final notes
+## Database commands
 
-This project is well structured as a modern ecommerce application with clear separation between layers and external services. Its main strength is modularization: UI, authentication, business logic, payments, and persistence are organized to support development and maintenance.
+```bash
+pnpm prisma:generate
+pnpm exec prisma migrate dev --name name-of-migration
+pnpm prisma:studio
+pnpm prisma:seed
+```
 
-When working on new features, the recommended pattern is to keep logic in `lib/actions`, reusable components in `components`, and data access centralized with Prisma.
+Every schema change in `prisma/schema.prisma` must have a migration. Do not edit migrations that have already been applied to a shared environment.
 
----
+## Validation commands
 
-## 11. Recommendation
+```bash
+pnpm lint
+pnpm test
+pnpm build
+```
 
-The more detailed technical documentation for the project is available in [ARCHITECTURE.md](ARCHITECTURE.md).
+For changes affecting UI, test desktop and mobile layouts, both themes, loading/error/empty states, and both locales. For changes affecting orders or payments, cover calculations, authorization, provider errors, retries, and idempotency.
+
+## Commit and branch conventions
+
+Use Conventional Commits with one clear intention per commit:
+
+```text
+feat: add product reviews
+fix: correct shipping calculation
+refactor: separate price calculation
+chore: update dependencies
+docs: document payment flow
+test: cover cart behavior
+style: adjust header spacing
+```
+
+Recommended branch names:
+
+```text
+feature/short-name
+fix/issue-name
+refactor/module-name
+chore/task-name
+```
+
+For detailed coding rules, see [DEVELOPMENT_GUIDELINES.md](DEVELOPMENT_GUIDELINES.md).

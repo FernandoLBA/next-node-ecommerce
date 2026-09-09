@@ -149,7 +149,7 @@
   }
 
   .nav-link-selected {
-    @apply text-foreground! dark:text-primary! font-bold hover:font-bold;
+    @apply text-foreground! dark:text-primary! font-bold hover:font-bold cursor-default;
   }
 
   .transitions {

@@ -22,7 +22,7 @@ const SearchFilters = async ({ searchParams, size }: SearchFiltersProps) => {
             <li key={c.category}>
               <AppLink
                 href={getFilterUrl({ ...searchParams, c: c.category })}
-                isSelected={c.category === searchParams.category}
+                className={`${c.category === searchParams.category && "nav-link-selected"}`}
               >
                 {c.category}
               </AppLink>
@@ -39,7 +39,7 @@ const SearchFilters = async ({ searchParams, size }: SearchFiltersProps) => {
             <li key={p.name}>
               <AppLink
                 href={getFilterUrl({ ...searchParams, p: p.value })}
-                isSelected={p.value === searchParams.price}
+                className={`${p.value === searchParams.price && "nav-link-selected"}`}
               >
                 {p.name}
               </AppLink>
@@ -56,7 +56,7 @@ const SearchFilters = async ({ searchParams, size }: SearchFiltersProps) => {
             <li key={r}>
               <AppLink
                 href={getFilterUrl({ ...searchParams, r })}
-                isSelected={r === searchParams.rating}
+                className={`${r === searchParams.rating && "nav-link-selected"}`}
               >
                 {`${r === "all" ? "All" : r + " stars & up"}`}
               </AppLink>
