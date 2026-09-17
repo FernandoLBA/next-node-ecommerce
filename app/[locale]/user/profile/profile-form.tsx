@@ -15,14 +15,12 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import LoaderIcon from "@/components/ui/loader-icon";
-import { useRouter } from "@/i18n/routing";
 import { updateProfile } from "@/lib/actions/user.actions";
 import { updateUserProfileSchema } from "@/lib/validators";
 import { useTranslations } from "next-intl";
 
 const ProfileForm = () => {
   const { data: session, update } = useSession();
-  const router = useRouter();
   const t = useTranslations("Profile");
 
   const form = useForm<z.infer<typeof updateUserProfileSchema>>({

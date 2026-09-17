@@ -13,7 +13,7 @@ export const sendPurchaseReceipt = async ({ order }: { order: Order }) => {
 
   return await resend.emails.send({
     from: `${settings?.appName ?? "Shop Name"} <${SENDER_EMAIL}>`,
-    to: "fernandolba.uiux@gmail.com", // order.user.email,
+    to: process.env.SENDER_EMAIL || "onboarding@resend.dev",
     subject: `Order confirmation ${order.id}`,
     react: <PurchaseReceiptEmail order={order} />,
   });

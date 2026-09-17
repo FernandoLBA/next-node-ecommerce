@@ -30,7 +30,6 @@ export const UserButton: FC<PropsWithChildren> = async ({ children }) => {
   const session = await auth();
   const locale = await getLocale();
   const { currentLanguage } = getLanguage(locale as Locale);
-  const commonLinkClasses = `w-full flex-start gap-2`;
 
   if (!session) {
     return (
