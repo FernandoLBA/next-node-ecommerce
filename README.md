@@ -78,10 +78,12 @@ The application provides a complete shopping experience with product browsing, s
 ├── prisma/                  # Schema and migrations
 ├── public/                  # Static assets
 ├── tests/                   # Automated tests
+├── types/                   # Shared and NextAuth type augmentations
 ├── auth.ts                  # Main authentication configuration
 ├── auth.config.ts           # Edge-compatible authentication configuration
 ├── proxy.ts                 # Auth, locale routing, and cart session cookie
 ├── next.config.ts
+├── prisma.config.ts
 ├── package.json
 └── tsconfig.json
 ```
@@ -192,7 +194,7 @@ The application is then available at `http://localhost:3000`.
 
 ```bash
 pnpm prisma:generate
-pnpm exec prisma migrate dev --name name-of-migration
+pnpm prisma:migrate name-of-migration
 pnpm prisma:studio
 pnpm prisma:seed
 ```
