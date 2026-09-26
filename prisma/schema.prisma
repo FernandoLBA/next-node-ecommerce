@@ -23,7 +23,6 @@ model Product {
   id          String   @id @default(uuid()) @db.Uuid
   name        String
   slug        String   @unique(map: "product_slug_idx") //? unique(map: "") la base de datos creará una restricción única llamada product_slug_idx en lugar de usar un nombre generado automáticamente por Prisma, facilitando la gestión de índices
-  category    String
   categoryId  String   @db.Uuid
   images      String[]
   brand       String
@@ -40,7 +39,7 @@ model Product {
   //* relations
   orderItems OrderItem[]
   reviews    Review[]
-  categories Category    @relation(fields: [categoryId], references: [id])
+  category   Category    @relation(fields: [categoryId], references: [id])
 }
 
 model Category {

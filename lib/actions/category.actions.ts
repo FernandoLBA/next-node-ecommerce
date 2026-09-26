@@ -109,6 +109,18 @@ export async function getCategoryById(categoryId: string) {
 export async function createCategory(data: InsertCategory) {
   try {
     const category = insertCategorySchema.parse(data);
+    const categoryExists = await prisma.category.findFirst({
+      where: { name: { equals: data.name, mode: "insensitive" } },
+    });
+
+    if (categoryExists) {
+      if (data.key) await deleteImageFromUploadthing(data.key);
+
+      return {
+        success: false,
+        message: "Category already exists",
+      };
+    }
 
     await prisma.category.create({ data: { ...category } });
 
@@ -138,7 +150,14 @@ export async function updateCategory(data: UpdateCategory) {
       where: { id: category.id },
     });
 
-    if (!categoryExists) throw new Error("Category not found");
+    if (categoryExists?.name.toLowerCase() === data.name) {
+      revalidatePath(appRoutes.ADMIN_CATEGORIES);
+
+      return {
+        success: false,
+        message: "Category already exists",
+      };
+    }
 
     await prisma.category.update({
       where: { id: category.id },
@@ -176,51 +195,6 @@ export async function deleteCategoryById(id: string) {
     return {
       success: true,
       message: "Category deleted succesfully",
-    };
-  } catch (error) {
-    return {
-      success: false,
-      message: formatError(error),
-    };
-  }
-}
-
-export async function deleteUTFFileFromCategory(
-  imageKey: string,
-  categoryId: string,
-) {
-  try {
-    const categoryExists = await prisma.category.findFirst({
-      where: { id: categoryId },
-    });
-
-    if (!categoryExists)
-      return {
-        success: false,
-        message: "Product not found",
-      };
-
-    const res = await deleteImageFromUploadthing(imageKey);
-
-    if (!res.success)
-      return {
-        success: false,
-        message: "An error ocurred while deleting image",
-      };
-
-    await prisma.category.update({
-      where: { id: categoryExists.id },
-      data: {
-        image: "",
-        key: null,
-      },
-    });
-
-    revalidatePath(`${appRoutes.ADMIN_CATEGORIES}/${categoryId}`);
-
-    return {
-      success: true,
-      message: "Image deleted successfully",
     };
   } catch (error) {
     return {

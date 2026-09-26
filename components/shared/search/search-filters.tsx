@@ -18,13 +18,13 @@ const SearchFilters = async ({ searchParams, size }: SearchFiltersProps) => {
 
       <div>
         <ul className="space-y-1 ml-2">
-          {[{ category: "all", _count: "" }, ...categories].map((c) => (
-            <li key={c.category}>
+          {[{ id: "all", name: "all" }, ...categories].map((c) => (
+            <li key={c.id}>
               <AppLink
-                href={getFilterUrl({ ...searchParams, c: c.category })}
-                className={`${c.category === searchParams.category && "nav-link-selected"}`}
+                href={getFilterUrl({ ...searchParams, c: c.name })}
+                className={`${c.name === searchParams.category && "nav-link-selected"}`}
               >
-                {c.category}
+                {c.name}
               </AppLink>
             </li>
           ))}

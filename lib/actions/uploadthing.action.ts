@@ -3,6 +3,8 @@
 import { UTApi } from "uploadthing/server";
 
 import prisma from "@/db/db";
+import { revalidatePath } from "next/cache";
+import { appRoutes } from "../constants";
 import { formatError, getUploadThingImageKey } from "../utils";
 import { getProductById } from "./product.actions";
 
@@ -115,6 +117,57 @@ export async function deleteBannerUTFFileFromProducts({
     return {
       success: true,
       message: "Image banner deleted succesfully",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: formatError(error),
+    };
+  }
+}
+
+/**
+ *
+ * @param imageKey
+ * @param categoryId
+ * @returns
+ */
+export async function deleteUTFFileFromCategory(
+  imageKey: string,
+  categoryId: string,
+) {
+  try {
+    const categoryExists = await prisma.category.findFirst({
+      where: { id: categoryId },
+    });
+
+    if (!categoryExists)
+      return {
+        success: false,
+        message: "Product not found",
+      };
+
+    const res = await deleteImageFromUploadthing(imageKey);
+
+    if (!res.success)
+      return {
+        success: false,
+        message: "An error ocurred while deleting image",
+      };
+
+    await prisma.category.update({
+      where: { id: categoryExists.id },
+      data: {
+        image: "",
+        key: null,
+      },
+    });
+
+    revalidatePath(`${appRoutes.ADMIN_CATEGORIES}/${categoryId}`);
+
+    return {
+      success: true,
+      message: "Image deleted successfully",
     };
   } catch (error) {
     return {

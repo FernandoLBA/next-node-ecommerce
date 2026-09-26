@@ -1,11 +1,8 @@
 "use client";
 
 import { useRouter } from "@/i18n/routing";
-import {
-  createCategory,
-  deleteUTFFileFromCategory,
-  updateCategory,
-} from "@/lib/actions/category.actions";
+import { createCategory, updateCategory } from "@/lib/actions/category.actions";
+import { deleteUTFFileFromCategory } from "@/lib/actions/uploadthing.action";
 import { appRoutes, categoryDefaultValues } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { insertCategorySchema, updateCategorySchema } from "@/lib/validators";

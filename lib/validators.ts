@@ -23,7 +23,6 @@ export const insertProductSchema = z.object({
     .min(3, "Name must be at least 3 characters long")
     .max(255, "Name must be at most 255 characters long"),
   slug: z.string().min(3, "Slug must be at least 3 characters long"),
-  category: z.string().min(3, "Category must be at least 3 characters long"),
   brand: z.string().min(3, "Brand must be at least 3 characters long"),
   description: z
     .string()
@@ -125,7 +124,7 @@ export const shippingAddressSchema = z.object({
   postalCode: z
     .string()
     .min(3, "Postal code must be at least 3 characters long"),
-  country: z.string().min(3, "Country must be at least 3 characters long"),
+  country: z.string().default("Peru"),
   lat: z.number().optional(),
   lng: z.number().optional(),
 });

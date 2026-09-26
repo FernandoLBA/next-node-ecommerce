@@ -5,45 +5,37 @@ const IconBoxes = () => {
   return (
     <div>
       <Card>
-        <CardContent className="grid md:grid-cols-4 gap-4 p-4">
+        <CardContent className="grid md:grid-cols-4 gap-4 p-4 text-muted-foreground">
           <div className="space-y-2">
             <ShoppingBag />
 
-            <div className="text-sm font-bold">Free Shipping</div>
+            <div className="text-sm font-bold">Envío Gratuito</div>
 
-            <div className="text-sm text-muted-foreground">
-              Free shipping on orders above $100
-            </div>
+            <div className="text-sm">En compras mayores a S/. 100</div>
           </div>
 
           <div className="space-y-2">
             <DollarSign />
 
-            <div className="text-sm font-bold">Money Back Guarantee</div>
+            <div className="text-sm font-bold">Garantía de devolución</div>
 
-            <div className="text-sm text-muted-foreground">
-              Within 30 days of purchase
-            </div>
+            <div className="text-sm">De hasta 30 días en tus compras.</div>
           </div>
 
           <div className="space-y-2">
             <WalletCards />
 
-            <div className="text-sm font-bold">Flexible Payment</div>
+            <div className="text-sm font-bold">Pagos Flexibles</div>
 
-            <div className="text-sm text-muted-foreground">
-              Pay with credit card, PayPal or COD.
-            </div>
+            <div className="text-sm">Aceptamos pagos con Tarjeta o Yape.</div>
           </div>
 
           <div className="space-y-2">
             <Headset />
 
-            <div className="text-sm font-bold">24/7 Support</div>
+            <div className="text-sm font-bold">Soporte 24/7</div>
 
-            <div className="text-sm text-muted-foreground">
-              Get support at any time
-            </div>
+            <div className="text-sm">Obten ayuda en cualquier momento</div>
           </div>
         </CardContent>
       </Card>

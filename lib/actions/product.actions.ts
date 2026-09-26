@@ -47,6 +47,7 @@ export async function getProductBySlug(slug: string) {
     where: {
       slug,
     },
+    include: { category: { select: { name: true } } },
   });
 }
 
@@ -97,7 +98,7 @@ export async function getAllProducts({
 
   //? Category filter
   const categoryFilter: Prisma.ProductWhereInput =
-    category && category !== "all" ? { category } : {};
+    category && category !== "all" ? { category: { name: category } } : {};
 
   //? Price or price range filter
   const priceFilter: Prisma.ProductWhereInput =
@@ -145,6 +146,7 @@ export async function getAllProducts({
     prisma.product.findMany({
       orderBy,
       where,
+      include: { category: { select: { id: true, name: true, key: true } } },
       skip: (page - 1) * limit,
       take: limit,
     }),
@@ -270,11 +272,14 @@ export async function updateProduct(data: UpdateProduct) {
  * @returns
  */
 export async function getAllCategories() {
-  const productDelegate = prisma.product as Prisma.ProductDelegate; //? ProductDelegate is a product model type, productDelegate is an instance of prisma.ProductDelegate
-
-  const data = await productDelegate.groupBy({
-    by: ["category"],
-    _count: true,
+  //? _count.products counts the related products of each category
+  const data = await prisma.category.findMany({
+    select: {
+      id: true,
+      name: true,
+      _count: { select: { products: true } },
+    },
+    orderBy: { name: "asc" },
   });
 
   return data as CategoryWithCount[];

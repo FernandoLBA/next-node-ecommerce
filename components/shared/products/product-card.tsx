@@ -8,12 +8,12 @@ import Rating from "./rating";
 
 const ProductCard = ({ product }: { product: Product }) => {
   return (
-    <Card className="w-full max-w-full sm:max-w-sm p-0 justify-between">
-      <CardHeader className="p-0 gap-0 items-center">
+    <Card className="w-full max-w-full sm:max-w-sm p-0 justify-between gap-0">
+      <CardHeader className="p-0 items-center">
         <AppLink href={`${appRoutes.PRODUCTS}/${product.slug}`}>
           <AppImage
             containerClassName="p-0"
-            className="m-0 p-0 w-full md:w-75 h-75 max-h-75"
+            className="m-0 p-0 w-full md:w-75 h-75 max-h-75 rounded-b-none"
             src={product.images[0]}
             alt={product.name}
             height={300}
@@ -22,8 +22,10 @@ const ProductCard = ({ product }: { product: Product }) => {
         </AppLink>
       </CardHeader>
 
-      <CardContent className="p-4 grid gap-2">
-        <div className="text-xs">{product.brand}</div>
+      <CardContent className="p-4 grid gap-2 border-t border-muted">
+        <div className="text-xs uppercase font-medium text-muted-foreground">
+          {product.brand}
+        </div>
 
         <AppLink href={`${appRoutes.PRODUCTS}/${product.slug}`}>
           <CardTitle className="text-sm md:text-md">{product.name}</CardTitle>

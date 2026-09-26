@@ -28,6 +28,7 @@ export type Product = z.infer<typeof insertProductSchema> & {
   rating: string;
   numReviews: number;
   createdAt: Date;
+  category?: { id: string; name: string };
 };
 
 export type User = z.infer<typeof updateUserSchema>;
@@ -98,7 +99,6 @@ export type Locale = "es" | "en";
 
 export type Currency = typeof CURRENCY;
 
-//TODO: cuando se cree el modulo, se debe crear un schema para category y usarlo en vez de este tipo
 export type Category = {
   id: string;
   name: string;
@@ -108,8 +108,9 @@ export type Category = {
 };
 
 export type CategoryWithCount = {
-  category: string;
-  _count: number;
+  id: string;
+  name: string;
+  _count: { products: number };
 };
 
 export type OrderSummary = {

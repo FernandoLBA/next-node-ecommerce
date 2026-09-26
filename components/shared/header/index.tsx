@@ -8,6 +8,9 @@ import Search from "./search";
 const Header = async () => {
   const settings = await getAppSettings();
 
+  const firstPartBrand = settings.appName.slice(1, 4);
+  const lastPartBrand = settings.appName.slice(4);
+
   return (
     <header className="w-full border-b">
       <div className="wrapper flex-between">
@@ -16,13 +19,16 @@ const Header = async () => {
             <AppImage
               src={`${appRoutes.IMAGES}/logo.svg`}
               alt={`${settings.appName} logo`}
-              height={30}
-              width={30}
+              height={40}
+              width={40}
               preload
             />
 
-            <span className="hidden lg:block font-bold text-2xl ml-3">
-              {settings.appName}
+            <span className="hidden lg:block font-bold lowercase text-2xl ml-1">
+              {firstPartBrand}
+              <span className="capitalize dark:text-primary">
+                {lastPartBrand}
+              </span>
             </span>
           </AppLink>
         </div>

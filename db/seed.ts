@@ -18,12 +18,13 @@ async function main() {
 
   await prisma.product.createMany({
     data: sampleData.products.map((product) => {
-      const categoryId = categoryIdByName.get(product.category);
+      const { category, ...productData } = product;
+      const categoryId = categoryIdByName.get(category);
 
       if (!categoryId)
         throw new Error(`Category not found for product: ${product.name}`);
 
-      return { ...product, categoryId };
+      return { ...productData, categoryId };
     }),
   });
   await prisma.user.createMany({ data: sampleData.users });

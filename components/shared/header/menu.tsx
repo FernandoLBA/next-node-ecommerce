@@ -78,11 +78,11 @@ const Menu = async () => {
               <ul className="flex justify-start flex-col">
                 {categories.map((c) => (
                   <AppLink
-                    key={c.category}
-                    href={`${appRoutes.SEARCH}?category=${c.category}`}
+                    key={c.id}
+                    href={`${appRoutes.SEARCH}?category=${c.name}`}
                     className="border-b border-muted-foreground p-4"
                   >
-                    {c.category}({c._count})
+                    {c.name}({c._count.products})
                   </AppLink>
                 ))}
               </ul>

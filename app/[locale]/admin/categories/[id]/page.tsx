@@ -10,7 +10,6 @@ const EditCategoryPage = async (props: { params: Promise<{ id: string }> }) => {
   const { id } = await props.params;
   const category = await getCategoryById(id);
 
-  console.log("🚀 ~ EditCategoryPage ~ category:", category)
   if (!category) throw new Error("Category not found");
 
   return (

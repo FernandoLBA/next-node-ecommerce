@@ -2,10 +2,10 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useTransition } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -154,7 +154,6 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
 
               <Controller
                 name="country"
-                // disabled
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
@@ -164,6 +163,8 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
 
                     <Input
                       {...field}
+                      defaultValue="Perú"
+                      disabled
                       id="country"
                       aria-invalid={fieldState.invalid}
                       placeholder={t("shippingAddressForm.country.placeholder")}

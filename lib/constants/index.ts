@@ -97,13 +97,12 @@ export const shippingAddressDefaultValues = {
   streetAddress: "",
   city: "",
   postalCode: "",
-  country: "",
+  country: "Perú",
 } as const;
 
 export const productDefaultValues = {
   name: "",
   slug: "",
-  category: "",
   categoryId: "",
   images: [],
   brand: "",

@@ -23,20 +23,22 @@ const TopCategories = async () => {
 
       <div className="flex justify-center flex-wrap md:flex-nowrap gap-4 mb-4">
         {featuredCategories.map((c) => (
-          <Card className="p-0" key={c.id}>
+          <Card className="p-0 w-full md:w-auto md:flex-1 min-w-0" key={c.id}>
             <CardContent className="p-0 m-0">
               <div className="relative">
-                <AppLink href={`${appRoutes.SEARCH}?category=${c.name}`}>
+                <AppLink
+                  className="block"
+                  href={`${appRoutes.SEARCH}?category=${c.name}`}
+                >
                   <AppImage
-                    className="object-center brightness-90"
+                    fill
+                    className="brightness-80"
                     containerClassName="h-70 hover:opacity-80"
                     alt="category image"
                     src={c.image}
-                    width={400}
-                    height={200}
                   />
 
-                  <CardDescription className="absolute bottom-0 left-0 px-2 py-1 font-semibold text-white text-lg">
+                  <CardDescription className="absolute bottom-0 left-0 px-2 py-1 font-medium text-white text-md">
                     {c.name}
                   </CardDescription>
                 </AppLink>
@@ -46,18 +48,22 @@ const TopCategories = async () => {
         ))}
       </div>
 
-      <div className="relative max-w-[1920px] max-h-100 rounded-xl overflow-hidden bg-linear-to-t from-black/80 to-transparent">
-        <AppLink href={`${appRoutes.SEARCH}?category=${bannerCategory?.name}`}>
+      <div className="relative max-w-[1920px] h-48 md:h-72 lg:h-100 rounded-md overflow-hidden bg-linear-to-t from-black/80 to-transparent">
+        <AppLink
+          className="block h-full"
+          href={`${appRoutes.SEARCH}?category=${bannerCategory?.name}`}
+        >
           <AppImage
-            className="w-full"
+            className="brightness-80"
+            containerClassName="h-full hover:opacity-80"
+            fill
             src={bannerCategory?.image || `${appRoutes.IMAGES}/promo.jpg`}
             alt="category image"
-            width={500}
-            height={400}
+            sizes="100vw"
           />
         </AppLink>
 
-        <h2 className="absolute bottom-0 left-0 px-2 md:px-4 py-1 md:py-3 font-semibold text-white text-lg md:text-xl">
+        <h2 className="absolute bottom-0 left-0 px-2 md:px-4 py-1 md:py-3 font-medium text-white text-lg">
           {bannerCategory?.name}
         </h2>
       </div>

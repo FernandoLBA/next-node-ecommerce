@@ -38,7 +38,7 @@ const ProductDetailsPage = async (props: {
           <div className="col-span-2 py-5 md:p-5">
             <div className="flex flex-col gap-6">
               <p>
-                {product.brand} {product.category}
+                {product.brand} {product.category.name}
               </p>
 
               <h1 className="h3-bold">{product.name}</h1>

@@ -1,6 +1,3 @@
-import { Metadata } from "next";
-import { getLocale } from "next-intl/server";
-
 import { AppButton } from "@/components/shared/app-button/app-button";
 import { AppLink } from "@/components/shared/app-link/app-link";
 import DeleteDialog from "@/components/shared/delete-dialog";
@@ -22,6 +19,8 @@ import { ADMIN_PAGE_SIZE, appRoutes } from "@/lib/constants";
 import { cn, formatDateTime, formatId, getLanguage } from "@/lib/utils";
 import { Category, Locale } from "@/types";
 import { X } from "lucide-react";
+import { Metadata } from "next";
+import { getLocale } from "next-intl/server";
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const locale = await getLocale();
@@ -60,6 +59,7 @@ const AdminCategoriesPage = async (props: AdminCategoriesPageProps) => {
           <h1 className="h2-bold">
             {currentLanguage.AdminPages.categories.title}
           </h1>
+
           {query && (
             <div className="flex-center text-sm text-muted-foreground gap-2 mt-2">
               {currentLanguage.AdminPages.categories.filters.filteredBy}{" "}

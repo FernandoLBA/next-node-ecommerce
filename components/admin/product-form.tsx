@@ -31,7 +31,6 @@ import {
 } from "../ui/field";
 import { Input } from "../ui/input";
 import LoaderIcon from "../ui/loader-icon";
-import { Textarea } from "../ui/textarea";
 import {
   Select,
   SelectContent,
@@ -40,6 +39,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { Textarea } from "../ui/textarea";
 
 type ProductFormProps = {
   type: "Create" | "Update";
@@ -247,16 +247,16 @@ const ProductForm = ({
                 </FieldLabel>
                 <Select
                   value={field.value || null}
-                  items={categories.map((c) => ({ value: c.id, label: c.name }))}
-                  onValueChange={(categoryId) => {
-                    const selected = categories.find((c) => c.id === categoryId);
 
+                  items={categories.map((c) => ({
+                    value: c.id,
+                    label: c.name,
+                  }))}
+
+                  onValueChange={(categoryId) => {
                     field.onChange(categoryId);
-                    //? `category` (name) is still required by the schema, keep it in sync
-                    form.setValue("category", selected?.name ?? "", {
-                      shouldValidate: true,
-                    });
                   }}
+
                   disabled={form.formState.isSubmitting}
                 >
                   <SelectTrigger
