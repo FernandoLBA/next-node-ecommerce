@@ -132,7 +132,7 @@ const AdminProductsPage = async (props: AdminProductsPageProps) => {
                 {formatCurrency(product.price as string)}
               </TableCell>
               <TableCell>{product.brand}</TableCell>
-              <TableCell>{product.category.name}</TableCell>
+              <TableCell>{product.category?.name}</TableCell>
               <TableCell>{product.stock}</TableCell>
               <TableCell>
                 <div className="flex items-center gap-2">
