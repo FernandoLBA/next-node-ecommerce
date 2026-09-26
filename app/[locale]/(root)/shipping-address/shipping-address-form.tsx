@@ -21,15 +21,21 @@ import { updateUserAddress } from "@/lib/actions/user.actions";
 import { appRoutes, shippingAddressDefaultValues } from "@/lib/constants";
 import { shippingAddressSchema } from "@/lib/validators";
 import { ShippingAddress } from "@/types";
+import z from "zod";
 
 const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
   const t = useTranslations("ShippingAddress");
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<ShippingAddress>({
+  //? country has a default in the schema, so its input type is optional and the output type is required
+  const form = useForm<
+    z.input<typeof shippingAddressSchema>,
+    unknown,
+    ShippingAddress
+  >({
     resolver: zodResolver(shippingAddressSchema),
-    defaultValues: address || shippingAddressDefaultValues,
+    defaultValues: { ...shippingAddressDefaultValues, ...address },
   });
 
   const onSubmit: SubmitHandler<ShippingAddress> = async (
