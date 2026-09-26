@@ -34,6 +34,7 @@ export const insertProductSchema = z.object({
   banner: z.string().nullable(),
   //? The price is validated with a helper
   price: currency,
+  categoryId: z.string().min(1, "Category ID is required"),
 });
 
 /**
@@ -41,6 +42,25 @@ export const insertProductSchema = z.object({
  */
 export const updateProductSchema = insertProductSchema.extend({
   id: z.string().min(1, "Product ID is required"),
+});
+
+/**
+ * Schema for insert category
+ */
+export const insertCategorySchema = z.object({
+  name: z
+    .string()
+    .min(3, "Name must be at least 3 characters long")
+    .max(255, "Name must be at most 255 characters long"),
+  image: z.string().min(1, "Image URL is required"),
+  key: z.string().nullish(),
+});
+
+/**
+ * Schema for updating categories extends the insert category schema and adds an id field
+ */
+export const updateCategorySchema = insertCategorySchema.extend({
+  id: z.string().min(1, "Category ID is required"),
 });
 
 /**

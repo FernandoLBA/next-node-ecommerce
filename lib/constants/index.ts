@@ -104,6 +104,7 @@ export const productDefaultValues = {
   name: "",
   slug: "",
   category: "",
+  categoryId: "",
   images: [],
   brand: "",
   description: "",
@@ -113,6 +114,12 @@ export const productDefaultValues = {
   numReviews: "0",
   isFeatured: false,
   banner: null,
+};
+
+export const categoryDefaultValues = {
+  name: "",
+  image: "",
+  key: "",
 };
 
 export const reviewFormDefaultValues = {

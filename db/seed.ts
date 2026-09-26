@@ -11,8 +11,21 @@ async function main() {
   await prisma.appSetting.deleteMany();
 
   await prisma.appSetting.createMany({ data: sampleData.appSettings });
-  await prisma.product.createMany({ data: sampleData.products });
   await prisma.category.createMany({ data: sampleData.categories });
+
+  const categories = await prisma.category.findMany();
+  const categoryIdByName = new Map(categories.map((c) => [c.name, c.id]));
+
+  await prisma.product.createMany({
+    data: sampleData.products.map((product) => {
+      const categoryId = categoryIdByName.get(product.category);
+
+      if (!categoryId)
+        throw new Error(`Category not found for product: ${product.name}`);
+
+      return { ...product, categoryId };
+    }),
+  });
   await prisma.user.createMany({ data: sampleData.users });
 
   console.info("🌱 Database has been seeded.");

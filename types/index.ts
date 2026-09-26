@@ -9,6 +9,7 @@ import {
 import {
   cartItemSchema,
   insertCartSchema,
+  insertCategorySchema,
   insertOrderItemSchema,
   insertOrderSchema,
   insertProductSchema,
@@ -16,6 +17,7 @@ import {
   paymentMethodSchema,
   paymentResultSchema,
   shippingAddressSchema,
+  updateCategorySchema,
   updateProductSchema,
   updateUserSchema,
 } from "@/lib/validators";
@@ -50,6 +52,8 @@ export type OrderItem = z.infer<typeof insertOrderItemSchema>;
 export type PaymentResult = z.infer<typeof paymentResultSchema>;
 export type InsertProduct = z.infer<typeof insertProductSchema>;
 export type UpdateProduct = z.infer<typeof updateProductSchema>;
+export type InsertCategory = z.infer<typeof insertCategorySchema>;
+export type UpdateCategory = z.infer<typeof updateCategorySchema>;
 export type UpdateUser = z.infer<typeof updateUserSchema>;
 
 export type Review = z.infer<typeof insertReviewsSchema> & {
@@ -98,6 +102,7 @@ export type Currency = typeof CURRENCY;
 export type Category = {
   id: string;
   name: string;
+  key?: string | null;
   image: string;
   createdAt: Date;
 };

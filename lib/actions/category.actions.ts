@@ -3,11 +3,18 @@
 import { revalidatePath } from "next/cache";
 
 import prisma from "@/db/db";
-import { Category, SortingCategoriesOptions } from "@/types";
+import {
+  Category,
+  InsertCategory,
+  SortingCategoriesOptions,
+  UpdateCategory,
+} from "@/types";
 import { appRoutes } from "../constants";
 import { PAGE_SIZE } from "../constants/index";
 import { Prisma } from "../generated/prisma/client";
 import { convertToPlainObject, formatError } from "../utils";
+import { insertCategorySchema, updateCategorySchema } from "../validators";
+import { deleteImageFromUploadthing } from "./uploadthing.action";
 
 /**
  * Get all categories from db
@@ -82,6 +89,74 @@ export async function getBestFiveCategories(limit: number = 5) {
 }
 
 /**
+ * Get a category by id
+ * @param categoryId
+ * @returns
+ */
+export async function getCategoryById(categoryId: string) {
+  const data = await prisma.category.findFirst({
+    where: { id: categoryId },
+  });
+
+  return convertToPlainObject(data);
+}
+
+/**
+ * Create a category
+ * @param data
+ * @returns
+ */
+export async function createCategory(data: InsertCategory) {
+  try {
+    const category = insertCategorySchema.parse(data);
+
+    await prisma.category.create({ data: { ...category } });
+
+    revalidatePath(appRoutes.ADMIN_CATEGORIES);
+
+    return {
+      success: true,
+      message: "Category created successfully",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: formatError(error),
+    };
+  }
+}
+
+/**
+ * Update a category
+ * @param data
+ * @returns
+ */
+export async function updateCategory(data: UpdateCategory) {
+  try {
+    const category = updateCategorySchema.parse(data);
+    const categoryExists = await prisma.category.findFirst({
+      where: { id: category.id },
+    });
+
+    if (!categoryExists) throw new Error("Category not found");
+
+    await prisma.category.update({
+      where: { id: category.id },
+      data,
+    });
+
+    revalidatePath(appRoutes.ADMIN_CATEGORIES);
+
+    return { success: true, message: "Category updated successfully" };
+  } catch (error) {
+    return {
+      success: false,
+      message: formatError(error),
+    };
+  }
+}
+
+/**
  * Deletes a category by id, and detach its products from this category
  *
  * @param id
@@ -101,6 +176,51 @@ export async function deleteCategoryById(id: string) {
     return {
       success: true,
       message: "Category deleted succesfully",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: formatError(error),
+    };
+  }
+}
+
+export async function deleteUTFFileFromCategory(
+  imageKey: string,
+  categoryId: string,
+) {
+  try {
+    const categoryExists = await prisma.category.findFirst({
+      where: { id: categoryId },
+    });
+
+    if (!categoryExists)
+      return {
+        success: false,
+        message: "Product not found",
+      };
+
+    const res = await deleteImageFromUploadthing(imageKey);
+
+    if (!res.success)
+      return {
+        success: false,
+        message: "An error ocurred while deleting image",
+      };
+
+    await prisma.category.update({
+      where: { id: categoryExists.id },
+      data: {
+        image: "",
+        key: null,
+      },
+    });
+
+    revalidatePath(`${appRoutes.ADMIN_CATEGORIES}/${categoryId}`);
+
+    return {
+      success: true,
+      message: "Image deleted successfully",
     };
   } catch (error) {
     return {

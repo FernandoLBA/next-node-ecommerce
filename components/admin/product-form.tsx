@@ -1,12 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useTranslations } from "next-intl";
-import { Controller, SubmitHandler, useForm, useWatch } from "react-hook-form";
-import slugify from "slugify";
-import { toast } from "sonner";
-import z from "zod";
-
 import { useRouter } from "@/i18n/routing";
 import { createProduct, updateProduct } from "@/lib/actions/product.actions";
 import {
@@ -16,8 +9,14 @@ import {
 import { appRoutes, productDefaultValues } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { insertProductSchema, updateProductSchema } from "@/lib/validators";
-import { Product } from "@/types";
+import { Category, Product } from "@/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import { useTransition } from "react";
+import { Controller, SubmitHandler, useForm, useWatch } from "react-hook-form";
+import slugify from "slugify";
+import { toast } from "sonner";
+import z from "zod";
 import AppUploadButton from "../shared/app-upload-button";
 import AppUploadthingImage from "../shared/app-uploadthing-image";
 import { Button } from "../ui/button";
@@ -33,17 +32,31 @@ import {
 import { Input } from "../ui/input";
 import LoaderIcon from "../ui/loader-icon";
 import { Textarea } from "../ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 type ProductFormProps = {
   type: "Create" | "Update";
   product: Product;
-  productId?: string;
+  productId?: string | null;
+  categories: Category[];
 };
 
 type FormType =
   z.infer<typeof insertProductSchema> | z.infer<typeof updateProductSchema>;
 
-const ProductForm = ({ type, product, productId }: ProductFormProps) => {
+const ProductForm = ({
+  type,
+  product,
+  productId,
+  categories,
+}: ProductFormProps) => {
   const [isPending, startTransition] = useTransition();
   const t = useTranslations("AdminPages");
   const router = useRouter();
@@ -225,22 +238,49 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
         {/* //* CATEGORY */}
         <div className="flex flex-col md:flex-row gap-5">
           <Controller
-            name="category"
+            name="categoryId"
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="category">
+                <FieldLabel htmlFor="categoryId">
                   {t("products.createProductForm.category.label")}
                 </FieldLabel>
-                <Input
-                  {...field}
-                  id="category"
-                  aria-invalid={fieldState.invalid}
-                  placeholder={t(
-                    "products.createProductForm.category.placeholder",
-                  )}
+                <Select
+                  value={field.value || null}
+                  items={categories.map((c) => ({ value: c.id, label: c.name }))}
+                  onValueChange={(categoryId) => {
+                    const selected = categories.find((c) => c.id === categoryId);
+
+                    field.onChange(categoryId);
+                    //? `category` (name) is still required by the schema, keep it in sync
+                    form.setValue("category", selected?.name ?? "", {
+                      shouldValidate: true,
+                    });
+                  }}
                   disabled={form.formState.isSubmitting}
-                />
+                >
+                  <SelectTrigger
+                    id="categoryId"
+                    className="w-full"
+                    aria-invalid={fieldState.invalid}
+                  >
+                    <SelectValue
+                      placeholder={t(
+                        "products.createProductForm.category.placeholder",
+                      )}
+                    />
+                  </SelectTrigger>
+
+                  <SelectContent>
+                    <SelectGroup>
+                      {categories.map((category) => (
+                        <SelectItem key={category.id} value={category.id}>
+                          {category.name}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
                 {fieldState.invalid && (
                   <FieldError errors={[fieldState.error]} />
                 )}
@@ -424,23 +464,6 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
                   isLoading={isPending}
                   action={() => handleDeleteImage(banner, "banner")}
                 />
-                // <div className="relative">
-                //   <AppImage
-                //     src={banner}
-                //     alt="banner image"
-                //     className="w-full rounded-sm"
-                //     width={1920}
-                //     height={680}
-                //   />
-
-                //   <Button
-                //     className="absolute rounded-full h-6 w-6 -top-3 -right-3"
-                //     onClick={() => handleDeleteImage(banner)}
-                //     disabled={isPending}
-                //   >
-                //     <X />
-                //   </Button>
-                // </div>
               )}
 
               {isFeatured && !banner && (
