@@ -89,6 +89,12 @@ const AdminCategoriesPage = async (props: AdminCategoriesPageProps) => {
               {currentLanguage.AdminPages.categories.tableHeaders.name}
             </TableHead>
             <TableHead>
+              {
+                currentLanguage.AdminPages.categories.tableHeaders
+                  .relatedProducts
+              }
+            </TableHead>
+            <TableHead>
               {currentLanguage.AdminPages.categories.tableHeaders.createdDate}
             </TableHead>
             <TableHead className="w-25">
@@ -102,7 +108,10 @@ const AdminCategoriesPage = async (props: AdminCategoriesPageProps) => {
             <TableRow key={c.id}>
               <TableCell>{formatId(c.id)}</TableCell>
               <TableCell>{c.name}</TableCell>
-              <TableCell>{formatDateTime(c.createdAt, locale as Locale).dateTime}</TableCell>
+              <TableCell>{c.products?.length}</TableCell>
+              <TableCell>
+                {formatDateTime(c.createdAt, locale as Locale).dateTime}
+              </TableCell>
 
               <TableCell className="flex-start gap-2">
                 <AppLinkButton

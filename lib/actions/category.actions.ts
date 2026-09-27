@@ -64,6 +64,11 @@ export async function getAllCategories({
       where,
       skip: (page - 1) * limit,
       take: limit,
+      include: {
+        products: {
+          select: { id: true, name: true },
+        },
+      },
     }),
 
     prisma.category.count({ where }),
@@ -97,6 +102,11 @@ export async function getBestFiveCategories(limit: number = 5) {
 export async function getCategoryById(categoryId: string) {
   const data = await prisma.category.findFirst({
     where: { id: categoryId },
+    include: {
+      products: {
+        select: { id: true, name: true },
+      },
+    },
   });
 
   return convertToPlainObject(data);
@@ -194,6 +204,25 @@ export async function deleteCategoryById(id: string) {
 
     if (!categoryExists)
       return { success: false, message: t("categoryNotFound") };
+
+    const productCount = await prisma.product.count({
+      where: { categoryId: id },
+    });
+
+    if (productCount > 0) {
+      return {
+        success: false,
+        message: t("hasRelatedItems", {
+          field: "category",
+          qty: productCount,
+          relatedField: "products",
+        }),
+      };
+    }
+
+    if (categoryExists.key) {
+      await deleteImageFromUploadthing(categoryExists.key);
+    }
 
     await prisma.category.delete({ where: { id } });
 

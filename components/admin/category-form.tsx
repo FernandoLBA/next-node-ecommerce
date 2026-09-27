@@ -26,6 +26,14 @@ import { Card, CardContent } from "../ui/card";
 import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
 import LoaderIcon from "../ui/loader-icon";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 type CategoryFormProps = {
   type: "Create" | "Update";
@@ -45,8 +53,7 @@ const CategoryForm = ({ type, category, categoryId }: CategoryFormProps) => {
 
   const form = useForm<FormType>({
     resolver: zodResolver(schema) as Resolver<FormType>,
-    defaultValues:
-      category && type === "Update" ? category : categoryDefaultValues,
+    defaultValues: { ...categoryDefaultValues, ...category },
   });
 
   const onSubmit: SubmitHandler<FormType> = async (values) => {
@@ -116,25 +123,56 @@ const CategoryForm = ({ type, category, categoryId }: CategoryFormProps) => {
     >
       <FieldGroup>
         <div className="flex flex-col gap-5">
-          <Controller
-            name="name"
-            control={form.control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="name">{t("name.label")}</FieldLabel>
-                <Input
-                  {...field}
-                  id="name"
-                  aria-invalid={fieldState.invalid}
-                  placeholder={t("name.placeholder")}
-                  disabled={form.formState.isSubmitting}
-                />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
-                )}
+          <div className="flex flex-col md:flex-row gap-5">
+            <Controller
+              name="name"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="name">{t("name.label")}</FieldLabel>
+                  <Input
+                    {...field}
+                    id="name"
+                    aria-invalid={fieldState.invalid}
+                    placeholder={t("name.placeholder")}
+                    disabled={form.formState.isSubmitting}
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+
+            {category?.products && category.products?.length > 0 && (
+              <Field>
+                <FieldLabel htmlFor="relatedproducts">
+                  {t("name.relatedProducts")} ({category.products?.length})
+                </FieldLabel>
+                <Select
+                  id="relatedProducts"
+                  items={category.products?.map((rate) => ({
+                    label: `${rate}`,
+                    value: rate,
+                  }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+
+                  <SelectContent>
+                    <SelectGroup>
+                      {category.products?.map(({ id, name }) => (
+                        <SelectItem key={id} value={name}>
+                          {name}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
               </Field>
             )}
-          />
+          </div>
 
           <div className="upload-field flex flex-col md:flex-row gap-5">
             <Controller

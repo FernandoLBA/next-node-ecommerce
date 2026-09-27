@@ -105,6 +105,11 @@ export type Category = {
   key?: string | null;
   image: string;
   createdAt: Date;
+  //? Only present when the query includes the category products (e.g. getCategoryById)
+  products?: {
+    id: string;
+    name: string;
+  }[];
 };
 
 export type CategoryWithCount = {

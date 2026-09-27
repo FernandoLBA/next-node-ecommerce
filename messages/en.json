@@ -37,6 +37,7 @@
       "tableHeaders": {
         "id": "ID",
         "name": "Name",
+        "relatedProducts":"Related products",
         "createdDate": "Date",
         "actions": {
           "title": "Actions",
@@ -48,6 +49,7 @@
       "form": {
         "name": {
           "label": "Name:",
+          "relatedProducts": "Related products",
           "placeholder": "Enter the name"
         },
         "image": {
@@ -590,6 +592,7 @@
     "userUpdated": "User updated successfully",
     "userDeleted": "User deleted successfully",
     "alreadyExists": "{field} already exists",
+    "hasRelatedItems": "The field {field} has {qty} related {relatedField}",
     "validation": {
       "priceFormat": "Price must be a valid number with two decimal places exactly",
       "nameMin": "Name must be at least 3 characters long",
