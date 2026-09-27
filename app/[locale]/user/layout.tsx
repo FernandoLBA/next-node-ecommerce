@@ -11,32 +11,31 @@ export default async function UserLayout({
   children: React.ReactNode;
 }>) {
   const settings = await getAppSettings();
+
   return (
-    <>
-      <div className="flex flex-col">
-        <div className="border-b container mx-auto">
-          <div className="flex-center h-16 px-4">
-            <AppLink href={appRoutes.HOME} className="w-22">
+    <div className="flex h-screen flex-col">
+      <div className="border-b">
+        <div className="wrapper flex-between h-16 gap-4">
+          <div className="flex-start gap-6">
+            <AppLink href={appRoutes.HOME} className="flex-start">
               <AppImage
                 src={`${appRoutes.IMAGES}/logo.svg`}
-                height={30}
-                width={30}
+                height={32}
+                width={32}
                 alt={settings.appName}
               />
             </AppLink>
 
-            <MainNav className="mx-6" />
+            <MainNav />
+          </div>
 
-            <div className="ml-auto flex-center space-x-4">
-              <Menu />
-            </div>
+          <div className="flex-center gap-4">
+            <Menu />
           </div>
         </div>
-
-        <div className="flex-1 space-y-4 p-8 pt-6 container mx-auto">
-          {children}
-        </div>
       </div>
-    </>
+
+      <main className="wrapper flex-1 space-y-4 py-6">{children}</main>
+    </div>
   );
 }

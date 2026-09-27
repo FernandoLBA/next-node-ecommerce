@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 
+import DealCountdown from "@/components/deal-countdown";
 import IconBoxes from "@/components/icon-boxes";
 import ProductCarousel from "@/components/shared/products/product-carousel";
 import ProductsList from "@/components/shared/products/products-list";
@@ -10,7 +11,6 @@ import {
   getLatestProducts,
 } from "@/lib/actions/product.actions";
 import { LATEST_PRODUCTS_LIMIT } from "@/lib/constants";
-import { Product } from "@/types";
 
 export default async function HomePage() {
   const t = await getTranslations("HomePage");
@@ -20,11 +20,11 @@ export default async function HomePage() {
   return (
     <>
       {featuredProducts.length > 0 && (
-        <ProductCarousel data={featuredProducts as Product[]} />
+        <ProductCarousel data={featuredProducts} />
       )}
 
       <ProductsList
-        data={latestProducts as Product[]}
+        data={latestProducts}
         title={t("title")}
         limit={LATEST_PRODUCTS_LIMIT}
       />
@@ -34,7 +34,7 @@ export default async function HomePage() {
       <TopCategories />
 
       {/* // * Temporal promotions, for now I don't need it */}
-      {/* <DealCountdown /> */}
+      <DealCountdown />
 
       <IconBoxes />
     </>

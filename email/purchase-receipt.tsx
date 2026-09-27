@@ -174,7 +174,7 @@ export default async function PurchaseReceiptEmail({
               </Row>
 
               {/* PRODUCTS SECTION */}
-              <Section className="bg-white border border-solid border-white rounded-xl p-4 md:px-6">
+              <Section className="bg-white border border-solid border-white rounded-md p-4 md:px-6">
                 {order.orderItems.map((item) => (
                   <Row
                     key={item.productId}
@@ -210,7 +210,7 @@ export default async function PurchaseReceiptEmail({
               </Section>
 
               {/* PRICE DEATILS SECTION */}
-              <div className="flex p-4 md:p-6 rounded-xl bg-white mt-6 w-120 border border-solid border-white">
+              <div className="flex p-4 md:p-6 rounded-md bg-white mt-6 w-120 border border-solid border-white">
                 <div className="w-1/2">
                   <Row align="left">
                     <Column width={50} align="left">

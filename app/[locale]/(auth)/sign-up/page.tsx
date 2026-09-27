@@ -49,8 +49,8 @@ const SignUpPage = async (props: {
             <AppImage
               src={`${appRoutes.IMAGES}/logo.svg`}
               alt={`${settings.appName} logo`}
-              width={150}
-              height={150}
+              width={80}
+              height={80}
             />
           </AppLink>
 

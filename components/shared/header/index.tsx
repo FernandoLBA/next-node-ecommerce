@@ -13,25 +13,21 @@ const Header = async () => {
 
   return (
     <header className="w-full border-b">
-      <div className="wrapper flex-between">
-        <div className="flex-start">
-          <AppLink href={appRoutes.HOME} className="flex-start">
-            <AppImage
-              src={`${appRoutes.IMAGES}/logo.svg`}
-              alt={`${settings.appName} logo`}
-              height={40}
-              width={40}
-              preload
-            />
+      <div className="wrapper flex-between gap-4">
+        <AppLink href={appRoutes.HOME} className="flex-start gap-2">
+          <AppImage
+            src={`${appRoutes.IMAGES}/logo.svg`}
+            alt={`${settings.appName} logo`}
+            height={40}
+            width={40}
+            preload
+          />
 
-            <span className="hidden lg:block font-bold lowercase text-2xl ml-1">
-              {firstPartBrand}
-              <span className="capitalize dark:text-primary">
-                {lastPartBrand}
-              </span>
-            </span>
-          </AppLink>
-        </div>
+          <span className="hidden lg:block font-bold lowercase text-2xl dark:text-primary">
+            {firstPartBrand}
+            <span className="capitalize">{lastPartBrand}</span>
+          </span>
+        </AppLink>
 
         <div className="hidden md:block">
           <Search />

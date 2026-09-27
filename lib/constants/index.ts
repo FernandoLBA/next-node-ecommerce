@@ -1,4 +1,3 @@
-
 // * APP CONFIG ############################################
 export const APP_SERVER_URL =
   process.env.APP_SERVER_URL || "http://localhost:3000";
@@ -21,7 +20,7 @@ export const NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY =
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
 
 // * PRODUCTS CONFIG ############################################
-export const LATEST_PRODUCTS_LIMIT = 10;
+export const LATEST_PRODUCTS_LIMIT = 8;
 
 // * LANGUAGES CONFIG ############################################
 export const LANGUAGES = ["en", "es"] as const;

@@ -30,21 +30,20 @@ const AdminMainNav = ({ className, ...props }: AdminMainNavProps) => {
   };
 
   return (
-    <nav
-      className={cn("flex-center text-sm space-x-4 lg:space-x-6", className)}
-      {...props}
-    >
-      {adminNavLinks.map((link) => (
-        <AppLink
-          key={link.href}
-          href={link.href}
-          className={`hidden sm:block nav-links ${isSelected(link.href) && "nav-link-selected"}`}
-        >
-          {t(link.key)}
-        </AppLink>
-      ))}
+    <nav className={cn("flex-center text-sm", className)} {...props}>
+      <div className="hidden md:flex items-center gap-4 lg:gap-6">
+        {adminNavLinks.map((link) => (
+          <AppLink
+            key={link.href}
+            href={link.href}
+            className={`nav-links ${isSelected(link.href) && "nav-link-selected"}`}
+          >
+            {t(link.key)}
+          </AppLink>
+        ))}
+      </div>
 
-      <div className="block md:hidden">
+      <div className="md:hidden">
         <DropdownMenu>
           <DropdownMenuTrigger
             render={

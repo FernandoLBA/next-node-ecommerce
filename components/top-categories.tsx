@@ -16,7 +16,7 @@ const TopCategories = async () => {
   const bannerCategory: Category | undefined = categories.pop();
 
   return (
-    <div className="bg-primary p-4 rounded-xl my-8">
+    <div className="bg-primary p-4 rounded-md my-8">
       <h1 className="h2-bold mb-4 mt-8 text-primary-foreground">
         {currentLanguage.HomePage.TopCategories.title}
       </h1>

@@ -34,7 +34,7 @@ export async function getLatestProducts() {
     },
   });
 
-  return convertToPlainObject(data);
+  return convertToPlainObject(data) as Product[];
 }
 
 /**
@@ -174,7 +174,8 @@ export async function deleteProductById(id: string) {
       where: { id },
     });
 
-    if (!productExists) return { success: false, message: t("productNotFound") };
+    if (!productExists)
+      return { success: false, message: t("productNotFound") };
 
     await prisma.product.delete({ where: { id } });
 
@@ -306,5 +307,5 @@ export async function getFeaturedProducts() {
     take: 4,
   });
 
-  return convertToPlainObject(data);
+  return convertToPlainObject(data) as Product[];
 }

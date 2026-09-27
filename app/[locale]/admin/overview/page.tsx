@@ -122,8 +122,13 @@ const AdminOverviewPage = async () => {
       </div>
 
       {/* //* GRAPH AND TABLE SECTION */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        <Card className="col-span-4">
+      {/* //? items-start keeps each card at its own height instead of the
+      //? default grid stretch, which left blank space below the fixed-height
+      //? chart to match the taller sales table */}
+      <div className="grid gap-4 items-start md:grid-cols-2 lg:grid-cols-7">
+        {/* //? min-w-0 lets the grid item shrink below the chart's intrinsic
+        //? width instead of forcing the track (and the page) to widen */}
+        <Card className="col-span-4 min-w-0">
           <CardHeader>
             <CardTitle className="h3-bold">
               {currentLanguage.AdminPages.overview.graph.title}
@@ -135,7 +140,7 @@ const AdminOverviewPage = async () => {
           </CardContent>
         </Card>
 
-        <Card className="col-span-4 md:col-span-3">
+        <Card className="col-span-4 md:col-span-3 min-w-0">
           <CardHeader>
             <CardTitle className="h3-bold">
               {currentLanguage.AdminPages.overview.recentSalesTable.title}

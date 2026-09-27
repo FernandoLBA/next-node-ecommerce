@@ -54,10 +54,10 @@ const SignInPage = async (props: {
         <CardHeader className="space-y-4">
           <AppLink href={appRoutes.HOME} className="flex-center">
             <AppImage
-              src="/images/logo.svg"
+              src={`${appRoutes.IMAGES}/logo.svg`}
               alt={`${settings.appName} logo`}
-              width={100}
-              height={100}
+              width={80}
+              height={80}
             />
           </AppLink>
 

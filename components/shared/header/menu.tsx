@@ -22,8 +22,8 @@ const Menu = async () => {
   const categories = await getAllCategories();
 
   return (
-    <div className="space-x-2">
-      <nav className="hidden md:flex w-fit gap-1">
+    <div>
+      <nav className="hidden md:flex w-fit items-center gap-2">
         <ModeToggle />
 
         <LanguageToggle />

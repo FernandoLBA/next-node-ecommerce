@@ -47,7 +47,7 @@ const DeleteDialog = ({
         {t("deleteButton")}
       </AlertDialogTrigger>
 
-      <AlertDialogContent className="rounded-xl">
+      <AlertDialogContent className="rounded-md">
         <AlertDialogHeader>
           <AlertDialogTitle>{t("alertTitle")}</AlertDialogTitle>
 

@@ -13,7 +13,7 @@ const ProductImages = ({ images }: { images: string[] }) => {
   return (
     <div className="space-y-4">
       <AppImage
-        className="max-h-125 w-auto object-cover object-center rounded-xl"
+        className="max-h-125 w-auto object-cover object-center rounded-md"
         src={images[current]}
         alt={t("productImage")}
         height={500}
@@ -26,7 +26,7 @@ const ProductImages = ({ images }: { images: string[] }) => {
             key={image}
             onClick={() => setCurrent(index)}
             className={cn(
-              "border-3 border-muted mr-2 hover:border-primary cursor-pointer rounded-xl overflow-hidden",
+              "border-3 border-muted mr-2 hover:border-primary cursor-pointer rounded-md overflow-hidden",
               current === index && "border-primary",
             )}
           >

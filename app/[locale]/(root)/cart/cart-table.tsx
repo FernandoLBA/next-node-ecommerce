@@ -66,7 +66,7 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                     <TableCell>
                       <AppLink
                         href={`${appRoutes.PRODUCTS}/${item.slug}`}
-                        className="flex items-center rounded-xl"
+                        className="flex items-center rounded-md"
                       >
                         <AppImage
                           src={item.image}

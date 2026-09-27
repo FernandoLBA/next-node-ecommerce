@@ -22,7 +22,7 @@ const Search = async () => {
 
   return (
     <form action={appRoutes.SEARCH} method="GET">
-      <div className="flex w-full max-w-sm items-center space-x-2">
+      <div className="flex w-full max-w-sm items-center gap-2">
         <Select name="category">
           <SelectTrigger className="w-45">
             <SelectValue placeholder={currentLanguage.Header.search.allLabel} />
