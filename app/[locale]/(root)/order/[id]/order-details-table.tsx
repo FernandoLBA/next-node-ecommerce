@@ -1,13 +1,5 @@
 "use client";
 
-import {
-  PayPalButtons,
-  PayPalScriptProvider,
-  usePayPalScriptReducer,
-} from "@paypal/react-paypal-js";
-import { useLocale, useTranslations } from "next-intl";
-import { toast } from "sonner";
-
 import { AppLink } from "@/components/shared/app-link/app-link";
 import AppImage from "@/components/ui/app-image";
 import { Badge } from "@/components/ui/badge";
@@ -29,7 +21,14 @@ import {
 import { appRoutes, paymentMethods } from "@/lib/constants";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
 import { Locale, Order } from "@/types";
+import {
+  PayPalButtons,
+  PayPalScriptProvider,
+  usePayPalScriptReducer,
+} from "@paypal/react-paypal-js";
+import { useLocale, useTranslations } from "next-intl";
 import { useTransition } from "react";
+import { toast } from "sonner";
 import MarkingButton from "./marking-button";
 import StripePayment from "./stripe-payment";
 
@@ -136,8 +135,10 @@ const OrderDetailsTable = ({
 
               <p className="pb-2">{paymentMethod}</p>
               {isPaid ? (
-                <Badge variant="secondary">
-                  {t("paidAt", { date: formatDateTime(paidAt!, locale).dateTime })}
+                <Badge>
+                  {t("paidAt", {
+                    date: formatDateTime(paidAt!, locale).dateTime,
+                  })}
                 </Badge>
               ) : (
                 <Badge variant="destructive">{t("notPaid")}</Badge>
@@ -154,7 +155,7 @@ const OrderDetailsTable = ({
                 {shippingAddress.postalCode}, {shippingAddress.country}
               </p>
               {isDelivered ? (
-                <Badge variant="secondary">
+                <Badge>
                   {t("deliveredAt", {
                     date: formatDateTime(deliveredAt!, locale).dateTime,
                   })}

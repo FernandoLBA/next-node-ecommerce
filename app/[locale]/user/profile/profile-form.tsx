@@ -1,11 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useSession } from "next-auth/react";
-import { Controller, useForm } from "react-hook-form";
-import { toast } from "sonner";
-import z from "zod";
-
 import { AppButton } from "@/components/shared/app-button/app-button";
 import {
   Field,
@@ -15,13 +9,21 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import LoaderIcon from "@/components/ui/loader-icon";
+import { useRouter } from "@/i18n/routing";
 import { updateProfile } from "@/lib/actions/user.actions";
+import { appRoutes } from "@/lib/constants";
 import { updateUserProfileSchema } from "@/lib/validators";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
+import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import z from "zod";
 
 const ProfileForm = () => {
   const { data: session, update } = useSession();
   const t = useTranslations("Profile");
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof updateUserProfileSchema>>({
     resolver: zodResolver(updateUserProfileSchema),
@@ -123,7 +125,11 @@ const ProfileForm = () => {
           )}
         </AppButton>
 
-        <AppButton variant="outline" disabled={form.formState.isSubmitting}>
+        <AppButton
+          variant="outline"
+          disabled={form.formState.isSubmitting}
+          onClick={() => router.push(appRoutes.HOME)}
+        >
           {t("profileForm.backHome")}
         </AppButton>
       </div>

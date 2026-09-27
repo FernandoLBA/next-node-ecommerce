@@ -324,7 +324,16 @@
     "allowedFileSizeText": "Tamaño máximo: 4MB"
   },
   "Footer": {
-    "rights": "Todos los derechos reservados."
+    "rights": "Todos los derechos reservados.",
+    "explore": "Explorar",
+    "home": "Inicio",
+    "products": "Todos los productos",
+    "cart": "Carrito",
+    "myOrders": "Mis órdenes",
+    "myProfile": "Mi perfil",
+    "categories": "Categorías",
+    "weAccept": "Aceptamos",
+    "securePayments": "Pagos seguros"
   },
   "CartPage": {
     "title": "Carrito de Compras",

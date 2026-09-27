@@ -1,6 +1,3 @@
-import { Filter, X } from "lucide-react";
-import { getTranslations } from "next-intl/server";
-
 import { AppLink } from "@/components/shared/app-link/app-link";
 import Pagination from "@/components/shared/pagination";
 import ProductCard from "@/components/shared/products/product-card";
@@ -24,6 +21,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { Link } from "@/i18n/routing";
 import { getAllProducts } from "@/lib/actions/product.actions";
 import {
   appRoutes,
@@ -32,6 +30,8 @@ import {
 } from "@/lib/constants";
 import { cn, getFilterUrl } from "@/lib/utils";
 import { AsyncFilterSearchParams, Product } from "@/types";
+import { Filter, X } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata(props: {
   searchParams: Promise<{
@@ -126,7 +126,10 @@ const SearchPage = async (props: AsyncFilterSearchParams) => {
             (category !== "all" && category !== "") ||
             price !== "all" ||
             rating !== "all" ? (
-              <AppLink className={cn(buttonVariants(), "w-6 h-6")} href={appRoutes.SEARCH}>
+              <AppLink
+                className={cn(buttonVariants(), "w-6 h-6")}
+                href={appRoutes.SEARCH}
+              >
                 <X />
               </AppLink>
             ) : null}
@@ -144,7 +147,9 @@ const SearchPage = async (props: AsyncFilterSearchParams) => {
                 <SheetContent>
                   <SheetHeader>
                     <SheetTitle>{t("filters")}</SheetTitle>
-                    <SheetDescription>{t("filtersDescription")}</SheetDescription>
+                    <SheetDescription>
+                      {t("filtersDescription")}
+                    </SheetDescription>
                   </SheetHeader>
 
                   <div className="ml-6">
@@ -159,7 +164,7 @@ const SearchPage = async (props: AsyncFilterSearchParams) => {
             </div>
 
             {/* SORT */}
-            <div className="flex items-center w-full md:max-w-28">
+            <div className="flex items-center w-full md:max-w-45">
               <Select items={sortingOrders}>
                 <SelectTrigger className="w-full self-end">
                   <SelectValue placeholder={t("sortBy")} />
@@ -168,10 +173,12 @@ const SearchPage = async (props: AsyncFilterSearchParams) => {
                 <SelectContent className="w-fit">
                   <SelectGroup>
                     {SORTING_ORDERS_VALUES.map((s) => (
-                      <SelectItem key={s} value={s}>
-                        <AppLink href={getFilterUrl({ ...params, s })}>
-                          {t(`sortOptions.${s}`)}
-                        </AppLink>
+                      <SelectItem
+                        key={s}
+                        value={s}
+                        render={<Link href={getFilterUrl({ ...params, s })} />}
+                      >
+                        {t(`sortOptions.${s}`)}
                       </SelectItem>
                     ))}
                   </SelectGroup>
@@ -182,7 +189,9 @@ const SearchPage = async (props: AsyncFilterSearchParams) => {
         </div>
 
         <div className="grid grid-cols-2 gap-2 md:gap-4 md:grid-cols-3">
-          {products.data.length === 0 && <div>{tCommon("noProductsFound")}</div>}
+          {products.data.length === 0 && (
+            <div>{tCommon("noProductsFound")}</div>
+          )}
 
           {products.data.map((product: Product) => (
             <ProductCard key={product.id} product={product} />

@@ -324,7 +324,16 @@
     "allowedFileSizeText": "Max size: 4MB"
   },
   "Footer": {
-    "rights": "All Rights Reserved."
+    "rights": "All Rights Reserved.",
+    "explore": "Explore",
+    "home": "Home",
+    "products": "All products",
+    "cart": "Cart",
+    "myOrders": "My orders",
+    "myProfile": "My profile",
+    "categories": "Categories",
+    "weAccept": "We accept",
+    "securePayments": "Secure payments"
   },
   "CartPage": {
     "title": "Shopping Cart",
