@@ -1,16 +1,22 @@
+import { buttonVariants } from "@/components/ui/button";
 import { Link } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
-import { AppButton, AppButtonProps } from "../app-button/app-button";
+import type { AppButtonProps } from "../app-button/app-button";
 
 export interface AppLinkButtonProps {
   children: React.ReactNode;
   href: string;
   target?: "_blank" | "_self" | "_parent" | "_top";
   variant?: AppButtonProps["variant"];
+  size?: AppButtonProps["size"];
   className?: string;
+  "aria-label"?: string;
 }
 
 /**
+ * Navigation link with the same look as a Button.
+ * Renders a single localized <Link> (never a link inside a button) so the whole
+ * area is clickable and the HTML stays valid.
  *
  * @param param0
  * @returns
@@ -20,24 +26,23 @@ export const AppLinkButton: React.FC<AppLinkButtonProps> = ({
   href,
   target = "_self",
   variant = "default",
+  size = "default",
   className,
+  "aria-label": ariaLabel,
 }) => {
   return (
-    <AppButton
-      size="sm"
-      variant={variant}
+    <Link
+      href={href}
+      target={target}
+      aria-label={ariaLabel}
       className={cn(
-        `${variant === "link" && " h-4.5 p-0"} no-underline!`,
+        buttonVariants({ variant, size }),
+        variant === "link" && "h-4.5 justify-start p-0",
+        "no-underline!",
         className,
       )}
     >
-      <Link
-        href={href}
-        target={target}
-        className={`${variant === "link" ? "flex-start" : "flex-center"} gap-2 w-full`}
-      >
-        {children}
-      </Link>
-    </AppButton>
+      {children}
+    </Link>
   );
 };

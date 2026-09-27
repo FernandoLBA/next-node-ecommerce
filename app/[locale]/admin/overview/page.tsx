@@ -2,8 +2,7 @@ import { BadgeDollarSign, Barcode, CreditCard, Tag, Users } from "lucide-react";
 import { Metadata } from "next";
 import { getLocale } from "next-intl/server";
 
-import { AppButton } from "@/components/shared/app-button/app-button";
-import { AppLink } from "@/components/shared/app-link/app-link";
+import { AppLinkButton } from "@/components/shared/app-link-button/app-link-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -196,14 +195,16 @@ const AdminOverviewPage = async () => {
                     </TableCell>
 
                     <TableCell>
-                      <AppButton variant="outline">
-                        <AppLink href={`${appRoutes.ORDER}/${order.id}`}>
-                          {
-                            currentLanguage.AdminPages.overview.recentSalesTable
-                              .tableHeaders.actions.detailsButton
-                          }
-                        </AppLink>
-                      </AppButton>
+                      <AppLinkButton
+                        variant="outline"
+                        size="sm"
+                        href={`${appRoutes.ORDER}/${order.id}`}
+                      >
+                        {
+                          currentLanguage.AdminPages.overview.recentSalesTable
+                            .tableHeaders.actions.detailsButton
+                        }
+                      </AppLinkButton>
                     </TableCell>
                   </TableRow>
                 ))}

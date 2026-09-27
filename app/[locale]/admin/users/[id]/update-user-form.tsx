@@ -112,7 +112,7 @@ const UpdateUserForm = ({ user }: { user: UpdateUser }) => {
                 onValueChange={field.onChange}
                 disabled={form.formState.isSubmitting}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger>
                   <SelectValue placeholder={t("updateForm.role.placeholder")} />
                 </SelectTrigger>
 

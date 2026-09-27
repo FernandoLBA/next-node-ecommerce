@@ -9,7 +9,6 @@ import { getLocale } from "next-intl/server";
 import { FC, PropsWithChildren } from "react";
 
 import { auth } from "@/auth";
-import { buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,13 +17,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Link } from "@/i18n/routing";
 import { signOutUser } from "@/lib/actions/user.actions";
 import { appRoutes, userRoles } from "@/lib/constants";
-import { cn, getLanguage } from "@/lib/utils";
+import { getLanguage } from "@/lib/utils";
 import { Locale } from "@/types";
 import { AppButton } from "../app-button/app-button";
 import { AppLinkButton } from "../app-link-button/app-link-button";
-import { AppLink } from "../app-link/app-link";
 
 export const UserButton: FC<PropsWithChildren> = async ({ children }) => {
   const session = await auth();
@@ -33,12 +32,9 @@ export const UserButton: FC<PropsWithChildren> = async ({ children }) => {
 
   if (!session) {
     return (
-      <AppLink
-        className={cn(buttonVariants(), "flex-between gap-1")}
-        href={appRoutes.SIGN_IN}
-      >
+      <AppLinkButton href={appRoutes.SIGN_IN}>
         <UserIcon /> {currentLanguage.Menu.userButton.signIn}
-      </AppLink>
+      </AppLinkButton>
     );
   }
 
@@ -77,38 +73,22 @@ export const UserButton: FC<PropsWithChildren> = async ({ children }) => {
             </div>
           </DropdownMenuLabel>
 
-          <DropdownMenuItem>
-            <AppLinkButton
-              variant="link"
-              href={appRoutes.USER_PROFILE}
-              className="text-foreground!"
-            >
-              <UserRoundPen />
-              {currentLanguage.Menu.userButton.userProfile}
-            </AppLinkButton>
+          <DropdownMenuItem render={<Link href={appRoutes.USER_PROFILE} />}>
+            <UserRoundPen />
+            {currentLanguage.Menu.userButton.userProfile}
           </DropdownMenuItem>
 
-          <DropdownMenuItem>
-            <AppLinkButton
-              variant="link"
-              href={appRoutes.USER_ORDERS}
-              className="text-foreground!"
-            >
-              <ShoppingBag />
-              {currentLanguage.Menu.userButton.orderHistory}
-            </AppLinkButton>
+          <DropdownMenuItem render={<Link href={appRoutes.USER_ORDERS} />}>
+            <ShoppingBag />
+            {currentLanguage.Menu.userButton.orderHistory}
           </DropdownMenuItem>
 
           {session.user.role === userRoles.ADMIN && (
-            <DropdownMenuItem>
-              <AppLinkButton
-                variant="link"
-                href={appRoutes.ADMIN_OVERVIEW}
-                className="text-foreground!"
-              >
-                <Shield />
-                {currentLanguage.Menu.userButton.admin}
-              </AppLinkButton>
+            <DropdownMenuItem
+              render={<Link href={appRoutes.ADMIN_OVERVIEW} />}
+            >
+              <Shield />
+              {currentLanguage.Menu.userButton.admin}
             </DropdownMenuItem>
           )}
 

@@ -24,11 +24,12 @@ export const AppButton: React.FC<AppButtonProps> = ({
   type = "button",
   variant = "default",
   size = "default",
+  className,
   ...props
 }) => {
   return (
     <Button
-      className={cn(props.className)}
+      className={cn(className)}
       type={type}
       variant={variant}
       size={size}

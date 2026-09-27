@@ -3,7 +3,7 @@ import { useTranslations } from "next-intl";
 
 import { cn } from "@/lib/utils";
 import AppImage from "../ui/app-image";
-import { Button } from "../ui/button";
+import { AppButton } from "./app-button/app-button";
 
 export type AppUploadthingImageProps = {
   imageUrl: string;
@@ -27,7 +27,7 @@ const AppUploadthingImage = (props: AppUploadthingImageProps) => {
         alt={t("productImage")}
       />
 
-      <Button
+      <AppButton
         className="absolute h-6 w-6 -top-3 -right-2.5 z-10"
         onClick={props.action}
         disabled={props.isLoading || false}
@@ -35,7 +35,7 @@ const AppUploadthingImage = (props: AppUploadthingImageProps) => {
         variant="destructive"
       >
         <X />
-      </Button>
+      </AppButton>
     </div>
   );
 };

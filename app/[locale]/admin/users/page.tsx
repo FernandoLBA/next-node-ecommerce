@@ -1,12 +1,10 @@
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
-import { AppButton } from "@/components/shared/app-button/app-button";
-import { AppLink } from "@/components/shared/app-link/app-link";
+import { AppLinkButton } from "@/components/shared/app-link-button/app-link-button";
 import DeleteDialog from "@/components/shared/delete-dialog";
 import Pagination from "@/components/shared/pagination";
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -17,7 +15,7 @@ import {
 } from "@/components/ui/table";
 import { deleteUserById, getAllUsers } from "@/lib/actions/user.actions";
 import { ADMIN_PAGE_SIZE, appRoutes, userRoles } from "@/lib/constants";
-import { cn, formatId } from "@/lib/utils";
+import { formatId } from "@/lib/utils";
 import { User } from "@/types";
 import { X } from "lucide-react";
 
@@ -35,6 +33,7 @@ const AdminUsersPage = async (props: {
 }) => {
   const { page = "1", query } = await props.searchParams;
   const t = await getTranslations("AdminPages.users");
+  const tCommon = await getTranslations("Common");
   const users = await getAllUsers({
     page: Number(page),
     query,
@@ -48,12 +47,13 @@ const AdminUsersPage = async (props: {
         {query && (
           <div className="flex-start text-sm text-muted-foreground gap-2 mt-2">
             {t("filteredBy")} <i>&quot;{query}&quot;</i>{" "}
-            <AppLink
+            <AppLinkButton
               href={appRoutes.ADMIN_USERS}
-              className={cn(buttonVariants(), "w-6 h-6")}
+              size="icon-xs"
+              aria-label={tCommon("clearFilters")}
             >
               <X />
-            </AppLink>
+            </AppLinkButton>
           </div>
         )}
       </div>
@@ -84,11 +84,13 @@ const AdminUsersPage = async (props: {
                   )}
                 </TableCell>
                 <TableCell className="flex-start gap-2">
-                  <AppButton variant="outline" size="sm">
-                    <AppLink href={`${appRoutes.ADMIN_USERS}/${user.id}`}>
-                      {t("tableHeaders.actionButtons.editButton")}
-                    </AppLink>
-                  </AppButton>
+                  <AppLinkButton
+                    variant="outline"
+                    size="sm"
+                    href={`${appRoutes.ADMIN_USERS}/${user.id}`}
+                  >
+                    {t("tableHeaders.actionButtons.editButton")}
+                  </AppLinkButton>
 
                   <DeleteDialog id={user.id} action={deleteUserById} />
                 </TableCell>

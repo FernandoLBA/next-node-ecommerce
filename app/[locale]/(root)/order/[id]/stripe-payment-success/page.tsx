@@ -1,12 +1,12 @@
+import { AppLinkButton } from "@/components/shared/app-link-button/app-link-button";
 import { AppLink } from "@/components/shared/app-link/app-link";
 import AppImage from "@/components/ui/app-image";
-import { buttonVariants } from "@/components/ui/button";
 import { sendPurchaseReceipt } from "@/email";
 import { redirect } from "@/i18n/routing";
 import { getOrderById } from "@/lib/actions/order.actions";
 import { appRoutes } from "@/lib/constants";
 import { stripe } from "@/lib/stripe";
-import { cn, convertToPlainObject } from "@/lib/utils";
+import { convertToPlainObject } from "@/lib/utils";
 import { PaymentResult, ShippingAddress } from "@/types";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -95,12 +95,9 @@ const SuccessPage = async (props: SuccessPageProps) => {
         <h1 className="h1-bold">{t("thanks")}</h1>
         <div>{t("processing")}</div>
 
-        <AppLink
-          className={cn(buttonVariants())}
-          href={`${appRoutes.ORDER}/${id}`}
-        >
+        <AppLinkButton href={`${appRoutes.ORDER}/${id}`}>
           {t("viewOrder")}
-        </AppLink>
+        </AppLinkButton>
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+import { AppLinkButton } from "@/components/shared/app-link-button/app-link-button";
 import { EllipsisVertical, ShoppingCart } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
@@ -11,7 +12,6 @@ import {
 } from "@/components/ui/sheet";
 import { getAllCategories } from "@/lib/actions/product.actions";
 import { appRoutes } from "@/lib/constants";
-import { AppButton } from "../app-button/app-button";
 import { AppLink } from "../app-link/app-link";
 import LanguageToggle from "./language-toggle";
 import ModeToggle from "./mode-toggle";
@@ -28,14 +28,13 @@ const Menu = async () => {
 
         <LanguageToggle />
 
-        <AppButton variant="ghost">
-          <AppLink
-            href={appRoutes.CART}
-            className="flex-between gap-1"
-          >
-            <ShoppingCart />
-          </AppLink>
-        </AppButton>
+        <AppLinkButton
+          variant="ghost"
+          href={appRoutes.CART}
+          aria-label={t("cartTitle")}
+        >
+          <ShoppingCart />
+        </AppLinkButton>
 
         <UserButton />
       </nav>
@@ -56,11 +55,9 @@ const Menu = async () => {
 
               <LanguageToggle>{t("language")}</LanguageToggle>
 
-              <AppButton variant="ghost">
-                <AppLink className="flex gap-2 text-foreground" href={appRoutes.CART}>
-                  <ShoppingCart /> {t("cartTitle")}
-                </AppLink>
-              </AppButton>
+              <AppLinkButton variant="ghost" href={appRoutes.CART}>
+                <ShoppingCart /> {t("cartTitle")}
+              </AppLinkButton>
 
               <UserButton>{t("account")}</UserButton>
             </div>

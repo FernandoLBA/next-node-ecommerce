@@ -399,7 +399,8 @@
     "viewAllProducts": "View All Products",
     "shippingAddress": "Shipping Address",
     "paymentMethod": "Payment Method",
-    "orderItems": "Order Items"
+    "orderItems": "Order Items",
+    "clearFilters": "Clear filters"
   },
   "CheckoutSteps": {
     "login": "User Login",

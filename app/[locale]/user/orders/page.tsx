@@ -109,6 +109,7 @@ const OrdersPage = async (props: {
                 <TableCell>
                   <AppLinkButton
                     variant="outline"
+                    size="sm"
                     href={`${appRoutes.ORDER}/${order.id}`}
                   >
                     {currentLanguage.Orders.tableHeaders.actions.detailsButton}

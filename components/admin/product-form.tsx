@@ -19,7 +19,7 @@ import { toast } from "sonner";
 import z from "zod";
 import AppUploadButton from "../shared/app-upload-button";
 import AppUploadthingImage from "../shared/app-uploadthing-image";
-import { Button } from "../ui/button";
+import { AppButton } from "../shared/app-button/app-button";
 import { Card, CardContent } from "../ui/card";
 import { Checkbox } from "../ui/checkbox";
 import {
@@ -211,7 +211,7 @@ const ProductForm = ({
                       "products.createProductForm.slug.placeholder",
                     )}
                   />
-                  <Button
+                  <AppButton
                     type="button"
                     className="px-4 py-1"
                     disabled={form.formState.isSubmitting}
@@ -225,7 +225,7 @@ const ProductForm = ({
                     }
                   >
                     {t("products.createProductForm.slug.generateSlugButton")}
-                  </Button>
+                  </AppButton>
                 </div>
                 {fieldState.invalid && (
                   <FieldError errors={[fieldState.error]} />
@@ -261,7 +261,6 @@ const ProductForm = ({
                 >
                   <SelectTrigger
                     id="categoryId"
-                    className="w-full"
                     aria-invalid={fieldState.invalid}
                   >
                     <SelectValue
@@ -514,7 +513,7 @@ const ProductForm = ({
       </FieldGroup>
 
       <div>
-        <Button
+        <AppButton
           type="submit"
           disabled={form.formState.isSubmitting}
           className="button col-span-2 w-full md:w-fit"
@@ -529,7 +528,7 @@ const ProductForm = ({
           ) : (
             t("products.createProductForm.createProductButton")
           )}
-        </Button>
+        </AppButton>
       </div>
     </form>
   );

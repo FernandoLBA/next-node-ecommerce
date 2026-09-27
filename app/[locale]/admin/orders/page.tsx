@@ -1,11 +1,9 @@
 import { Metadata } from "next";
 
-import { AppButton } from "@/components/shared/app-button/app-button";
-import { AppLink } from "@/components/shared/app-link/app-link";
+import { AppLinkButton } from "@/components/shared/app-link-button/app-link-button";
 import DeleteDialog from "@/components/shared/delete-dialog";
 import Pagination from "@/components/shared/pagination";
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -16,10 +14,10 @@ import {
 } from "@/components/ui/table";
 import { deleteOrderById, getAllOrders } from "@/lib/actions/order.actions";
 import { ADMIN_PAGE_SIZE, appRoutes } from "@/lib/constants";
-import { cn, formatCurrency, formatDateTime, formatId } from "@/lib/utils";
+import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
 import { Locale, Order } from "@/types";
 import { X } from "lucide-react";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { getLanguage } from "../../../../lib/utils";
 
 export const generateMetadata = async (): Promise<Metadata> => {
@@ -34,6 +32,7 @@ type AdminOrdersPageProps = {
 };
 
 const AdminOrdersPage = async (props: AdminOrdersPageProps) => {
+  const tCommon = await getTranslations("Common");
   const locale = await getLocale();
   const { page = "1", query } = await props.searchParams;
 
@@ -52,12 +51,13 @@ const AdminOrdersPage = async (props: AdminOrdersPageProps) => {
         {query && (
           <div className="flex-start text-sm text-muted-foreground gap-2 mt-2">
             Filtered by <i>&quot;{query}&quot;</i>{" "}
-            <AppLink
+            <AppLinkButton
               href={appRoutes.ADMIN_ORDERS}
-              className={cn(buttonVariants(), "w-6 h-6")}
+              size="icon-xs"
+              aria-label={tCommon("clearFilters")}
             >
               <X />
-            </AppLink>
+            </AppLinkButton>
           </div>
         )}
       </div>
@@ -138,14 +138,16 @@ const AdminOrdersPage = async (props: AdminOrdersPageProps) => {
                 </TableCell>
 
                 <TableCell className="flex-start gap-2">
-                  <AppButton size="sm" variant="outline">
-                    <AppLink href={`${appRoutes.ORDER}/${order.id}`}>
-                      {
-                        currentLanguage.AdminPages.orders.tableHeaders.actions
-                          .detailsButton
-                      }
-                    </AppLink>
-                  </AppButton>
+                  <AppLinkButton
+                    size="sm"
+                    variant="outline"
+                    href={`${appRoutes.ORDER}/${order.id}`}
+                  >
+                    {
+                      currentLanguage.AdminPages.orders.tableHeaders.actions
+                        .detailsButton
+                    }
+                  </AppLinkButton>
 
                   <DeleteDialog id={order.id} action={deleteOrderById} />
                 </TableCell>

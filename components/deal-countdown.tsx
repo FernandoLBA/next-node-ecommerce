@@ -4,8 +4,7 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
 import { appRoutes } from "@/lib/constants";
-import { AppButton } from "./shared/app-button/app-button";
-import { AppLink } from "./shared/app-link/app-link";
+import { AppLinkButton } from "./shared/app-link-button/app-link-button";
 import AppImage from "./ui/app-image";
 
 //? Static target date (replace with desired date)
@@ -83,9 +82,9 @@ const DealCountdown = () => {
           <p>{t("endedDescription")}</p>
 
           <div className="text-center">
-            <AppButton>
-              <AppLink href={appRoutes.SEARCH}>{t("viewProducts")}</AppLink>
-            </AppButton>
+            <AppLinkButton href={appRoutes.SEARCH}>
+              {t("viewProducts")}
+            </AppLinkButton>
           </div>
         </div>
 
@@ -116,9 +115,9 @@ const DealCountdown = () => {
         </ul>
 
         <div className="text-center">
-          <AppButton>
-            <AppLink href={appRoutes.SEARCH}>{t("viewProducts")}</AppLink>
-          </AppButton>
+          <AppLinkButton href={appRoutes.SEARCH}>
+            {t("viewProducts")}
+          </AppLinkButton>
         </div>
       </div>
 

@@ -21,7 +21,7 @@ import { toast } from "sonner";
 import z from "zod";
 import AppUploadButton from "../shared/app-upload-button";
 import AppUploadthingImage from "../shared/app-uploadthing-image";
-import { Button } from "../ui/button";
+import { AppButton } from "../shared/app-button/app-button";
 import { Card, CardContent } from "../ui/card";
 import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
@@ -188,7 +188,7 @@ const CategoryForm = ({ type, category, categoryId }: CategoryFormProps) => {
       </FieldGroup>
 
       <div>
-        <Button
+        <AppButton
           type="submit"
           disabled={form.formState.isSubmitting}
           className="button col-span-2 w-full md:w-fit"
@@ -203,7 +203,7 @@ const CategoryForm = ({ type, category, categoryId }: CategoryFormProps) => {
           ) : (
             t("createButton")
           )}
-        </Button>
+        </AppButton>
       </div>
     </form>
   );

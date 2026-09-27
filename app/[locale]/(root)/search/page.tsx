@@ -1,8 +1,8 @@
-import { AppLink } from "@/components/shared/app-link/app-link";
+import { AppLinkButton } from "@/components/shared/app-link-button/app-link-button";
 import Pagination from "@/components/shared/pagination";
 import ProductCard from "@/components/shared/products/product-card";
 import SearchFilters from "@/components/shared/search/search-filters";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -28,7 +28,7 @@ import {
   SORTING_ORDERS_VALUES,
   sortingOrders,
 } from "@/lib/constants";
-import { cn, getFilterUrl } from "@/lib/utils";
+import { getFilterUrl } from "@/lib/utils";
 import { AsyncFilterSearchParams, Product } from "@/types";
 import { Filter, X } from "lucide-react";
 import { getTranslations } from "next-intl/server";
@@ -126,12 +126,13 @@ const SearchPage = async (props: AsyncFilterSearchParams) => {
             (category !== "all" && category !== "") ||
             price !== "all" ||
             rating !== "all" ? (
-              <AppLink
-                className={cn(buttonVariants(), "w-6 h-6")}
+              <AppLinkButton
                 href={appRoutes.SEARCH}
+                size="icon-xs"
+                aria-label={tCommon("clearFilters")}
               >
                 <X />
-              </AppLink>
+              </AppLinkButton>
             ) : null}
           </div>
 
@@ -166,11 +167,11 @@ const SearchPage = async (props: AsyncFilterSearchParams) => {
             {/* SORT */}
             <div className="flex items-center w-full md:max-w-45">
               <Select items={sortingOrders}>
-                <SelectTrigger className="w-full self-end">
+                <SelectTrigger>
                   <SelectValue placeholder={t("sortBy")} />
                 </SelectTrigger>
 
-                <SelectContent className="w-fit">
+                <SelectContent>
                   <SelectGroup>
                     {SORTING_ORDERS_VALUES.map((s) => (
                       <SelectItem

@@ -1,13 +1,10 @@
 import { Metadata } from "next";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
-import { AppButton } from "@/components/shared/app-button/app-button";
 import { AppLinkButton } from "@/components/shared/app-link-button/app-link-button";
-import { AppLink } from "@/components/shared/app-link/app-link";
 import DeleteDialog from "@/components/shared/delete-dialog";
 import Pagination from "@/components/shared/pagination";
 import StarIcon from "@/components/shared/star";
-import { buttonVariants } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -21,7 +18,7 @@ import {
   getAllProducts,
 } from "@/lib/actions/product.actions";
 import { ADMIN_PAGE_SIZE, appRoutes } from "@/lib/constants";
-import { cn, formatCurrency, formatId, getLanguage } from "@/lib/utils";
+import { formatCurrency, formatId, getLanguage } from "@/lib/utils";
 import { Locale } from "@/types";
 import { X } from "lucide-react";
 
@@ -43,6 +40,7 @@ type AdminProductsPageProps = {
 };
 
 const AdminProductsPage = async (props: AdminProductsPageProps) => {
+  const tCommon = await getTranslations("Common");
   const locale = await getLocale();
   const searchParams = await props.searchParams;
   const { currentLanguage } = getLanguage(locale as Locale);
@@ -69,21 +67,20 @@ const AdminProductsPage = async (props: AdminProductsPageProps) => {
             <div className="flex-center text-sm text-muted-foreground gap-2 mt-2">
               {currentLanguage.AdminPages.products.filters.filteredBy}{" "}
               <i>&quot;{query}&quot;</i>{" "}
-              <AppLink
+              <AppLinkButton
                 href={appRoutes.ADMIN_PRODUCTS}
-                className={cn(buttonVariants(), "w-6 h-6")}
+                size="icon-xs"
+                aria-label={tCommon("clearFilters")}
               >
                 <X />
-              </AppLink>
+              </AppLinkButton>
             </div>
           )}
         </div>
 
-        <AppButton>
-          <AppLink href={appRoutes.ADMIN_PRODUCTS_CREATE}>
-            {currentLanguage.AdminPages.products.createButton}
-          </AppLink>
-        </AppButton>
+        <AppLinkButton href={appRoutes.ADMIN_PRODUCTS_CREATE}>
+          {currentLanguage.AdminPages.products.createButton}
+        </AppLinkButton>
       </div>
 
       <Table>
@@ -143,6 +140,7 @@ const AdminProductsPage = async (props: AdminProductsPageProps) => {
               <TableCell className="flex-start gap-2">
                 <AppLinkButton
                   variant="outline"
+                  size="sm"
                   href={`${appRoutes.ADMIN_PRODUCTS}/${product.id}`}
                 >
                   {

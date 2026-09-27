@@ -399,7 +399,8 @@
     "viewAllProducts": "Ver todos los productos",
     "shippingAddress": "Dirección de envío",
     "paymentMethod": "Método de pago",
-    "orderItems": "Artículos de la orden"
+    "orderItems": "Artículos de la orden",
+    "clearFilters": "Quitar filtros"
   },
   "CheckoutSteps": {
     "login": "Inicio de sesión",
