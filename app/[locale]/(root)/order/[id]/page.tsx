@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 
 import { auth } from "@/auth";
 import { getOrderById } from "@/lib/actions/order.actions";
@@ -8,8 +9,10 @@ import type { Order, ShippingAddress } from "@/types";
 import OrderDetailsTable from "./order-details-table";
 import { stripe } from "@/lib/stripe";
 
-export const metada: Metadata = {
-  title: "Order Details",
+export const generateMetadata = async (): Promise<Metadata> => {
+  const t = await getTranslations("OrderDetails");
+
+  return { title: t("metaTitle") };
 };
 
 const OrderDetailsPage = async (props: { params: Promise<{ id: string }> }) => {

@@ -1,9 +1,8 @@
-import dotenv from "dotenv";
-
 import { getAppSettings } from "@/lib/actions/app-setting.actions";
 import { SENDER_EMAIL } from "@/lib/constants";
 import { resend } from "@/lib/resend";
 import { Order } from "@/types";
+import dotenv from "dotenv";
 import PurchaseReceiptEmail from "./purchase-receipt";
 
 dotenv.config();

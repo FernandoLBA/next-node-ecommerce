@@ -1,7 +1,10 @@
+import { getTranslations } from "next-intl/server";
 import { DollarSign, Headset, ShoppingBag, WalletCards } from "lucide-react";
 import { Card, CardContent } from "./ui/card";
 
-const IconBoxes = () => {
+const IconBoxes = async () => {
+  const t = await getTranslations("IconBoxes");
+
   return (
     <div>
       <Card>
@@ -9,33 +12,33 @@ const IconBoxes = () => {
           <div className="space-y-2">
             <ShoppingBag />
 
-            <div className="text-sm font-bold">Envío Gratuito</div>
+            <div className="text-sm font-bold">{t("freeShipping.title")}</div>
 
-            <div className="text-sm">En compras mayores a S/. 100</div>
+            <div className="text-sm">{t("freeShipping.description")}</div>
           </div>
 
           <div className="space-y-2">
             <DollarSign />
 
-            <div className="text-sm font-bold">Garantía de devolución</div>
+            <div className="text-sm font-bold">{t("returns.title")}</div>
 
-            <div className="text-sm">De hasta 30 días en tus compras.</div>
+            <div className="text-sm">{t("returns.description")}</div>
           </div>
 
           <div className="space-y-2">
             <WalletCards />
 
-            <div className="text-sm font-bold">Pagos Flexibles</div>
+            <div className="text-sm font-bold">{t("payments.title")}</div>
 
-            <div className="text-sm">Aceptamos pagos con Tarjeta o Yape.</div>
+            <div className="text-sm">{t("payments.description")}</div>
           </div>
 
           <div className="space-y-2">
             <Headset />
 
-            <div className="text-sm font-bold">Soporte 24/7</div>
+            <div className="text-sm font-bold">{t("support.title")}</div>
 
-            <div className="text-sm">Obten ayuda en cualquier momento</div>
+            <div className="text-sm">{t("support.description")}</div>
           </div>
         </CardContent>
       </Card>

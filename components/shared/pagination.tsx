@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 
 import { useRouter } from "@/i18n/routing";
@@ -13,6 +14,7 @@ type PaginationProps = {
 };
 
 const Pagination = ({ page, totalPages, urlParamName }: PaginationProps) => {
+  const t = useTranslations("Common");
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -37,7 +39,7 @@ const Pagination = ({ page, totalPages, urlParamName }: PaginationProps) => {
         disabled={Number(page) <= 1}
         onClick={() => handleClick("previous")}
       >
-        Previous
+        {t("previous")}
       </AppButton>
 
       <AppButton
@@ -47,7 +49,7 @@ const Pagination = ({ page, totalPages, urlParamName }: PaginationProps) => {
         disabled={Number(page) >= totalPages}
         onClick={() => handleClick("next")}
       >
-        Next
+        {t("next")}
       </AppButton>
     </div>
   );

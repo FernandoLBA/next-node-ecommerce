@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 
 import { AppButton } from "@/components/shared/app-button/app-button";
 import { AppLink } from "@/components/shared/app-link/app-link";
@@ -20,8 +21,10 @@ import { cn, formatId } from "@/lib/utils";
 import { User } from "@/types";
 import { X } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Users",
+export const generateMetadata = async (): Promise<Metadata> => {
+  const t = await getTranslations("AdminPages.users");
+
+  return { title: t("title") };
 };
 
 const AdminUsersPage = async (props: {
@@ -31,6 +34,7 @@ const AdminUsersPage = async (props: {
   }>;
 }) => {
   const { page = "1", query } = await props.searchParams;
+  const t = await getTranslations("AdminPages.users");
   const users = await getAllUsers({
     page: Number(page),
     query,
@@ -40,10 +44,10 @@ const AdminUsersPage = async (props: {
   return (
     <div className="space-y-2">
       <div className="flex-col gap-3">
-        <h1 className="h2-bold">Users</h1>
+        <h1 className="h2-bold">{t("title")}</h1>
         {query && (
           <div className="flex-start text-sm text-muted-foreground gap-2 mt-2">
-            Filtered by <i>&quot;{query}&quot;</i>{" "}
+            {t("filteredBy")} <i>&quot;{query}&quot;</i>{" "}
             <AppLink
               href={appRoutes.ADMIN_USERS}
               className={cn(buttonVariants(), "w-6 h-6")}
@@ -58,11 +62,11 @@ const AdminUsersPage = async (props: {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>ID</TableHead>
-              <TableHead>NAME</TableHead>
-              <TableHead>EMAIL</TableHead>
-              <TableHead>ROLE</TableHead>
-              <TableHead>ACTIONS</TableHead>
+              <TableHead>{t("tableHeaders.id")}</TableHead>
+              <TableHead>{t("tableHeaders.name")}</TableHead>
+              <TableHead>{t("tableHeaders.email")}</TableHead>
+              <TableHead>{t("tableHeaders.role")}</TableHead>
+              <TableHead>{t("tableHeaders.actions")}</TableHead>
             </TableRow>
           </TableHeader>
 
@@ -74,15 +78,15 @@ const AdminUsersPage = async (props: {
                 <TableCell>{user.email}</TableCell>
                 <TableCell>
                   {user.role === userRoles.USER ? (
-                    <Badge variant="secondary">{userRoles.USER}</Badge>
+                    <Badge variant="secondary">{t("roles.user")}</Badge>
                   ) : (
-                    <Badge>{userRoles.ADMIN}</Badge>
+                    <Badge>{t("roles.admin")}</Badge>
                   )}
                 </TableCell>
                 <TableCell className="flex-start gap-2">
                   <AppButton variant="outline" size="sm">
                     <AppLink href={`${appRoutes.ADMIN_USERS}/${user.id}`}>
-                      Edit
+                      {t("tableHeaders.actionButtons.editButton")}
                     </AppLink>
                   </AppButton>
 

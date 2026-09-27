@@ -1,6 +1,5 @@
-import { notFound } from "next/navigation";
-
 import { AppLink } from "@/components/shared/app-link/app-link";
+import AppImage from "@/components/ui/app-image";
 import { buttonVariants } from "@/components/ui/button";
 import { sendPurchaseReceipt } from "@/email";
 import { redirect } from "@/i18n/routing";
@@ -9,7 +8,8 @@ import { appRoutes } from "@/lib/constants";
 import { stripe } from "@/lib/stripe";
 import { cn, convertToPlainObject } from "@/lib/utils";
 import { PaymentResult, ShippingAddress } from "@/types";
-import AppImage from "@/components/ui/app-image";
+import { getTranslations } from "next-intl/server";
+import { notFound } from "next/navigation";
 
 type SuccessPageProps = {
   params: Promise<{ id: string; locale: string }>;
@@ -18,12 +18,18 @@ type SuccessPageProps = {
 
 const SuccessPage = async (props: SuccessPageProps) => {
   const { id, locale } = await props.params;
+  const t = await getTranslations("StripeSuccess");
   const { payment_intent } = await props.searchParams;
 
   //? Fetch order
   const order = await getOrderById(id);
 
   if (!order) notFound();
+
+  //? Stripe adds payment_intent to the return url, without it there is nothing to verify
+  if (!payment_intent) {
+    return redirect({ href: `${appRoutes.ORDER}/${id}`, locale });
+  }
 
   //? Retrieve payment intent
   const paymentIntent = await stripe.paymentIntents.retrieve(payment_intent);
@@ -77,18 +83,23 @@ const SuccessPage = async (props: SuccessPageProps) => {
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-6">
       <AppLink href={appRoutes.HOME}>
-        <AppImage alt="logo" src="/images/logo.svg" width={80} height={80} />
+        <AppImage
+          alt={t("logoAlt")}
+          src="/images/logo.svg"
+          width={80}
+          height={80}
+        />
       </AppLink>
 
       <div className="flex flex-col gap-6 items-center">
-        <h1 className="h1-bold">Thanks for your purchase</h1>
-        <div>We are processing your order.</div>
+        <h1 className="h1-bold">{t("thanks")}</h1>
+        <div>{t("processing")}</div>
 
         <AppLink
           className={cn(buttonVariants())}
           href={`${appRoutes.ORDER}/${id}`}
         >
-          View Order
+          {t("viewOrder")}
         </AppLink>
       </div>
     </div>

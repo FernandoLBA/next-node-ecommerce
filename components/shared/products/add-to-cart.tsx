@@ -1,6 +1,7 @@
 "use client";
 
 import { Minus, Plus } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useTransition } from "react";
 import { toast } from "sonner";
 
@@ -12,6 +13,7 @@ import { appRoutes } from "@/lib/constants";
 import { Cart, CartItem } from "@/types";
 
 function AddToCart({ item, cart }: { item: CartItem; cart?: Cart }) {
+  const t = useTranslations("AddToCart");
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -28,10 +30,10 @@ function AddToCart({ item, cart }: { item: CartItem; cart?: Cart }) {
       }
 
       toast.success(res.message, {
-        description: `${item.name} added to cart`,
+        description: t("added", { name: item.name }),
         action: (
           <Button variant="outline" onClick={() => router.push(appRoutes.CART)}>
-            Go To Cart
+            {t("goToCart")}
           </Button>
         ),
       });
@@ -51,14 +53,14 @@ function AddToCart({ item, cart }: { item: CartItem; cart?: Cart }) {
       }
 
       toast.success(message, {
-        description: `${item.name} removed from cart`,
+        description: t("removed", { name: item.name }),
         action:
           cart && cart.items.length >= 1 ? (
             <Button
               variant="outline"
               onClick={() => router.push(appRoutes.CART)}
             >
-              Go To Cart
+              {t("goToCart")}
             </Button>
           ) : null,
       });
@@ -92,11 +94,11 @@ function AddToCart({ item, cart }: { item: CartItem; cart?: Cart }) {
     >
       {isPending ? (
         <>
-          <LoaderIcon /> Adding to Cart
+          <LoaderIcon /> {t("adding")}
         </>
       ) : (
         <>
-          <Plus /> Add to Cart
+          <Plus /> {t("add")}
         </>
       )}
     </Button>

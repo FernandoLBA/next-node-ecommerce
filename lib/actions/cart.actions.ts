@@ -1,5 +1,6 @@
 "use server";
 
+import { getTranslations } from "next-intl/server";
 import { revalidatePath } from "next/cache";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { cookies } from "next/headers";
@@ -18,6 +19,8 @@ import { cartItemSchema, insertCartSchema } from "../validators";
  * @returns
  */
 export async function addItemToCart(data: CartItem) {
+  const t = await getTranslations("Messages");
+
   let updatingCart = false;
 
   try {
@@ -41,7 +44,7 @@ export async function addItemToCart(data: CartItem) {
       where: { id: item.productId },
     });
 
-    if (!product) throw new Error("Product not found");
+    if (!product) throw new Error(t("productNotFound"));
 
     //? If cart does not exist, create a new cart, otherwise update the existing cart
     if (!cart) {
@@ -70,7 +73,7 @@ export async function addItemToCart(data: CartItem) {
         ) {
           return {
             success: false,
-            message: `Only ${product.stock} items in stock`,
+            message: t("onlyItemsInStock", { stock: product.stock }),
           };
         }
 
@@ -95,7 +98,7 @@ export async function addItemToCart(data: CartItem) {
 
     return {
       success: true,
-      message: updatingCart ? "Cart updated" : "Item added to cart",
+      message: updatingCart ? t("cartUpdated") : t("itemAddedToCart"),
     };
   } catch (error) {
     if (isRedirectError(error)) {
@@ -104,7 +107,7 @@ export async function addItemToCart(data: CartItem) {
 
     return {
       success: false,
-      message: formatError(error),
+      message: formatError(error, t),
     };
   }
 }
@@ -156,6 +159,8 @@ export async function getMyCart() {
  * @returns
  */
 export async function removeItemFromcart(productId: string) {
+  const t = await getTranslations("Messages");
+
   try {
     //* Check for cart cookie
     const sessionCartId = (await cookies()).get("sessionCartId")?.value;
@@ -167,19 +172,19 @@ export async function removeItemFromcart(productId: string) {
       where: { id: productId },
     });
 
-    if (!product) throw new Error("Product not found");
+    if (!product) throw new Error(t("productNotFound"));
 
     //* Get cart from database
     const cart = await getMyCart();
 
-    if (!cart) throw new Error("Cart not found");
+    if (!cart) throw new Error(t("cartNotFound"));
 
     //* Get item from cart
     const item = (cart.items as CartItem[]).find(
       (item) => item.productId === productId,
     );
 
-    if (!item) throw new Error("Item not found in cart");
+    if (!item) throw new Error(t("itemNotFoundInCart"));
 
     //* If the item quantity is 1, remove it from the cart, otherwise decrease the quantity by 1
     if (item.qty === 1) {
@@ -207,7 +212,7 @@ export async function removeItemFromcart(productId: string) {
 
     return {
       success: true,
-      message: "Item removed from cart",
+      message: t("itemRemovedFromCart"),
     };
   } catch (error) {
     if (isRedirectError(error)) {
@@ -216,7 +221,7 @@ export async function removeItemFromcart(productId: string) {
 
     return {
       success: false,
-      message: await formatError(error),
+      message: await formatError(error, t),
     };
   }
 }

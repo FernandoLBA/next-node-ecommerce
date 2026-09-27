@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { StarIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -51,9 +52,10 @@ const ReviewForm = ({
   userId,
   onReviewSubmitted,
 }: ReviewFormProps) => {
+  const t = useTranslations("Reviews");
   const [open, setOpen] = useState(false);
   const [alreadyReviewed, setAlreadyReviewed] = useState(false);
-  const textReview = alreadyReviewed ? "Update review" : "Write a review";
+  const textReview = alreadyReviewed ? t("updateReview") : t("writeReview");
 
   const form = useForm<z.input<typeof insertReviewsSchema>>({
     resolver: zodResolver(insertReviewsSchema),
@@ -116,9 +118,7 @@ const ReviewForm = ({
           <DialogHeader>
             <DialogTitle>{textReview}</DialogTitle>
 
-            <DialogDescription>
-              Share your thoughts with other curstomers
-            </DialogDescription>
+            <DialogDescription>{t("formDescription")}</DialogDescription>
           </DialogHeader>
 
           <div className="grid gap-4 py-4">
@@ -128,12 +128,12 @@ const ReviewForm = ({
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="title">Title</FieldLabel>
+                    <FieldLabel htmlFor="title">{t("titleLabel")}</FieldLabel>
                     <Input
                       {...field}
                       id="title"
                       aria-invalid={fieldState.invalid}
-                      placeholder="Insert the title"
+                      placeholder={t("titlePlaceholder")}
                       disabled={isSubmitting}
                     />
                     {fieldState.invalid && (
@@ -148,12 +148,14 @@ const ReviewForm = ({
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="description">Description</FieldLabel>
+                    <FieldLabel htmlFor="description">
+                      {t("descriptionLabel")}
+                    </FieldLabel>
                     <Textarea
                       {...field}
                       id="description"
                       aria-invalid={fieldState.invalid}
-                      placeholder="Insert the description"
+                      placeholder={t("descriptionPlaceholder")}
                       disabled={isSubmitting}
                     />
                     {fieldState.invalid && (
@@ -168,7 +170,7 @@ const ReviewForm = ({
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="rating">Rating</FieldLabel>
+                    <FieldLabel htmlFor="rating">{t("ratingLabel")}</FieldLabel>
                     <Select
                       items={RATING_REVIEW.map((rate) => ({
                         label: `${rate}`,
@@ -219,10 +221,10 @@ const ReviewForm = ({
               {isSubmitting ? (
                 <>
                   <LoaderIcon />
-                  Submitting...
+                  {t("submitting")}
                 </>
               ) : (
-                "Submit"
+                t("submit")
               )}
             </AppButton>
           </DialogFooter>

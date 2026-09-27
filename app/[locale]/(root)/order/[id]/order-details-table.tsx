@@ -5,6 +5,7 @@ import {
   PayPalScriptProvider,
   usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
+import { useLocale, useTranslations } from "next-intl";
 import { toast } from "sonner";
 
 import { AppLink } from "@/components/shared/app-link/app-link";
@@ -27,19 +28,20 @@ import {
 } from "@/lib/actions/order.actions";
 import { appRoutes, paymentMethods } from "@/lib/constants";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
-import { Order } from "@/types";
+import { Locale, Order } from "@/types";
 import { useTransition } from "react";
 import MarkingButton from "./marking-button";
 import StripePayment from "./stripe-payment";
 
 const PrintLoadingState = () => {
+  const t = useTranslations("OrderDetails");
   const [{ isPending, isRejected }] = usePayPalScriptReducer();
   let status = "";
 
   if (isPending) {
-    status = "Loading PayPal...";
+    status = t("loadingPayPal");
   } else if (isRejected) {
-    status = "Error loading PayPal";
+    status = t("errorLoadingPayPal");
   }
 
   return status;
@@ -70,13 +72,16 @@ const OrderDetailsTable = ({
     paidAt,
     deliveredAt,
   } = order;
+  const t = useTranslations("OrderDetails");
+  const tCommon = useTranslations("Common");
+  const locale = useLocale() as Locale;
   const [isPending, startTransition] = useTransition();
 
   const handleCreatePayPalOrder = async () => {
     const res = await createPayPalOrder(order.id);
 
     if (!res.success) {
-      toast.error(res.message || "Error creating PayPal order");
+      toast.error(res.message || t("errorCreatingPayPal"));
     }
 
     return res.data;
@@ -86,9 +91,9 @@ const OrderDetailsTable = ({
     const res = await approvePayPalOrder(order.id, data);
 
     if (res.success) {
-      toast.success("Payment successful");
+      toast.success(t("paymentSuccessful"));
     } else {
-      toast.error(res.message || "Error approving PayPal order");
+      toast.error(res.message || t("errorApprovingPayPal"));
     }
   };
 
@@ -122,27 +127,27 @@ const OrderDetailsTable = ({
 
   return (
     <>
-      <h1 className="py-4 text-2xl">Order {formatId(id)}</h1>
+      <h1 className="py-4 text-2xl">{t("title", { id: formatId(id) })}</h1>
       <div className="grid md:grid-cols-3 md:gap-5">
         <div className="col-span-2 space-y-4 overflow-x-auto">
           <Card>
             <CardContent className="px-4 gap-4">
-              <h2 className="text-xl pb-4">Payment Method</h2>
+              <h2 className="text-xl pb-4">{tCommon("paymentMethod")}</h2>
 
               <p className="pb-2">{paymentMethod}</p>
               {isPaid ? (
                 <Badge variant="secondary">
-                  Paid at {formatDateTime(paidAt!).dateTime}
+                  {t("paidAt", { date: formatDateTime(paidAt!, locale).dateTime })}
                 </Badge>
               ) : (
-                <Badge variant="destructive">Not Paid</Badge>
+                <Badge variant="destructive">{t("notPaid")}</Badge>
               )}
             </CardContent>
           </Card>
 
           <Card>
             <CardContent className="px-4 gap-4">
-              <h2 className="text-xl pb-4">Shipping Address</h2>
+              <h2 className="text-xl pb-4">{tCommon("shippingAddress")}</h2>
               <p>{shippingAddress.fullName}</p>
               <p className="pb-2">
                 {shippingAddress.streetAddress}, {shippingAddress.city}
@@ -150,24 +155,26 @@ const OrderDetailsTable = ({
               </p>
               {isDelivered ? (
                 <Badge variant="secondary">
-                  Delivered at {formatDateTime(deliveredAt!).dateTime}
+                  {t("deliveredAt", {
+                    date: formatDateTime(deliveredAt!, locale).dateTime,
+                  })}
                 </Badge>
               ) : (
-                <Badge variant="destructive">Not Delivered</Badge>
+                <Badge variant="destructive">{t("notDelivered")}</Badge>
               )}
             </CardContent>
           </Card>
 
           <Card className="mb-4 md:mb-0">
             <CardContent className="px-4 gap-4">
-              <h2 className="text-xl pb-4">Order Items</h2>
+              <h2 className="text-xl pb-4">{tCommon("orderItems")}</h2>
 
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Item</TableHead>
-                    <TableHead>Quantity</TableHead>
-                    <TableHead>Price</TableHead>
+                    <TableHead>{tCommon("item")}</TableHead>
+                    <TableHead>{tCommon("quantity")}</TableHead>
+                    <TableHead>{tCommon("price")}</TableHead>
                   </TableRow>
                 </TableHeader>
 
@@ -211,25 +218,25 @@ const OrderDetailsTable = ({
           <Card>
             <CardContent className="px-4 gap-4 space-y-4">
               <div className="flex-between">
-                <div>Items</div>
+                <div>{tCommon("items")}</div>
 
                 <div>{formatCurrency(itemsPrice)}</div>
               </div>
 
               <div className="flex-between">
-                <div>Tax</div>
+                <div>{tCommon("tax")}</div>
 
                 <div>{formatCurrency(taxPrice)}</div>
               </div>
 
               <div className="flex-between">
-                <div>Shipping</div>
+                <div>{tCommon("shipping")}</div>
 
                 <div>{formatCurrency(shippingPrice)}</div>
               </div>
 
               <div className="flex-between">
-                <div>Total</div>
+                <div>{tCommon("total")}</div>
 
                 <div>{formatCurrency(totalPrice)}</div>
               </div>

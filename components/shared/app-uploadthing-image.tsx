@@ -1,4 +1,5 @@
 import { X } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { cn } from "@/lib/utils";
 import AppImage from "../ui/app-image";
@@ -14,6 +15,8 @@ export type AppUploadthingImageProps = {
 };
 
 const AppUploadthingImage = (props: AppUploadthingImageProps) => {
+  const t = useTranslations("ProductImages");
+
   return (
     <div className="w-fit h-fit relative">
       <AppImage
@@ -21,7 +24,7 @@ const AppUploadthingImage = (props: AppUploadthingImageProps) => {
         width={props.width}
         height={props.height}
         src={props.imageUrl}
-        alt="Product Image"
+        alt={t("productImage")}
       />
 
       <Button

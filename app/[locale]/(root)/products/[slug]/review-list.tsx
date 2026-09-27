@@ -1,6 +1,7 @@
 "use client";
 
 import { Calendar, User } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
 import { AppLink } from "@/components/shared/app-link/app-link";
@@ -15,7 +16,7 @@ import {
 import { getReviews } from "@/lib/actions/review.actions";
 import { appRoutes } from "@/lib/constants";
 import { formatDateTime } from "@/lib/utils";
-import { Review } from "@/types";
+import { Locale, Review } from "@/types";
 import ReviewForm from "./review-form";
 
 type ReviewListProps = {
@@ -25,6 +26,8 @@ type ReviewListProps = {
 };
 
 const ReviewList = ({ userId, productId, productSlug }: ReviewListProps) => {
+  const t = useTranslations("Reviews");
+  const locale = useLocale() as Locale;
   const [reviews, setReviews] = useState<Review[]>([]);
 
   useEffect(() => {
@@ -47,7 +50,7 @@ const ReviewList = ({ userId, productId, productSlug }: ReviewListProps) => {
 
   return (
     <div className="space-y-4">
-      {reviews.length === 0 && <div>No reviews yet...</div>}
+      {reviews.length === 0 && <div>{t("noReviews")}</div>}
 
       {userId ? (
         <ReviewForm
@@ -57,15 +60,17 @@ const ReviewList = ({ userId, productId, productSlug }: ReviewListProps) => {
         />
       ) : (
         <div>
-          Please{" "}
-          <AppLink
-            href={`${appRoutes.SIGN_IN}?callbackUrl=${appRoutes.PRODUCTS}/${productSlug}`}
-            isUnderlined
-            className="hover:text-accent-foreground!"
-          >
-            Sign in
-          </AppLink>{" "}
-          to write a review
+          {t.rich("signInPrompt", {
+            link: (chunks) => (
+              <AppLink
+                href={`${appRoutes.SIGN_IN}?callbackUrl=${appRoutes.PRODUCTS}/${productSlug}`}
+                isUnderlined
+                className="hover:text-accent-foreground!"
+              >
+                {chunks}
+              </AppLink>
+            ),
+          })}
         </div>
       )}
 
@@ -85,19 +90,19 @@ const ReviewList = ({ userId, productId, productSlug }: ReviewListProps) => {
 
                 <div className="flex-center text-xs md:text-sm">
                   <User className="mr-1 h-3 w-3" />
-                  {review.user ? review.user.name : "User"}
+                  {review.user ? review.user.name : t("anonymousUser")}
                 </div>
 
                 {/* SHOWS ON BIG SCREENS */}
                 <div className="hidden sm:flex sm:items-center text-sm">
                   <Calendar className="mr-1 h-3 w-3" />
-                  {formatDateTime(review.createdAt).dateTime}
+                  {formatDateTime(review.createdAt, locale).dateTime}
                 </div>
 
                 {/* SHOWS ON SMALL SCREENS */}
                 <div className="flex-center sm:hidden! text-xs">
                   <Calendar className="mr-1 h-3 w-3" />
-                  {formatDateTime(review.createdAt).dateOnly}
+                  {formatDateTime(review.createdAt, locale).dateOnly}
                 </div>
               </div>
             </CardContent>

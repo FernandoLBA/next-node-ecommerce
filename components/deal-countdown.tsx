@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
 import { appRoutes } from "@/lib/constants";
@@ -34,6 +35,7 @@ const StatBox = ({ label, value }: { label: string; value: number }) => (
 );
 
 const DealCountdown = () => {
+  const t = useTranslations("DealCountdown");
   const [time, setTime] = useState<ReturnType<typeof calculateTimeRemaining>>(
     () => {
       return calculateTimeRemaining(TARGET_DATE);
@@ -62,7 +64,7 @@ const DealCountdown = () => {
   if (!time) {
     <section className="grid grid-cols-1 md:grid-cols-2 my-20">
       <div className="flex flex-col gap-2 justify-center">
-        <h3 className="text-3xl font-bold">Loading Countdown...</h3>
+        <h3 className="text-3xl font-bold">{t("loading")}</h3>
       </div>
     </section>;
   }
@@ -76,15 +78,13 @@ const DealCountdown = () => {
     return (
       <section className="grid grid-cols-1 md:grid-cols-2 my-20">
         <div className="flex flex-col gap-2 justify-center">
-          <h3 className="text-3xl font-bold">Deal has ended</h3>
+          <h3 className="text-3xl font-bold">{t("ended")}</h3>
 
-          <p>
-            This deal is no longer available, Check out our latest promotions!
-          </p>
+          <p>{t("endedDescription")}</p>
 
           <div className="text-center">
             <AppButton>
-              <AppLink href={appRoutes.SEARCH}>View Products</AppLink>
+              <AppLink href={appRoutes.SEARCH}>{t("viewProducts")}</AppLink>
             </AppButton>
           </div>
         </div>
@@ -92,7 +92,7 @@ const DealCountdown = () => {
         <div className="flex justify-center">
           <AppImage
             src={`${appRoutes.IMAGES}/promo.jpg`}
-            alt="promotion"
+            alt={t("promotion")}
             width={300}
             height={200}
           />
@@ -104,25 +104,20 @@ const DealCountdown = () => {
   return (
     <section className="grid grid-cols-1 md:grid-cols-2 my-20">
       <div className="flex flex-col gap-2 justify-center">
-        <h3 className="text-3xl font-bold">Deal of the Month</h3>
+        <h3 className="text-3xl font-bold">{t("title")}</h3>
 
-        <p>
-          Get ready for a shopping experience like never before with our Deals
-          of the Month! Every purchase comes with exclusive perks and offers,
-          making this month a celebration of savvy choices and amazing deals.
-          Don&apos;t miss out!
-        </p>
+        <p>{t("description")}</p>
 
         <ul className="grid grid-cols-4">
-          <StatBox label="Days" value={time.days} />
-          <StatBox label="Hours" value={time.hours} />
-          <StatBox label="Minutes" value={time.minutes} />
-          <StatBox label="Seconds" value={time.seconds} />
+          <StatBox label={t("days")} value={time.days} />
+          <StatBox label={t("hours")} value={time.hours} />
+          <StatBox label={t("minutes")} value={time.minutes} />
+          <StatBox label={t("seconds")} value={time.seconds} />
         </ul>
 
         <div className="text-center">
           <AppButton>
-            <AppLink href={appRoutes.SEARCH}>View Products</AppLink>
+            <AppLink href={appRoutes.SEARCH}>{t("viewProducts")}</AppLink>
           </AppButton>
         </div>
       </div>
@@ -130,7 +125,7 @@ const DealCountdown = () => {
       <div className="flex justify-center">
         <AppImage
           src={`${appRoutes.IMAGES}/promo.jpg`}
-          alt="promotion"
+          alt={t("promotion")}
           width={300}
           height={200}
         />

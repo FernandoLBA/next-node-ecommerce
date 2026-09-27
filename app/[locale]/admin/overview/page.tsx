@@ -188,7 +188,7 @@ const AdminOverviewPage = async () => {
                     </TableCell>
 
                     <TableCell>
-                      {formatDateTime(order.createdAt).dateOnly}
+                      {formatDateTime(order.createdAt, locale as Locale).dateOnly}
                     </TableCell>
 
                     <TableCell>

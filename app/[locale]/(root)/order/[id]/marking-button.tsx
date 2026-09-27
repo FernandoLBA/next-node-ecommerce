@@ -1,3 +1,5 @@
+import { useTranslations } from "next-intl";
+
 import { Button } from "@/components/ui/button";
 import LoaderIcon from "@/components/ui/loader-icon";
 
@@ -12,12 +14,14 @@ const MarkingButton = ({
   action,
   text: markAs,
 }: MarkingButtonProps) => {
-  const buttonText = `Mark as ${markAs}`;
+  const t = useTranslations("OrderDetails");
+  const tCommon = useTranslations("Common");
+  const buttonText = markAs === "paid" ? t("markAsPaid") : t("markAsDelivered");
 
   return (
     <Button className="w-full" disabled={isPending} onClick={action}>
       {isPending && <LoaderIcon className="w-4 h-4" />}
-      {isPending ? "Processing..." : buttonText}
+      {isPending ? tCommon("processing") : buttonText}
     </Button>
   );
 };

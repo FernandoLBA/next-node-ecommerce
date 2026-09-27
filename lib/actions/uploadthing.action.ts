@@ -1,5 +1,6 @@
 "use server";
 
+import { getTranslations } from "next-intl/server";
 import { UTApi } from "uploadthing/server";
 
 import prisma from "@/db/db";
@@ -33,6 +34,8 @@ export async function deleteUTFFileFromProducts({
   imageUrl: string;
   productId: string;
 }) {
+  const t = await getTranslations("Messages");
+
   const imageKey = getUploadThingImageKey(imageUrl);
 
   try {
@@ -41,7 +44,7 @@ export async function deleteUTFFileFromProducts({
     if (!productExists)
       return {
         success: false,
-        message: "Product not found",
+        message: t("productNotFound"),
       };
 
     const res = await deleteImageFromUploadthing(imageKey as string);
@@ -49,7 +52,7 @@ export async function deleteUTFFileFromProducts({
     if (!res.success)
       return {
         success: res.success,
-        message: "An error occurred while deleting image",
+        message: t("imageDeleteError"),
       };
 
     const updatedImages = productExists.images.filter(
@@ -65,12 +68,12 @@ export async function deleteUTFFileFromProducts({
 
     return {
       success: true,
-      message: "Image deleted succesfully",
+      message: t("imageDeleted"),
     };
   } catch (error) {
     return {
       success: false,
-      message: formatError(error),
+      message: formatError(error, t),
     };
   }
 }
@@ -88,6 +91,8 @@ export async function deleteBannerUTFFileFromProducts({
   imageUrl: string;
   productId: string;
 }) {
+  const t = await getTranslations("Messages");
+
   const imageKey = getUploadThingImageKey(imageUrl);
 
   try {
@@ -96,7 +101,7 @@ export async function deleteBannerUTFFileFromProducts({
     if (!productExists)
       return {
         success: false,
-        message: "Product not found",
+        message: t("productNotFound"),
       };
 
     const res = await deleteImageFromUploadthing(imageKey as string);
@@ -104,7 +109,7 @@ export async function deleteBannerUTFFileFromProducts({
     if (!res.success)
       return {
         success: res.success,
-        message: "An error occurred while deleting banner image",
+        message: t("bannerDeleteError"),
       };
 
     await prisma.product.update({
@@ -116,12 +121,12 @@ export async function deleteBannerUTFFileFromProducts({
 
     return {
       success: true,
-      message: "Image banner deleted succesfully",
+      message: t("bannerDeleted"),
     };
   } catch (error) {
     return {
       success: false,
-      message: formatError(error),
+      message: formatError(error, t),
     };
   }
 }
@@ -136,6 +141,8 @@ export async function deleteUTFFileFromCategory(
   imageKey: string,
   categoryId: string,
 ) {
+  const t = await getTranslations("Messages");
+
   try {
     const categoryExists = await prisma.category.findFirst({
       where: { id: categoryId },
@@ -144,7 +151,7 @@ export async function deleteUTFFileFromCategory(
     if (!categoryExists)
       return {
         success: false,
-        message: "Product not found",
+        message: t("productNotFound"),
       };
 
     const res = await deleteImageFromUploadthing(imageKey);
@@ -152,7 +159,7 @@ export async function deleteUTFFileFromCategory(
     if (!res.success)
       return {
         success: false,
-        message: "An error ocurred while deleting image",
+        message: t("imageDeleteError"),
       };
 
     await prisma.category.update({
@@ -167,12 +174,12 @@ export async function deleteUTFFileFromCategory(
 
     return {
       success: true,
-      message: "Image deleted successfully",
+      message: t("imageDeleted"),
     };
   } catch (error) {
     return {
       success: false,
-      message: formatError(error),
+      message: formatError(error, t),
     };
   }
 }

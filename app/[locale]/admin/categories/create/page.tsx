@@ -1,23 +1,20 @@
 import CategoryForm from "@/components/admin/category-form";
-import { getLanguage } from "@/lib/utils";
-import { Category, Locale } from "@/types";
+import { Category } from "@/types";
 import { Metadata } from "next";
-import { getLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 
 export const generateMetadata = async (): Promise<Metadata> => {
-  const locale = await getLocale();
-  const { currentLanguage } = getLanguage(locale as Locale);
+  const t = await getTranslations("AdminPages.categories");
 
-  return { title: "Create category" };
+  return { title: t("createTitle") };
 };
 
 const CreateCategoryPage = async () => {
-  const locale = await getLocale();
-  const { currentLanguage } = getLanguage(locale as Locale);
+  const t = await getTranslations("AdminPages.categories");
 
   return (
     <>
-      <h1 className="h2-bold">Create Category</h1>
+      <h1 className="h2-bold">{t("createTitle")}</h1>
 
       <div className="my-8">
         <CategoryForm type="Create" categoryId="1" category={{} as Category} />

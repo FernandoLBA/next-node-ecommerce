@@ -1,8 +1,8 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import React from "react";
 
-import { useSettings } from "@/components/providers";
 import { AppLink } from "@/components/shared/app-link/app-link";
 import { usePathname } from "@/i18n/routing";
 import { userNavLinks } from "@/lib/constants";
@@ -13,7 +13,7 @@ const MainNav = ({
   ...props
 }: React.HTMLAttributes<HTMLElement>) => {
   const pathname = usePathname();
-  const { locale } = useSettings();
+  const t = useTranslations("UserNav");
 
   const isSelected = (href: string) => {
     return pathname.includes(href);
@@ -24,7 +24,7 @@ const MainNav = ({
       className={cn("flex items-center space-x-4 lg:space-x-6", className)}
       {...props}
     >
-      {userNavLinks(locale).map((link) => (
+      {userNavLinks.map((link) => (
         <AppLink
           key={link.href}
           href={link.href}
@@ -32,7 +32,7 @@ const MainNav = ({
             `nav-links ${isSelected(link.href) && "nav-link-selected"}`,
           )}
         >
-          {link.title}
+          {t(link.key)}
         </AppLink>
       ))}
     </nav>

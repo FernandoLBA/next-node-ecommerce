@@ -105,7 +105,7 @@ const AdminCategoriesPage = async (props: AdminCategoriesPageProps) => {
             <TableRow key={c.id}>
               <TableCell>{formatId(c.id)}</TableCell>
               <TableCell>{c.name}</TableCell>
-              <TableCell>{formatDateTime(c.createdAt).dateTime}</TableCell>
+              <TableCell>{formatDateTime(c.createdAt, locale as Locale).dateTime}</TableCell>
 
               <TableCell className="flex-start gap-2">
                 <AppButton size="sm" variant="outline">

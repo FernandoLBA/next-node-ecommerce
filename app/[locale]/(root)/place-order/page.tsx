@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 
 import { auth } from "@/auth";
 import { AppLink } from "@/components/shared/app-link/app-link";
@@ -22,14 +23,18 @@ import { formatCurrency } from "@/lib/utils";
 import { CartItem, ShippingAddress } from "@/types";
 import PlaceOrderForm from "./place-order-form";
 
-export const metada: Metadata = {
-  title: "Place Order",
+export const generateMetadata = async (): Promise<Metadata> => {
+  const t = await getTranslations("PlaceOrder");
+
+  return { title: t("metaTitle") };
 };
 
 const PlaceOrderPage = async (props: {
   params: Promise<{ locale: string }>;
 }) => {
   const { locale } = await props.params;
+  const t = await getTranslations("PlaceOrder");
+  const tCommon = await getTranslations("Common");
   const cart = await getMyCart();
   const session = await auth();
   const userId = session?.user.id;
@@ -49,13 +54,13 @@ const PlaceOrderPage = async (props: {
     <>
       <CheckoutSteps current={3} />
 
-      <h1 className="py-4 text-2xl">Place order</h1>
+      <h1 className="py-4 text-2xl">{t("title")}</h1>
 
       <div className="grid md:grid-cols-3 md:gap-5">
         <div className="md:col-span-2 overflow-x-auto space-y-4">
           <Card>
             <CardContent className="px-4 gap-4">
-              <h2 className="text-xl pb-4">Shipping Address</h2>
+              <h2 className="text-xl pb-4">{tCommon("shippingAddress")}</h2>
 
               <p>{userAddress.fullName}</p>
 
@@ -66,7 +71,7 @@ const PlaceOrderPage = async (props: {
 
               <div className="mt-3">
                 <AppLink href={appRoutes.SHIPPING_ADDRESS}>
-                  <Button variant="outline">Edit</Button>
+                  <Button variant="outline">{tCommon("edit")}</Button>
                 </AppLink>
               </div>
             </CardContent>
@@ -74,13 +79,13 @@ const PlaceOrderPage = async (props: {
 
           <Card>
             <CardContent className="px-4 gap-4">
-              <h2 className="text-xl pb-4">Payment Method</h2>
+              <h2 className="text-xl pb-4">{tCommon("paymentMethod")}</h2>
 
               <p>{user.paymentMethod}</p>
 
               <div className="mt-3">
                 <AppLink href={appRoutes.PAYMENT_METHOD}>
-                  <Button variant="outline">Edit</Button>
+                  <Button variant="outline">{tCommon("edit")}</Button>
                 </AppLink>
               </div>
             </CardContent>
@@ -88,16 +93,16 @@ const PlaceOrderPage = async (props: {
 
           <Card>
             <CardContent className="px-4 gap-4">
-              <h2 className="text-xl pb-4">Order Items</h2>
+              <h2 className="text-xl pb-4">{tCommon("orderItems")}</h2>
 
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Item</TableHead>
+                    <TableHead>{tCommon("item")}</TableHead>
 
-                    <TableHead>Quantity</TableHead>
+                    <TableHead>{tCommon("quantity")}</TableHead>
 
-                    <TableHead>Price</TableHead>
+                    <TableHead>{tCommon("price")}</TableHead>
                   </TableRow>
                 </TableHeader>
 
@@ -142,7 +147,7 @@ const PlaceOrderPage = async (props: {
             <CardContent className="px-4 gap-4 space-y-4">
               <div className="flex-between">
                 <div>
-                  Items(
+                  {tCommon("items")}(
                   {cart.items.reduce(
                     (acc: number, item: CartItem) => acc + item.qty,
                     0,
@@ -154,19 +159,19 @@ const PlaceOrderPage = async (props: {
               </div>
 
               <div className="flex-between">
-                <div>Tax</div>
+                <div>{tCommon("tax")}</div>
 
                 <div>{formatCurrency(cart.taxPrice)}</div>
               </div>
 
               <div className="flex-between">
-                <div>Shipping</div>
+                <div>{tCommon("shipping")}</div>
 
                 <div>{formatCurrency(cart.shippingPrice)}</div>
               </div>
 
               <div className="flex-between">
-                <div>Total</div>
+                <div>{tCommon("total")}</div>
 
                 <div>{formatCurrency(cart.totalPrice)}</div>
               </div>

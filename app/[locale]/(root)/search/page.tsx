@@ -1,4 +1,5 @@
 import { Filter, X } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
 import { AppLink } from "@/components/shared/app-link/app-link";
 import Pagination from "@/components/shared/pagination";
@@ -51,17 +52,19 @@ export async function generateMetadata(props: {
     category && category !== "all" && category.trim() !== "";
   const isPriceSet = price && price !== "all" && price.trim() !== "";
   const isRatingSet = rating && rating !== "all" && rating.trim() !== "";
+  const t = await getTranslations("SearchPage");
 
   if (isQuerySet || isCategorySet || isPriceSet || isRatingSet) {
-    return {
-      title: `Search ${isQuerySet ? query : ""} 
-      ${isCategorySet ? `: Category ${category}` : ""}
-      ${isPriceSet ? `: Price ${price}` : ""}
-      ${isRatingSet ? `: Rating ${rating}` : ""}
-      `,
-    };
+    const parts = [
+      `${t("metaSearch")}${isQuerySet ? ` ${query}` : ""}`,
+      isCategorySet ? t("metaCategory", { value: category }) : null,
+      isPriceSet ? t("metaPrice", { value: price }) : null,
+      isRatingSet ? t("metaRating", { value: rating }) : null,
+    ].filter(Boolean);
+
+    return { title: parts.join(": ") };
   } else {
-    return { title: "Search products" };
+    return { title: t("metaTitle") };
   }
 }
 
@@ -74,6 +77,8 @@ const SearchPage = async (props: AsyncFilterSearchParams) => {
     sort = "newest",
     page = "1",
   } = await props.searchParams;
+  const t = await getTranslations("SearchPage");
+  const tCommon = await getTranslations("Common");
   const params = { query, category, price, rating, sort, page };
   const products = await getAllProducts({
     query,
@@ -96,24 +101,24 @@ const SearchPage = async (props: AsyncFilterSearchParams) => {
           <div className="flex items-center w-full">
             {query !== "all" && query !== "" && (
               <span>
-                <b>Query: </b>
+                <b>{t("query")}: </b>
                 {query}
               </span>
             )}
             {category !== "all" && category !== "" && (
               <span className={`${query !== "all" && "mx-2"}`}>
-                <b>Category: </b> {category}
+                <b>{t("category")}: </b> {category}
               </span>
             )}
             {price !== "all" && price !== "" && (
               <span className={`${price !== "all" && "mx-2"}`}>
-                <b>Price: </b> {price}
+                <b>{t("price")}: </b> {price}
               </span>
             )}
             {rating !== "all" && rating !== "" && (
               <span className={`${rating !== "all" && "mx-2"}`}>
-                <b>Rating: </b> {rating}
-                {`${rating === "1" ? " star & up" : " stars & up"}`}
+                <b>{t("rating")}: </b>{" "}
+                {t("starsAndUp", { count: Number(rating) })}
               </span>
             )}
             &nbsp;
@@ -138,10 +143,8 @@ const SearchPage = async (props: AsyncFilterSearchParams) => {
 
                 <SheetContent>
                   <SheetHeader>
-                    <SheetTitle>Filters</SheetTitle>
-                    <SheetDescription>
-                      Please select your options for filtering
-                    </SheetDescription>
+                    <SheetTitle>{t("filters")}</SheetTitle>
+                    <SheetDescription>{t("filtersDescription")}</SheetDescription>
                   </SheetHeader>
 
                   <div className="ml-6">
@@ -149,7 +152,7 @@ const SearchPage = async (props: AsyncFilterSearchParams) => {
                   </div>
 
                   <SheetFooter>
-                    <SheetClose render={<Button>Close</Button>} />
+                    <SheetClose render={<Button>{tCommon("close")}</Button>} />
                   </SheetFooter>
                 </SheetContent>
               </Sheet>
@@ -159,7 +162,7 @@ const SearchPage = async (props: AsyncFilterSearchParams) => {
             <div className="flex items-center w-full md:max-w-28">
               <Select items={sortingOrders}>
                 <SelectTrigger className="w-full self-end">
-                  <SelectValue placeholder="Sort by..." />
+                  <SelectValue placeholder={t("sortBy")} />
                 </SelectTrigger>
 
                 <SelectContent className="w-fit">
@@ -167,7 +170,7 @@ const SearchPage = async (props: AsyncFilterSearchParams) => {
                     {SORTING_ORDERS_VALUES.map((s) => (
                       <SelectItem key={s} value={s}>
                         <AppLink href={getFilterUrl({ ...params, s })}>
-                          {s}
+                          {t(`sortOptions.${s}`)}
                         </AppLink>
                       </SelectItem>
                     ))}
@@ -179,7 +182,7 @@ const SearchPage = async (props: AsyncFilterSearchParams) => {
         </div>
 
         <div className="grid grid-cols-2 gap-2 md:gap-4 md:grid-cols-3">
-          {products.data.length === 0 && <div>No products found</div>}
+          {products.data.length === 0 && <div>{tCommon("noProductsFound")}</div>}
 
           {products.data.map((product: Product) => (
             <ProductCard key={product.id} product={product} />

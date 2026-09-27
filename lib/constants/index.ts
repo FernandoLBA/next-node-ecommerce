@@ -1,4 +1,3 @@
-import { Locale } from "@/types";
 
 // * APP CONFIG ############################################
 export const APP_SERVER_URL =
@@ -128,41 +127,21 @@ export const reviewFormDefaultValues = {
 };
 
 // * ADMIN NAVIGATION LINKS ############################################
-export const adminNavLinks = (locale: Locale) =>
-  [
-    {
-      title: locale === "en" ? "Overview" : "Resumen",
-      href: appRoutes.ADMIN_OVERVIEW,
-    },
-    {
-      title: locale === "en" ? "Categories" : "Categorías",
-      href: appRoutes.ADMIN_CATEGORIES,
-    },
-    {
-      title: locale === "en" ? "Products" : "Productos",
-      href: appRoutes.ADMIN_PRODUCTS,
-    },
-    {
-      title: locale === "en" ? "Orders" : "Órdenes",
-      href: appRoutes.ADMIN_ORDERS,
-    },
-    {
-      title: locale === "en" ? "Users" : "Usuarios",
-      href: appRoutes.ADMIN_USERS,
-    },
-  ] as const;
+//? `key` is the translation key under AdminPages.nav
+export const adminNavLinks = [
+  { key: "overview", href: appRoutes.ADMIN_OVERVIEW },
+  { key: "categories", href: appRoutes.ADMIN_CATEGORIES },
+  { key: "products", href: appRoutes.ADMIN_PRODUCTS },
+  { key: "orders", href: appRoutes.ADMIN_ORDERS },
+  { key: "users", href: appRoutes.ADMIN_USERS },
+] as const;
 
 // * USERS NAVIGATION LINKS ############################################
-export const userNavLinks = (locale: Locale) => [
-  {
-    title: locale === "en" ? "Profile" : "Perfil",
-    href: appRoutes.USER_PROFILE,
-  },
-  {
-    title: locale === "en" ? "Orders" : "Órdenes",
-    href: appRoutes.USER_ORDERS,
-  },
-];
+//? `key` is the translation key under UserNav
+export const userNavLinks = [
+  { key: "profile", href: appRoutes.USER_PROFILE },
+  { key: "orders", href: appRoutes.USER_ORDERS },
+] as const;
 
 // * PRICE RANGES FOR FILTERING ############################################
 export const priceRanges = [

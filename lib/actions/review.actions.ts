@@ -1,5 +1,6 @@
 "use server";
 
+import { getTranslations } from "next-intl/server";
 import { revalidatePath } from "next/cache";
 import z from "zod";
 
@@ -19,10 +20,12 @@ import { insertReviewsSchema } from "../validators";
 export async function createUpdateReview(
   data: z.infer<typeof insertReviewsSchema>,
 ) {
+  const t = await getTranslations("Messages");
+
   try {
     const session = await auth();
 
-    if (!session) throw new Error("User not authenticated");
+    if (!session) throw new Error(t("userNotAuthenticated"));
 
     //? validate and store the review
     const review = insertReviewsSchema.parse({
@@ -46,9 +49,9 @@ export async function createUpdateReview(
     );
 
     if (!userBoughtThisProduct)
-      throw new Error("You need to buy this product first!");
+      throw new Error(t("mustBuyFirst"));
 
-    if (!product) throw new Error("Product not found");
+    if (!product) throw new Error(t("productNotFound"));
 
     //? CHeck if already reviewed
     const reviewExists = await prisma.review.findFirst({
@@ -103,12 +106,12 @@ export async function createUpdateReview(
 
     return {
       success: true,
-      message: "Review successfully updated",
+      message: t("reviewUpdated"),
     };
   } catch (error) {
     return {
       success: false,
-      message: formatError(error),
+      message: formatError(error, t),
     };
   }
 }
@@ -148,9 +151,11 @@ export async function getReviewByProductId({
 }: {
   productId: string;
 }) {
+  const t = await getTranslations("Messages");
+
   const session = await auth();
 
-  if (!session) throw new Error("User is not authenticated");
+  if (!session) throw new Error(t("userNotAuthenticated"));
 
   return await prisma.review.findFirst({
     where: { productId, userId: session.user.id },

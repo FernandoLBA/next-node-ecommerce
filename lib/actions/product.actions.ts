@@ -1,5 +1,6 @@
 "use server";
 
+import { getTranslations } from "next-intl/server";
 import { revalidatePath } from "next/cache";
 
 import prisma from "@/db/db";
@@ -166,12 +167,14 @@ export async function getAllProducts({
  * @returns
  */
 export async function deleteProductById(id: string) {
+  const t = await getTranslations("Messages");
+
   try {
     const productExists = await prisma.product.findFirst({
       where: { id },
     });
 
-    if (!productExists) return { success: false, message: "Product not found" };
+    if (!productExists) return { success: false, message: t("productNotFound") };
 
     await prisma.product.delete({ where: { id } });
 
@@ -191,12 +194,12 @@ export async function deleteProductById(id: string) {
 
     return {
       success: true,
-      message: "Product deleted successfully",
+      message: t("productDeleted"),
     };
   } catch (error) {
     return {
       success: false,
-      message: formatError(error),
+      message: formatError(error, t),
     };
   }
 }
@@ -208,6 +211,8 @@ export async function deleteProductById(id: string) {
  * @returns
  */
 export async function createProduct(data: InsertProduct) {
+  const t = await getTranslations("Messages");
+
   try {
     const product = insertProductSchema.parse(data);
 
@@ -222,12 +227,12 @@ export async function createProduct(data: InsertProduct) {
 
     return {
       success: true,
-      message: "Product created successfully",
+      message: t("productCreated"),
     };
   } catch (error) {
     return {
       success: false,
-      message: formatError(error),
+      message: formatError(error, t),
     };
   }
 }
@@ -239,13 +244,15 @@ export async function createProduct(data: InsertProduct) {
  * @returns
  */
 export async function updateProduct(data: UpdateProduct) {
+  const t = await getTranslations("Messages");
+
   try {
     const product = updateProductSchema.parse(data);
     const productExists = await prisma.product.findFirst({
       where: { id: product.id },
     });
 
-    if (!productExists) throw new Error("Product not found");
+    if (!productExists) throw new Error(t("productNotFound"));
 
     await prisma.product.update({
       where: { id: product.id },
@@ -256,12 +263,12 @@ export async function updateProduct(data: UpdateProduct) {
 
     return {
       success: true,
-      message: "Product updated successfully",
+      message: t("productUpdated"),
     };
   } catch (error) {
     return {
       success: false,
-      message: formatError(error),
+      message: formatError(error, t),
     };
   }
 }

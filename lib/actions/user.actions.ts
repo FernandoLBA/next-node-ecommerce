@@ -1,5 +1,6 @@
 "use server";
 
+import { getTranslations } from "next-intl/server";
 import { hashSync } from "bcrypt-ts-edge";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { revalidatePath } from "next/dist/server/web/spec-extension/revalidate";
@@ -32,6 +33,8 @@ export async function signInWithCredentials(
   _prevState: unknown,
   formData: FormData,
 ) {
+  const t = await getTranslations("Messages");
+
   const callbackUrl = (await cookies()).get("authjs.callback-url");
   const locale = callbackUrl?.value.split("/")[3] || DEFAULT_LANGUAGE;
 
@@ -50,13 +53,13 @@ export async function signInWithCredentials(
       });
     }
 
-    return { success: true, message: "Signed in successfully" };
+    return { success: true, message: t("signedIn") };
   } catch (error) {
     if (isRedirectError(error)) {
       throw error;
     }
 
-    return { success: false, message: "Invalid credentials" };
+    return { success: false, message: t("invalidCredentials") };
   }
 }
 
@@ -87,6 +90,8 @@ export async function signOutUser() {
  * @returns
  */
 export async function signUpUser(_prevState: unknown, formData: FormData) {
+  const t = await getTranslations("Messages");
+
   try {
     const user = signUpFormSchema.parse({
       name: formData.get("name"),
@@ -112,13 +117,13 @@ export async function signUpUser(_prevState: unknown, formData: FormData) {
       password: plainPassword,
     });
 
-    return { success: true, message: "Signed up successfully" };
+    return { success: true, message: t("signedUp") };
   } catch (error) {
     if (isRedirectError(error)) {
       throw error;
     }
 
-    return { success: false, message: formatError(error) };
+    return { success: false, message: formatError(error, t) };
   }
 }
 
@@ -129,11 +134,13 @@ export async function signUpUser(_prevState: unknown, formData: FormData) {
  * @returns
  */
 export async function getUserById(userId: string) {
+  const t = await getTranslations("Messages");
+
   const user = await prisma.user.findFirst({
     where: { id: userId },
   });
 
-  if (!user) throw new Error("User not found");
+  if (!user) throw new Error(t("userNotFound"));
 
   return user;
 }
@@ -145,11 +152,13 @@ export async function getUserById(userId: string) {
  * @returns
  */
 export async function updateUserAddress(shippingAddress: ShippingAddress) {
+  const t = await getTranslations("Messages");
+
   try {
     const session = await auth();
     const currentUser = await getUserById(session?.user?.id as string);
 
-    if (!currentUser) throw new Error("User not found");
+    if (!currentUser) throw new Error(t("userNotFound"));
 
     const address = shippingAddressSchema.parse(shippingAddress);
 
@@ -162,12 +171,12 @@ export async function updateUserAddress(shippingAddress: ShippingAddress) {
 
     return {
       success: true,
-      message: "Address updated successfully",
+      message: t("addressUpdated"),
     };
   } catch (error) {
     return {
       success: false,
-      message: formatError(error),
+      message: formatError(error, t),
     };
   }
 }
@@ -181,13 +190,15 @@ export async function updateUserAddress(shippingAddress: ShippingAddress) {
 export async function updateUserPaymentMethod(
   data: z.infer<typeof paymentMethodSchema>,
 ) {
+  const t = await getTranslations("Messages");
+
   try {
     const session = await auth();
     const currentUser = await prisma.user.findFirst({
       where: { id: session?.user?.id as string },
     });
 
-    if (!currentUser) throw new Error("User not found");
+    if (!currentUser) throw new Error(t("userNotFound"));
 
     const paymentMethod = paymentMethodSchema.parse(data);
 
@@ -198,12 +209,12 @@ export async function updateUserPaymentMethod(
 
     return {
       success: true,
-      message: "User's payment method updated successfully",
+      message: t("paymentMethodUpdated"),
     };
   } catch (error) {
     return {
       success: false,
-      message: formatError(error),
+      message: formatError(error, t),
     };
   }
 }
@@ -217,13 +228,15 @@ export async function updateUserPaymentMethod(
 export async function updateProfile(
   user: z.infer<typeof updateUserProfileSchema>,
 ) {
+  const t = await getTranslations("Messages");
+
   try {
     const session = await auth();
     const currentUser = await prisma.user.findFirst({
       where: { id: session?.user?.id as string },
     });
 
-    if (!currentUser) throw new Error("User not found");
+    if (!currentUser) throw new Error(t("userNotFound"));
 
     await prisma.user.update({
       where: { id: currentUser.id },
@@ -235,12 +248,12 @@ export async function updateProfile(
 
     return {
       success: true,
-      message: "User's profile updated successfully",
+      message: t("profileUpdated"),
     };
   } catch (error) {
     return {
       success: false,
-      message: formatError(error),
+      message: formatError(error, t),
     };
   }
 }
@@ -295,10 +308,12 @@ export async function getAllUsers({
  * @returns
  */
 export async function deleteUserById(userId: string) {
+  const t = await getTranslations("Messages");
+
   try {
     const userExists = await prisma.user.findFirst({ where: { id: userId } });
 
-    if (!userExists) throw new Error("User not found");
+    if (!userExists) throw new Error(t("userNotFound"));
 
     await prisma.user.delete({ where: { id: userId } });
 
@@ -306,12 +321,12 @@ export async function deleteUserById(userId: string) {
 
     return {
       success: true,
-      message: "User deleted successfully",
+      message: t("userDeleted"),
     };
   } catch (error) {
     return {
       success: false,
-      message: formatError(error),
+      message: formatError(error, t),
     };
   }
 }
@@ -323,10 +338,12 @@ export async function deleteUserById(userId: string) {
  * @returns
  */
 export async function updateUser(user: UpdateUser) {
+  const t = await getTranslations("Messages");
+
   try {
     const userExists = await getUserById(user.id);
 
-    if (!userExists) throw new Error("User not found");
+    if (!userExists) throw new Error(t("userNotFound"));
 
     await prisma.user.update({
       where: { id: user.id },
@@ -341,12 +358,12 @@ export async function updateUser(user: UpdateUser) {
 
     return {
       success: true,
-      message: "User updated successfully",
+      message: t("userUpdated"),
     };
   } catch (error) {
     return {
       success: false,
-      message: formatError(error),
+      message: formatError(error, t),
     };
   }
 }

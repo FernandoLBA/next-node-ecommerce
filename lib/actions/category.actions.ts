@@ -1,5 +1,6 @@
 "use server";
 
+import { getTranslations } from "next-intl/server";
 import { revalidatePath } from "next/cache";
 
 import prisma from "@/db/db";
@@ -107,6 +108,8 @@ export async function getCategoryById(categoryId: string) {
  * @returns
  */
 export async function createCategory(data: InsertCategory) {
+  const t = await getTranslations("Messages");
+
   try {
     const category = insertCategorySchema.parse(data);
     const categoryExists = await prisma.category.findFirst({
@@ -118,7 +121,7 @@ export async function createCategory(data: InsertCategory) {
 
       return {
         success: false,
-        message: "Category already exists",
+        message: t("categoryExists"),
       };
     }
 
@@ -128,12 +131,12 @@ export async function createCategory(data: InsertCategory) {
 
     return {
       success: true,
-      message: "Category created successfully",
+      message: t("categoryCreated"),
     };
   } catch (error) {
     return {
       success: false,
-      message: formatError(error),
+      message: formatError(error, t),
     };
   }
 }
@@ -144,6 +147,8 @@ export async function createCategory(data: InsertCategory) {
  * @returns
  */
 export async function updateCategory(data: UpdateCategory) {
+  const t = await getTranslations("Messages");
+
   try {
     const category = updateCategorySchema.parse(data);
     const categoryExists = await prisma.category.findFirst({
@@ -155,7 +160,7 @@ export async function updateCategory(data: UpdateCategory) {
 
       return {
         success: false,
-        message: "Category already exists",
+        message: t("categoryExists"),
       };
     }
 
@@ -166,11 +171,11 @@ export async function updateCategory(data: UpdateCategory) {
 
     revalidatePath(appRoutes.ADMIN_CATEGORIES);
 
-    return { success: true, message: "Category updated successfully" };
+    return { success: true, message: t("categoryUpdated") };
   } catch (error) {
     return {
       success: false,
-      message: formatError(error),
+      message: formatError(error, t),
     };
   }
 }
@@ -182,11 +187,13 @@ export async function updateCategory(data: UpdateCategory) {
  * @returns
  */
 export async function deleteCategoryById(id: string) {
+  const t = await getTranslations("Messages");
+
   try {
     const categoryExists = await prisma.category.findFirst({ where: { id } });
 
     if (!categoryExists)
-      return { success: false, message: "Category not found" };
+      return { success: false, message: t("categoryNotFound") };
 
     await prisma.category.delete({ where: { id } });
 
@@ -194,12 +201,12 @@ export async function deleteCategoryById(id: string) {
 
     return {
       success: true,
-      message: "Category deleted succesfully",
+      message: t("categoryDeleted"),
     };
   } catch (error) {
     return {
       success: false,
-      message: formatError(error),
+      message: formatError(error, t),
     };
   }
 }

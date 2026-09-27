@@ -52,18 +52,28 @@ export function formatNumberWithDecimal(number: number): string {
   return decimal ? `${int}.${decimal.padEnd(2, "0")}` : `${int}.00`;
 }
 
+//? Minimal shape of the translator returned by next-intl's getTranslations("Messages")
+export type MessagesTranslator = {
+  (key: string, values?: Record<string, string | number>): string;
+  has: (key: string) => boolean;
+};
+
 /**
- * Formats Zod and Prisma errors into a user friendly message
+ * Formats Zod and Prisma errors into a user friendly message.
+ * When a translator is provided the messages are translated
  *
  * @param error
+ * @param t translator for the "Messages" namespace
  * @returns
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function formatError(error: any): string {
+export function formatError(error: any, t?: MessagesTranslator): string {
   if (error instanceof ZodError) {
-    //* Handle zod error
+    //* Handle zod error, the schemas messages are translation keys
     const parsedErrorMessage: $ZodIssue[] = error.issues;
-    const fieldErrors = parsedErrorMessage.map((zodError) => zodError.message);
+    const fieldErrors = parsedErrorMessage.map((zodError) =>
+      t?.has(zodError.message) ? t(zodError.message) : zodError.message,
+    );
 
     return fieldErrors.join(". ");
   } else if (
@@ -72,8 +82,11 @@ export function formatError(error: any): string {
   ) {
     //* Handle prisma error for email
     const field = error.meta?.target ? error.meta.target[0] : "Field";
+    const capitalizedField = field.charAt(0).toUpperCase() + field.slice(1);
 
-    return `${field.charAt(0).toUpperCase() + field.slice(1)} already exists`;
+    return t
+      ? t("alreadyExists", { field: capitalizedField })
+      : `${capitalizedField} already exists`;
   } else {
     //* Handle other errors
     return typeof error.message === "string"

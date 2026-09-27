@@ -6,6 +6,7 @@ import {
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
+import { useLocale, useTranslations } from "next-intl";
 import { ChangeEvent, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -19,6 +20,8 @@ const StripeForm = ({
   priceInCents: number;
   orderId: string;
 }) => {
+  const t = useTranslations("Stripe");
+  const locale = useLocale();
   const stripe = useStripe();
   const elements = useElements();
   const [isLoading, setIsLoading] = useState(false);
@@ -36,14 +39,15 @@ const StripeForm = ({
       .confirmPayment({
         elements,
         confirmParams: {
-          return_url: `${APP_SERVER_URL}/order/${orderId}/stripe-payment-success`,
+          //? The locale prefix is required, otherwise the locale redirect can drop the payment_intent query param
+          return_url: `${APP_SERVER_URL}/${locale}/order/${orderId}/stripe-payment-success`,
         },
       })
       .then(({ error }) => {
         if (error.type === "card_error" || error.type === "validation_error") {
-          setErrorMessage(error.message ?? "An error occurred");
+          setErrorMessage(error.message ?? t("genericError"));
         } else if (error) {
-          setErrorMessage("An error occurred");
+          setErrorMessage(t("genericError"));
         }
       })
       .finally(() => setIsLoading(false));
@@ -51,7 +55,7 @@ const StripeForm = ({
 
   return (
     <form className="space-y-4" onSubmit={handleSubmit}>
-      <div className="text-xl">Stripe Checkout</div>
+      <div className="text-xl">{t("title")}</div>
       {errorMessage && <div className="text-destructive">{errorMessage}</div>}
 
       <PaymentElement
@@ -74,8 +78,8 @@ const StripeForm = ({
         disabled={stripe == null || elements == null || isLoading}
       >
         {isLoading
-          ? "Purchasing..."
-          : `Purchase ${formatCurrency(priceInCents / 100)}`}
+          ? t("purchasing")
+          : t("purchase", { amount: formatCurrency(priceInCents / 100) })}
       </Button>
     </form>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -23,6 +24,7 @@ const PaymentMethodForm = ({
 }: {
   preferredPaymentMethod: string | null;
 }) => {
+  const t = useTranslations("PaymentMethod");
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -49,10 +51,8 @@ const PaymentMethodForm = ({
   return (
     <>
       <div className="max-w-md mx-auto space-y-4">
-        <h1 className="h2-bold mt-4">Payment Method</h1>
-        <p className="text-sm text-muted-foreground">
-          Please select a payment method
-        </p>
+        <h1 className="h2-bold mt-4">{t("title")}</h1>
+        <p className="text-sm text-muted-foreground">{t("subTitle")}</p>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="flex flex-col md:flex-row gap-5">
@@ -75,7 +75,7 @@ const PaymentMethodForm = ({
                       />
                       <Label htmlFor={paymentMethod} className="font-normal">
                         {paymentMethod === "CashOnDelivery"
-                          ? "Cash on Delivery"
+                          ? t("cashOnDelivery")
                           : paymentMethod}
                       </Label>
                     </div>
@@ -92,7 +92,7 @@ const PaymentMethodForm = ({
               ) : (
                 <ArrowRight className="w-4 h-4" />
               )}
-              Save
+              {t("saveButton")}
             </Button>
           </div>
         </form>

@@ -38,7 +38,7 @@ type FormType =
 
 const CategoryForm = ({ type, category, categoryId }: CategoryFormProps) => {
   const [isPending, startTransition] = useTransition();
-  const t = useTranslations("AdminPages");
+  const t = useTranslations("AdminPages.categories.form");
   const router = useRouter();
   const schema =
     type === "Update" ? updateCategorySchema : insertCategorySchema;
@@ -121,12 +121,12 @@ const CategoryForm = ({ type, category, categoryId }: CategoryFormProps) => {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="name">Nombre:</FieldLabel>
+                <FieldLabel htmlFor="name">{t("name.label")}</FieldLabel>
                 <Input
                   {...field}
                   id="name"
                   aria-invalid={fieldState.invalid}
-                  placeholder="Enter the name"
+                  placeholder={t("name.placeholder")}
                   disabled={form.formState.isSubmitting}
                 />
                 {fieldState.invalid && (
@@ -142,7 +142,7 @@ const CategoryForm = ({ type, category, categoryId }: CategoryFormProps) => {
               control={form.control}
               render={({ fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="image">Image</FieldLabel>
+                  <FieldLabel htmlFor="image">{t("image.label")}</FieldLabel>
 
                   <Card className="relative">
                     <CardContent className="gap-2 min-h-48">
@@ -196,12 +196,12 @@ const CategoryForm = ({ type, category, categoryId }: CategoryFormProps) => {
           {form.formState.isSubmitting ? (
             <>
               <LoaderIcon />
-              Submitting...
+              {t("submitting")}
             </>
           ) : type === "Update" ? (
-            "Update category"
+            t("updateButton")
           ) : (
-            "Create category"
+            t("createButton")
           )}
         </Button>
       </div>

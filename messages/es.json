@@ -19,7 +19,10 @@
           "buyer": "Comprador",
           "date": "Fecha",
           "total": "Total",
-          "actions": { "title": "Acciones", "detailsButton": "Detalles" },
+          "actions": {
+            "title": "Acciones",
+            "detailsButton": "Detalles"
+          },
           "deletedUser": "Usuario Borrado"
         }
       }
@@ -39,6 +42,20 @@
           "title": "Acciones",
           "editButton": "Editar"
         }
+      },
+      "createTitle": "Crear categoría",
+      "updateTitle": "Actualizar categoría",
+      "form": {
+        "name": {
+          "label": "Nombre:",
+          "placeholder": "Ingresa el nombre"
+        },
+        "image": {
+          "label": "Imagen"
+        },
+        "createButton": "Crear categoría",
+        "updateButton": "Actualizar categoría",
+        "submitting": "Enviando..."
       }
     },
     "products": {
@@ -79,7 +96,7 @@
         },
         "category": {
           "label": "Categoría",
-          "placeholder": "Ingrese la categoría"
+          "placeholder": "Selecciona una categoría"
         },
         "brand": {
           "label": "Marca",
@@ -107,7 +124,8 @@
         "createProductButton": "Crear producto",
         "updateProductButton": "Editar producto",
         "submittingText": "Enviando..."
-      }
+      },
+      "updateTitle": "Actualizar producto"
     },
     "orders": {
       "title": "Órdenes",
@@ -127,8 +145,17 @@
         }
       }
     },
+    "nav": {
+      "menuLabel": "Menú de administración",
+      "overview": "Resumen",
+      "categories": "Categorías",
+      "products": "Productos",
+      "orders": "Órdenes",
+      "users": "Usuarios"
+    },
     "users": {
       "title": "Usuarios",
+      "filteredBy": "Filtrado por",
       "tableHeaders": {
         "id": "ID",
         "name": "Nombre",
@@ -139,6 +166,28 @@
           "editButton": "Editar",
           "deleteButton": "Eliminar"
         }
+      },
+      "roles": {
+        "user": "Usuario",
+        "admin": "Administrador"
+      },
+      "updateForm": {
+        "metaTitle": "Actualizar usuario",
+        "title": "Actualizar usuario",
+        "email": {
+          "label": "Correo electrónico",
+          "placeholder": "Ingresa el correo del usuario"
+        },
+        "name": {
+          "label": "Nombre",
+          "placeholder": "Ingresa el nombre del usuario"
+        },
+        "role": {
+          "label": "Rol",
+          "placeholder": "Selecciona un rol"
+        },
+        "submitButton": "Actualizar usuario",
+        "submitting": "Enviando..."
       }
     }
   },
@@ -172,7 +221,10 @@
       "email": "Correo",
       "name": "Nombre",
       "submitting": "Enviando...",
-      "updateProfileButton": "Actualizar perfil"
+      "updateProfileButton": "Actualizar perfil",
+      "backHome": "Volver al inicio",
+      "namePlaceholder": "Tu nombre",
+      "emailPlaceholder": "ejemplo@correo.com"
     }
   },
   "Header": {
@@ -225,7 +277,12 @@
       "orderHistory": "Mis Órdenes",
       "admin": "Administrador",
       "signOut": "Cerrar Sesión"
-    }
+    },
+    "categories": "Categorías",
+    "categoriesDescription": "Explora nuestros departamentos y encuentra justo lo que necesitas",
+    "theme": "Tema",
+    "language": "Idioma",
+    "account": "Cuenta"
   },
   "ShippingAddress": {
     "title": "Dirección de envío",
@@ -252,7 +309,8 @@
         "placeholder": "Ingresa tu país"
       },
       "saveButton": "Guardar"
-    }
+    },
+    "metaTitle": "Dirección de envío"
   },
   "DeleteDialog": {
     "deleteButton": "Eliminar",
@@ -301,5 +359,261 @@
     "title": "Página no encontrada",
     "description": "La página que estás buscando no existe.",
     "goHomeLink": "Volver al Inicio"
+  },
+  "Common": {
+    "edit": "Editar",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "submit": "Enviar",
+    "submitting": "Enviando...",
+    "save": "Guardar",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "all": "Todos",
+    "noProductsFound": "No se encontraron productos",
+    "outOfStock": "Agotado",
+    "inStock": "En stock",
+    "item": "Producto",
+    "quantity": "Cantidad",
+    "price": "Precio",
+    "tax": "Impuestos",
+    "shipping": "Envío",
+    "total": "Total",
+    "items": "Artículos",
+    "description": "Descripción",
+    "title": "Título",
+    "rating": "Calificación",
+    "status": "Estado",
+    "processing": "Procesando...",
+    "backHome": "Volver al inicio",
+    "viewProducts": "Ver productos",
+    "viewAllProducts": "Ver todos los productos",
+    "shippingAddress": "Dirección de envío",
+    "paymentMethod": "Método de pago",
+    "orderItems": "Artículos de la orden"
+  },
+  "CheckoutSteps": {
+    "login": "Inicio de sesión",
+    "shippingAddress": "Dirección de envío",
+    "paymentMethod": "Método de pago",
+    "placeOrder": "Crear orden"
+  },
+  "PlaceOrder": {
+    "metaTitle": "Crear orden",
+    "title": "Crear orden",
+    "placeOrderButton": "Crear orden"
+  },
+  "OrderDetails": {
+    "metaTitle": "Detalles de la orden",
+    "title": "Orden {id}",
+    "paidAt": "Pagado el {date}",
+    "notPaid": "No pagado",
+    "deliveredAt": "Entregado el {date}",
+    "notDelivered": "No entregado",
+    "loadingPayPal": "Cargando PayPal...",
+    "errorLoadingPayPal": "Error al cargar PayPal",
+    "errorCreatingPayPal": "Error al crear la orden de PayPal",
+    "errorApprovingPayPal": "Error al aprobar la orden de PayPal",
+    "paymentSuccessful": "Pago exitoso",
+    "markAsPaid": "Marcar como pagada",
+    "markAsDelivered": "Marcar como entregada"
+  },
+  "Stripe": {
+    "title": "Pago con Stripe",
+    "purchasing": "Procesando compra...",
+    "purchase": "Comprar {amount}",
+    "genericError": "Ocurrió un error"
+  },
+  "StripeSuccess": {
+    "thanks": "Gracias por tu compra",
+    "processing": "Estamos procesando tu orden.",
+    "viewOrder": "Ver orden",
+    "logoAlt": "logo"
+  },
+  "PaymentMethod": {
+    "metaTitle": "Seleccionar método de pago",
+    "title": "Método de pago",
+    "subTitle": "Por favor selecciona un método de pago",
+    "cashOnDelivery": "Pago contra entrega",
+    "saveButton": "Guardar"
+  },
+  "ProductPage": {
+    "reviewsCount": "de {count, plural, one {# reseña} other {# reseñas}}",
+    "description": "Descripción",
+    "price": "Precio",
+    "status": "Estado",
+    "inStock": "En stock",
+    "outOfStock": "Agotado",
+    "customerReviews": "Reseñas de clientes"
+  },
+  "Reviews": {
+    "noReviews": "Aún no hay reseñas...",
+    "signInPrompt": "<link>Inicia sesión</link> para escribir una reseña",
+    "writeReview": "Escribir una reseña",
+    "updateReview": "Actualizar reseña",
+    "formDescription": "Comparte tu opinión con otros clientes",
+    "titleLabel": "Título",
+    "titlePlaceholder": "Ingresa el título",
+    "descriptionLabel": "Descripción",
+    "descriptionPlaceholder": "Ingresa la descripción",
+    "ratingLabel": "Calificación",
+    "submit": "Enviar",
+    "submitting": "Enviando...",
+    "anonymousUser": "Usuario"
+  },
+  "SearchPage": {
+    "metaTitle": "Buscar productos",
+    "metaSearch": "Buscar",
+    "metaCategory": "Categoría {value}",
+    "metaPrice": "Precio {value}",
+    "metaRating": "Calificación {value}",
+    "query": "Búsqueda",
+    "category": "Categoría",
+    "price": "Precio",
+    "rating": "Calificación",
+    "starsAndUp": "{count, plural, one {# estrella o más} other {# estrellas o más}}",
+    "filters": "Filtros",
+    "filtersDescription": "Selecciona tus opciones de filtrado",
+    "sortBy": "Ordenar por...",
+    "sortOptions": {
+      "newest": "Más recientes",
+      "highest": "Precio más alto",
+      "lowest": "Precio más bajo",
+      "rating": "Mejor calificados"
+    },
+    "department": "Departamento",
+    "all": "Todos"
+  },
+  "AddToCart": {
+    "goToCart": "Ir al carrito",
+    "added": "{name} agregado al carrito",
+    "removed": "{name} eliminado del carrito",
+    "adding": "Agregando al carrito",
+    "add": "Agregar al carrito"
+  },
+  "ProductImages": {
+    "productImage": "Imagen del producto",
+    "featuredProduct": "Producto destacado",
+    "categoryImage": "Imagen de la categoría"
+  },
+  "DealCountdown": {
+    "loading": "Cargando cuenta regresiva...",
+    "ended": "La oferta ha terminado",
+    "endedDescription": "Esta oferta ya no está disponible, ¡mira nuestras promociones más recientes!",
+    "title": "Oferta del mes",
+    "description": "¡Prepárate para una experiencia de compra como nunca antes con nuestras Ofertas del Mes! Cada compra incluye beneficios y ofertas exclusivas, haciendo de este mes una celebración de decisiones inteligentes y grandes ofertas. ¡No te lo pierdas!",
+    "days": "Días",
+    "hours": "Horas",
+    "minutes": "Minutos",
+    "seconds": "Segundos",
+    "viewProducts": "Ver productos",
+    "promotion": "Promoción"
+  },
+  "IconBoxes": {
+    "freeShipping": {
+      "title": "Envío gratuito",
+      "description": "En compras mayores a S/. 100"
+    },
+    "returns": {
+      "title": "Garantía de devolución",
+      "description": "De hasta 30 días en tus compras."
+    },
+    "payments": {
+      "title": "Pagos flexibles",
+      "description": "Aceptamos pagos con tarjeta o Yape."
+    },
+    "support": {
+      "title": "Soporte 24/7",
+      "description": "Obtén ayuda en cualquier momento"
+    }
+  },
+  "UserNav": {
+    "profile": "Perfil",
+    "orders": "Órdenes"
+  },
+  "Messages": {
+    "userNotAuthenticated": "Usuario no autenticado",
+    "userNotFound": "Usuario no encontrado",
+    "cartEmpty": "El carrito está vacío",
+    "noShippingAddress": "No se encontró una dirección de envío",
+    "noPaymentMethod": "No hay un método de pago seleccionado",
+    "orderCreated": "Orden creada exitosamente",
+    "orderNotCreated": "No se pudo crear la orden",
+    "itemOrderCreated": "Artículo de la orden creado exitosamente",
+    "orderNotFound": "Orden no encontrada",
+    "paypalError": "Error en el pago con PayPal",
+    "orderPaid": "Tu orden ha sido pagada",
+    "orderAlreadyPaid": "La orden ya está pagada",
+    "orderPaidSuccessfully": "La orden fue pagada exitosamente",
+    "orderDeleted": "Orden eliminada exitosamente",
+    "orderMarkedDelivered": "Orden marcada como entregada",
+    "orderMarkedPaid": "Orden marcada como pagada",
+    "orderAlreadyDelivered": "La orden ya fue entregada",
+    "orderNotPaid": "La orden aún no está pagada",
+    "mustBuyFirst": "¡Primero debes comprar este producto!",
+    "reviewUpdated": "Reseña actualizada exitosamente",
+    "productNotFound": "Producto no encontrado",
+    "productDeleted": "Producto eliminado exitosamente",
+    "productCreated": "Producto creado exitosamente",
+    "productUpdated": "Producto actualizado exitosamente",
+    "imageDeleteError": "Ocurrió un error al eliminar la imagen",
+    "imageDeleted": "Imagen eliminada exitosamente",
+    "bannerDeleteError": "Ocurrió un error al eliminar la imagen del banner",
+    "bannerDeleted": "Imagen del banner eliminada exitosamente",
+    "categoryExists": "La categoría ya existe",
+    "categoryCreated": "Categoría creada exitosamente",
+    "categoryUpdated": "Categoría actualizada exitosamente",
+    "categoryNotFound": "Categoría no encontrada",
+    "categoryDeleted": "Categoría eliminada exitosamente",
+    "cartNotFound": "Carrito no encontrado",
+    "itemNotFoundInCart": "Artículo no encontrado en el carrito",
+    "itemRemovedFromCart": "Artículo eliminado del carrito",
+    "cartUpdated": "Carrito actualizado",
+    "itemAddedToCart": "Artículo agregado al carrito",
+    "onlyItemsInStock": "Solo hay {stock} artículos en stock",
+    "signedIn": "Sesión iniciada exitosamente",
+    "invalidCredentials": "Credenciales inválidas",
+    "signedUp": "Registro exitoso",
+    "addressUpdated": "Dirección actualizada exitosamente",
+    "paymentMethodUpdated": "Método de pago actualizado exitosamente",
+    "profileUpdated": "Perfil actualizado exitosamente",
+    "userUpdated": "Usuario actualizado exitosamente",
+    "userDeleted": "Usuario eliminado exitosamente",
+    "alreadyExists": "{field} ya existe",
+    "validation": {
+      "priceFormat": "El precio debe ser un número válido con exactamente dos decimales",
+      "nameMin": "El nombre debe tener al menos 3 caracteres",
+      "nameMax": "El nombre debe tener como máximo 255 caracteres",
+      "nameRequired": "El nombre es obligatorio",
+      "slugMin": "El slug debe tener al menos 3 caracteres",
+      "slugRequired": "El slug es obligatorio",
+      "brandMin": "La marca debe tener al menos 3 caracteres",
+      "descriptionMin": "La descripción debe tener al menos 3 caracteres",
+      "imagesMin": "Se requiere al menos una imagen",
+      "imageRequired": "La imagen es obligatoria",
+      "imageUrlRequired": "La URL de la imagen es obligatoria",
+      "categoryIdRequired": "La categoría es obligatoria",
+      "productIdRequired": "El ID del producto es obligatorio",
+      "productRequired": "El producto es obligatorio",
+      "userIdRequired": "El ID del usuario es obligatorio",
+      "userRequired": "El usuario es obligatorio",
+      "emailInvalid": "Correo electrónico inválido",
+      "emailMin": "El correo debe tener al menos 3 caracteres",
+      "passwordMin": "La contraseña debe tener al menos 6 caracteres",
+      "passwordsDontMatch": "Las contraseñas no coinciden",
+      "qtyPositive": "La cantidad debe ser un número positivo",
+      "sessionCartIdRequired": "El ID del carrito de sesión es obligatorio",
+      "fullNameMin": "El nombre completo debe tener al menos 3 caracteres",
+      "addressMin": "La dirección debe tener al menos 3 caracteres",
+      "cityMin": "La ciudad debe tener al menos 3 caracteres",
+      "postalCodeMin": "El código postal debe tener al menos 3 caracteres",
+      "paymentMethodRequired": "El tipo de método de pago es obligatorio",
+      "paymentMethodInvalid": "Método de pago inválido",
+      "roleRequired": "El rol del usuario es obligatorio",
+      "roleInvalid": "Rol de usuario inválido",
+      "titleMin": "El título debe tener al menos 3 caracteres",
+      "ratingMin": "La calificación debe ser al menos 1",
+      "ratingMax": "La calificación debe ser como máximo 5"
+    }
   }
 }

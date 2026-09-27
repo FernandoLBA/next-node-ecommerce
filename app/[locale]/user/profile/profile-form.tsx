@@ -76,7 +76,7 @@ const ProfileForm = () => {
                   id="email"
                   className="input-field"
                   aria-invalid={fieldState.invalid}
-                  placeholder="example@mail.com"
+                  placeholder={t("profileForm.emailPlaceholder")}
                   disabled
                 />
                 {fieldState.invalid && (
@@ -99,7 +99,7 @@ const ProfileForm = () => {
                   {...field}
                   id="name"
                   aria-invalid={fieldState.invalid}
-                  placeholder="John Doe"
+                  placeholder={t("profileForm.namePlaceholder")}
                   disabled={form.formState.isSubmitting}
                 />
                 {fieldState.invalid && (
@@ -124,7 +124,7 @@ const ProfileForm = () => {
         </AppButton>
 
         <AppButton variant="outline" disabled={form.formState.isSubmitting}>
-          Back home
+          {t("profileForm.backHome")}
         </AppButton>
       </div>
     </form>

@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 
 import { auth } from "@/auth";
 import AddToCart from "@/components/shared/products/add-to-cart";
@@ -14,6 +15,7 @@ import ReviewList from "./review-list";
 const ProductDetailsPage = async (props: {
   params: Promise<{ slug: string }>;
 }) => {
+  const t = await getTranslations("ProductPage");
   const session = await auth();
   const userId = session?.user.id;
   const { slug } = await props.params;
@@ -44,8 +46,8 @@ const ProductDetailsPage = async (props: {
               <h1 className="h3-bold">{product.name}</h1>
 
               <div className="flex gap-2">
-                <Rating value={Number(product.rating)} /> of{" "}
-                {product.numReviews} Reviews
+                <Rating value={Number(product.rating)} />{" "}
+                {t("reviewsCount", { count: product.numReviews })}
               </div>
 
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -57,7 +59,7 @@ const ProductDetailsPage = async (props: {
             </div>
 
             <div className="mt-10">
-              <p className="font-semibold">Description</p>
+              <p className="font-semibold">{t("description")}</p>
               <p>{product.description}</p>
             </div>
           </div>
@@ -67,7 +69,7 @@ const ProductDetailsPage = async (props: {
             <Card>
               <CardContent>
                 <div className="mb-2 flex-between">
-                  <div>Price</div>
+                  <div>{t("price")}</div>
 
                   <div>
                     <ProductPrice value={Number(product.price)} />
@@ -75,11 +77,11 @@ const ProductDetailsPage = async (props: {
                 </div>
 
                 <div className="mb-2 flex-between">
-                  <div>Status</div>
+                  <div>{t("status")}</div>
                   {product.stock > 0 ? (
-                    <Badge variant="outline">In stock</Badge>
+                    <Badge variant="outline">{t("inStock")}</Badge>
                   ) : (
-                    <Badge variant="destructive">Out of stock</Badge>
+                    <Badge variant="destructive">{t("outOfStock")}</Badge>
                   )}
                 </div>
 
@@ -105,7 +107,7 @@ const ProductDetailsPage = async (props: {
       </section>
 
       <section className="mt-10 space-y-4">
-        <h2 className="h2-bold">Customer Reviews</h2>
+        <h2 className="h2-bold">{t("customerReviews")}</h2>
 
         <ReviewList
           userId={userId || ""}

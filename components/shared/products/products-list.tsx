@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import { Product } from "@/types";
 import ProductCard from "./product-card";
 
@@ -12,6 +14,7 @@ const ProductsList = ({
   title?: string;
   limit?: number;
 }) => {
+  const t = useTranslations("Common");
   const limitedData = limit ? data.slice(0, limit) : data;
 
   return (
@@ -25,7 +28,7 @@ const ProductsList = ({
         </div>
       ) : (
         <div>
-          <p>No products found</p>
+          <p>{t("noProductsFound")}</p>
         </div>
       )}
     </div>

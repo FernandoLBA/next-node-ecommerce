@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 
 import { auth } from "@/auth";
 import CheckoutSteps from "@/components/shared/checkout-steps";
@@ -9,8 +10,10 @@ import { appRoutes } from "@/lib/constants";
 import type { ShippingAddress } from "@/types";
 import ShippingAddressForm from "./shipping-address-form";
 
-export const metadata: Metadata = {
-  title: "Shipping Address",
+export const generateMetadata = async (): Promise<Metadata> => {
+  const t = await getTranslations("ShippingAddress");
+
+  return { title: t("metaTitle") };
 };
 
 const ShippingAddressPage = async (props: {

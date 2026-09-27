@@ -1,20 +1,17 @@
-import { getLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import React from "react";
 
 import { cn } from "@/lib/utils";
 
 const CheckoutSteps = async ({ current = 0 }) => {
-  const locale = await getLocale();
+  const t = await getTranslations("CheckoutSteps");
 
-  const steps =
-    locale === "en"
-      ? ["User Login", "Shipping Address", "Payment Method", "Place Order"]
-      : [
-          "Inicio de sesión",
-          "Dirección de envío",
-          "Método de pago",
-          "Crear orden",
-        ];
+  const steps = [
+    t("login"),
+    t("shippingAddress"),
+    t("paymentMethod"),
+    t("placeOrder"),
+  ];
 
   return (
     <div>

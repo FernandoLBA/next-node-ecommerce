@@ -72,7 +72,7 @@ const OrdersPage = async (props: {
                 <TableCell>{formatId(order.id)}</TableCell>
 
                 <TableCell>
-                  {formatDateTime(order.createdAt).dateTime}
+                  {formatDateTime(order.createdAt, locale as Locale).dateTime}
                 </TableCell>
 
                 <TableCell>
@@ -82,7 +82,7 @@ const OrdersPage = async (props: {
                 <TableCell>
                   {order.isPaid && order.paidAt ? (
                     <Badge>
-                      {formatDateTime(order.paidAt).dateTime}
+                      {formatDateTime(order.paidAt, locale as Locale).dateTime}
                     </Badge>
                   ) : (
                     <Badge variant="destructive">
@@ -94,7 +94,7 @@ const OrdersPage = async (props: {
                 <TableCell>
                   {order.isDelivered && order.deliveredAt ? (
                     <Badge>
-                      {formatDateTime(order.deliveredAt).dateTime}
+                      {formatDateTime(order.deliveredAt, locale as Locale).dateTime}
                     </Badge>
                   ) : (
                     <Badge variant="destructive">

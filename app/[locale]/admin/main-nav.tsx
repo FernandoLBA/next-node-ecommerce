@@ -1,5 +1,7 @@
 "use client";
 
+import { Menu } from "lucide-react";
+import { useTranslations } from "next-intl";
 import React from "react";
 
 import { AppButton } from "@/components/shared/app-button/app-button";
@@ -16,15 +18,12 @@ import {
 import { usePathname } from "@/i18n/routing";
 import { adminNavLinks } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import { Menu } from "lucide-react";
-import { useSettings } from "../../../components/providers/settings-provider";
 
 type AdminMainNavProps = React.HTMLAttributes<HTMLElement>;
 
 const AdminMainNav = ({ className, ...props }: AdminMainNavProps) => {
   const pathname = usePathname();
-  const { locale } = useSettings();
-  const navTranslatedNavLinks = adminNavLinks(locale);
+  const t = useTranslations("AdminPages.nav");
 
   const isSelected = (href: string) => {
     return pathname.includes(href);
@@ -35,13 +34,13 @@ const AdminMainNav = ({ className, ...props }: AdminMainNavProps) => {
       className={cn("flex-center text-sm space-x-4 lg:space-x-6", className)}
       {...props}
     >
-      {navTranslatedNavLinks.map((link) => (
+      {adminNavLinks.map((link) => (
         <AppLink
           key={link.href}
           href={link.href}
           className={`hidden sm:block nav-links ${isSelected(link.href) && "nav-link-selected"}`}
         >
-          {link.title}
+          {t(link.key)}
         </AppLink>
       ))}
 
@@ -57,16 +56,16 @@ const AdminMainNav = ({ className, ...props }: AdminMainNavProps) => {
 
           <DropdownMenuContent>
             <DropdownMenuGroup>
-              <DropdownMenuLabel>Admin menu</DropdownMenuLabel>
+              <DropdownMenuLabel>{t("menuLabel")}</DropdownMenuLabel>
 
               <DropdownMenuSeparator />
 
-              {navTranslatedNavLinks.map((link) => (
+              {adminNavLinks.map((link) => (
                 <DropdownMenuCheckboxItem
                   key={link.href}
                   checked={isSelected(link.href)}
                 >
-                  <AppLink href={link.href}>{link.title}</AppLink>
+                  <AppLink href={link.href}>{t(link.key)}</AppLink>
                 </DropdownMenuCheckboxItem>
               ))}
             </DropdownMenuGroup>

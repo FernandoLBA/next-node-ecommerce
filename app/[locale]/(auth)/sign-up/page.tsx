@@ -47,7 +47,7 @@ const SignUpPage = async (props: {
         <CardHeader className="space-y-4">
           <AppLink href={appRoutes.HOME} className="flex-center">
             <AppImage
-              src="svg"
+              src={`${appRoutes.IMAGES}/logo.svg`}
               alt={`${settings.appName} logo`}
               width={150}
               height={150}

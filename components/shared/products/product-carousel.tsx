@@ -37,7 +37,7 @@ const ProductCarousel = ({ data }: { data: Product[] }) => {
                 <AppImage
                   className="w-full h-auto"
                   src={product.banner ?? ""}
-                  alt="featured product"
+                  alt={product.name}
                   width={1620}
                   height={480}
                 />

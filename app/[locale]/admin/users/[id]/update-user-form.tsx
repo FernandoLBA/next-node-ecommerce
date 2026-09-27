@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -24,6 +25,7 @@ import { UpdateUser } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const UpdateUserForm = ({ user }: { user: UpdateUser }) => {
+  const t = useTranslations("AdminPages.users");
   const router = useRouter();
 
   const form = useForm<UpdateUser>({
@@ -60,13 +62,13 @@ const UpdateUserForm = ({ user }: { user: UpdateUser }) => {
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="email">Email</FieldLabel>
+              <FieldLabel htmlFor="email">{t("updateForm.email.label")}</FieldLabel>
               <Input
                 {...field}
                 id="email"
                 disabled
                 aria-invalid={fieldState.invalid}
-                placeholder="Enter user email"
+                placeholder={t("updateForm.email.placeholder")}
               />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
@@ -81,12 +83,12 @@ const UpdateUserForm = ({ user }: { user: UpdateUser }) => {
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="name">Name</FieldLabel>
+              <FieldLabel htmlFor="name">{t("updateForm.name.label")}</FieldLabel>
               <Input
                 {...field}
                 id="name"
                 aria-invalid={fieldState.invalid}
-                placeholder="Enter user name"
+                placeholder={t("updateForm.name.placeholder")}
                 disabled={form.formState.isSubmitting}
               />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -102,7 +104,7 @@ const UpdateUserForm = ({ user }: { user: UpdateUser }) => {
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="role">Role</FieldLabel>
+              <FieldLabel htmlFor="role">{t("updateForm.role.label")}</FieldLabel>
               <Select
                 {...field}
                 id="role"
@@ -111,15 +113,15 @@ const UpdateUserForm = ({ user }: { user: UpdateUser }) => {
                 disabled={form.formState.isSubmitting}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select a role" />
+                  <SelectValue placeholder={t("updateForm.role.placeholder")} />
                 </SelectTrigger>
 
                 <SelectContent>
                   <SelectGroup>
-                    <SelectLabel>Role</SelectLabel>
+                    <SelectLabel>{t("updateForm.role.label")}</SelectLabel>
                     {Object.values(userRoles).map((role) => (
                       <SelectItem key={role} value={role}>
-                        {role}
+                        {t(`roles.${role}`)}
                       </SelectItem>
                     ))}
                   </SelectGroup>
@@ -140,10 +142,10 @@ const UpdateUserForm = ({ user }: { user: UpdateUser }) => {
           {form.formState.isSubmitting ? (
             <>
               <LoaderIcon />
-              Submitting...
+              {t("updateForm.submitting")}
             </>
           ) : (
-            "Update User"
+            t("updateForm.submitButton")
           )}
         </Button>
       </div>

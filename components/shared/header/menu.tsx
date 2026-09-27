@@ -52,9 +52,9 @@ const Menu = async () => {
             </SheetHeader>
 
             <div className="flex flex-col w-full items-start gap-2 pl-3">
-              <ModeToggle>Theme</ModeToggle>
+              <ModeToggle>{t("theme")}</ModeToggle>
 
-              <LanguageToggle>Language</LanguageToggle>
+              <LanguageToggle>{t("language")}</LanguageToggle>
 
               <AppButton variant="ghost">
                 <AppLink className="flex gap-2 text-foreground" href={appRoutes.CART}>
@@ -62,16 +62,13 @@ const Menu = async () => {
                 </AppLink>
               </AppButton>
 
-              <UserButton>Account</UserButton>
+              <UserButton>{t("account")}</UserButton>
             </div>
 
             <SheetHeader>
-              <SheetTitle>Categories</SheetTitle>
+              <SheetTitle>{t("categories")}</SheetTitle>
 
-              <SheetDescription>
-                Navigate in our exclusive departmanets and find that thing that
-                you don&apos;t know you but you do!
-              </SheetDescription>
+              <SheetDescription>{t("categoriesDescription")}</SheetDescription>
             </SheetHeader>
 
             <div className="w-full px-6">

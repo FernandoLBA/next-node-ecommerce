@@ -34,7 +34,7 @@ const TopCategories = async () => {
                     fill
                     className="brightness-80"
                     containerClassName="h-70 hover:opacity-80"
-                    alt="category image"
+                    alt={c.name}
                     src={c.image}
                   />
 
@@ -58,7 +58,7 @@ const TopCategories = async () => {
             containerClassName="h-full hover:opacity-80"
             fill
             src={bannerCategory?.image || `${appRoutes.IMAGES}/promo.jpg`}
-            alt="category image"
+            alt={bannerCategory?.name ?? ""}
             sizes="100vw"
           />
         </AppLink>

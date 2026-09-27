@@ -1,3 +1,5 @@
+import { useTranslations } from "next-intl";
+
 import AppImage from "@/components/ui/app-image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { appRoutes } from "@/lib/constants";
@@ -7,6 +9,8 @@ import ProductPrice from "./product-price";
 import Rating from "./rating";
 
 const ProductCard = ({ product }: { product: Product }) => {
+  const t = useTranslations("Common");
+
   return (
     <Card className="w-full max-w-full sm:max-w-sm p-0 justify-between gap-0">
       <CardHeader className="p-0 items-center">
@@ -43,7 +47,7 @@ const ProductCard = ({ product }: { product: Product }) => {
           {product.stock > 0 ? (
             <ProductPrice value={Number(product.price)} />
           ) : (
-            <p className="text-destructive">Out of Stock</p>
+            <p className="text-destructive">{t("outOfStock")}</p>
           )}
         </div>
       </CardContent>

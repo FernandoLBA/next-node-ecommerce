@@ -1,11 +1,13 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 import AppImage from "@/components/ui/app-image";
 
 const ProductImages = ({ images }: { images: string[] }) => {
+  const t = useTranslations("ProductImages");
   const [current, setCurrent] = useState(0);
 
   return (
@@ -13,7 +15,7 @@ const ProductImages = ({ images }: { images: string[] }) => {
       <AppImage
         className="max-h-125 w-auto object-cover object-center rounded-xl"
         src={images[current]}
-        alt="product image"
+        alt={t("productImage")}
         height={500}
         width={500}
       />
@@ -31,7 +33,7 @@ const ProductImages = ({ images }: { images: string[] }) => {
             <AppImage
               className="max-h-16 w-auto object-cover object-center"
               src={image}
-              alt="product image"
+              alt={t("productImage")}
               height={50}
               width={50}
             />
